@@ -1,0 +1,94 @@
+* {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif
+}
+
+body {
+    /* border: 3px solid blue; */
+    /* margin: 30px; */
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+#container {
+    border: 4px solid black;
+    border-radius: 20px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1em;
+    margin: 1em;
+    background: rgb(70, 70, 70);
+    color: white;
+    box-shadow: 10px 10px 0 rgb(143, 143, 143);
+    background-image: url('./images/pacman_tiled_fabric_design_by_charfade_d1odjyv-fullview-30.jpg');
+}
+
+#header,
+#footer {
+    /* border: 2px solid green; */
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+#header {
+    margin-bottom: 20px;
+}
+
+#footer {
+    margin-top: 20px;
+}
+
+.section {
+    /* border: 2px solid orange; */
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.sec-title {
+    /* border: 2px dotted red; */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sub {
+    border: 3px solid black;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: 10px;
+    margin: 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 16%;
+    min-width: 230px;
+    height: 30px;
+    font-weight: bold;
+    box-shadow: 5px 5px 0 rgb(0, 0, 0);
+    padding: 0 10px;
+}
+
+.cat {
+    background-color: rgb(84, 84, 202);
+    color: white;
+}
+
+.year {
+    background-color: rgb(241, 226, 90);
+    color: black;
+}
