@@ -102,7 +102,7 @@ function get_data_id($conn, $sql) {
 function get_category_stats($conn, $sql, $category) {
     $result = mysqli_query($conn, $sql);
     while ($row = mysqli_fetch_assoc($result)) {
-        $href = "./stats.php?data_id={$row['id']}";
+        $href = "./?type=stats&data_id={$row['id']}";
         echo "<a href='$href'>{$row['totals']} votes - {$row['name']}</a><br>";
     }
 }

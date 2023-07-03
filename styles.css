@@ -94,6 +94,6 @@ a {
 }
 
 #content {
-    border: 3px dotted red;
+    /* border: 3px dotted red; */
     width: 100%;
 }
