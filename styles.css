@@ -75,8 +75,6 @@ a {
     margin: 5px;
     overflow: hidden;
     white-space: nowrap;
-    width: 16%;
-    min-width: 230px;
     height: 30px;
     font-weight: bold;
     box-shadow: 5px 5px 0 rgb(0, 0, 0);
@@ -86,9 +84,16 @@ a {
 .cat {
     background-color: rgb(84, 84, 202);
     color: white;
+    /* width: 16%;
+    min-width: 230px; */
 }
 
 .year {
     background-color: rgb(241, 226, 90);
     color: black;
+}
+
+#content {
+    border: 3px dotted red;
+    width: 100%;
 }

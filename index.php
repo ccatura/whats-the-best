@@ -1,5 +1,11 @@
 <?php
 include_once('./db-connect.php');
+include_once('./functions.php');
+// session_unset();
+// session_destroy();
+
+session_start();
+$_SESSION['user'] = 'ccatura';
 ?>
 
 <!DOCTYPE html>
