@@ -132,13 +132,31 @@ INNER JOIN `genres` ON genres.id = answers.genre_id
 ORDER BY data.name
 
 
+-- Join answers to category
+-- SELECT data.name as 'data_name', genres.name as 'genres_name'
+-- FROM `answers`
+-- INNER JOIN `categories` ON categories.id = answers.cat_id
+-- INNER JOIN `data`       ON data.id = answers.data_id
+-- INNER JOIN `genres`     ON genres.id = answers.genre_id
+-- WHERE categories.name = 'Actors'
+-- ORDER BY data.name
 
 
+-- counts - Join answers to category - finds the most popular in the answers
+SELECT data.name, count(*) as totals
+FROM answers
+INNER JOIN `data` ON data.id = answers.data_id
+WHERE data.cat_id = 3 -- this is for  actors
+GROUP BY answers.data_id
+ORDER BY totals DESC
 
 
-
-
-
+-- Get specific data name and their genre votes
+SELECT genres.name, count(*) as 'totals'
+FROM answers
+INNER JOIN `genres` ON genres.id = answers.genre_id
+WHERE answers.data_id = 1
+GROUP BY genres.name
 
 
 

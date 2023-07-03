@@ -85,10 +85,6 @@ function get_genres_and_inputs($conn, $desc) {
     return $output;
 }
 
-function submit_answers($conn, $sql) {
-
-}
-
 function check_db_exist($conn, $sql) {
     $result = mysqli_query($conn, $sql);
     while($row = mysqli_fetch_assoc($result)) {
@@ -96,11 +92,44 @@ function check_db_exist($conn, $sql) {
     }
 }
 
-
 function get_data_id($conn, $sql) {
     $result = mysqli_query($conn, $sql);
     while($row = mysqli_fetch_assoc($result)) {
         return $row['id'];
     }   
-    // $data_id = $row['id'];
+}
+
+function get_category_stats($conn, $sql, $category) {
+    $result = mysqli_query($conn, $sql);
+    while ($row = mysqli_fetch_assoc($result)) {
+        $href = "./stats.php?data_id={$row['id']}";
+        echo "<a href='$href'>{$row['totals']} votes - {$row['name']}</a><br>";
+    }
+}
+
+function get_cat_id_from_name($conn, $name) {
+    $result = mysqli_query($conn, "SELECT `id` FROM categories WHERE `name` = '$name' LIMIT 1;");
+    while ($row = mysqli_fetch_assoc($result)) {
+        return $row['id'];
+    }
+}
+
+function get_specific_stat($conn, $data_id) {
+    $sql     = "SELECT genres.name, count(*) as 'totals'
+                FROM answers
+                INNER JOIN `genres` ON genres.id = answers.genre_id
+                WHERE answers.data_id = $data_id
+                GROUP BY genres.name";
+
+    $result = mysqli_query($conn, $sql);
+    while ($row = mysqli_fetch_assoc($result)) {
+        echo "{$row['totals']} votes - {$row['name']}<br>";
+    }
+}
+
+function get_name_from_data_id($conn, $data_id) {
+    $result = mysqli_query($conn, "SELECT `name` FROM data WHERE `id` = '$data_id' LIMIT 1;");
+    while ($row = mysqli_fetch_assoc($result)) {
+        return $row['name'];
+    }
 }

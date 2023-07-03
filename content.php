@@ -6,11 +6,19 @@ $desc = '';
 if (isset($_GET['type'])) {
     $type = $_GET['type'];
     $desc = $_GET['desc'];
+    $cat_id = get_cat_id_from_name($conn, $desc);
 } else {
     $type = "home";
 }
 
+// change the '3' to the dynamic category ID
+$sql         = "SELECT data.name, count(*) as totals, data.id FROM answers
+                INNER JOIN `data` ON data.id = answers.data_id WHERE data.cat_id = $cat_id
+                GROUP BY answers.data_id ORDER BY totals DESC";
 
+echo "Count of Most Popular in Category: {$desc}<br><br>";
+get_category_stats($conn, $sql, $cat_id);
+echo '<br><br>';
 
 if ($type == 'category') {
     // This is the category section
