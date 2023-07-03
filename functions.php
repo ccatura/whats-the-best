@@ -16,7 +16,7 @@ function get_categorie_buttons($conn) {
 
     while ($row = mysqli_fetch_assoc($result)) {
         $cat_name = $row['name'];
-        $categories .= '<a href="./?type=category&desc=' . $cat_name . '"><div class="sub cat">' . $cat_name . '</div></a>';
+        $categories .= '<a href="./?type=category&desc=' . $cat_name . '#content"><div class="sub cat">' . $cat_name . '</div></a>';
     }
     $categories .= '</div>';
     return $categories;
@@ -31,7 +31,7 @@ function get_year_buttons($conn) {
 
     while ($row = mysqli_fetch_assoc($result)) {
         $year = $row['year_born'];
-        $years .= '<a href="./?type=year&desc=' . $year . '"><div class="sub year">' . $year . '</div></a>';
+        $years .= '<a href="./?type=year&desc=' . $year . '#content"><div class="sub year">' . $year . '</div></a>';
     }
     $years .= '</div>';
     return $years;
@@ -102,7 +102,7 @@ function get_data_id($conn, $sql) {
 function get_category_stats($conn, $sql, $category) {
     $result = mysqli_query($conn, $sql);
     while ($row = mysqli_fetch_assoc($result)) {
-        $href = "./?type=stats&data_id={$row['id']}";
+        $href = "./?type=stats&data_id={$row['id']}#content";
         echo "<a href='$href'>{$row['totals']} votes - {$row['name']}</a><br>";
     }
 }

@@ -11,7 +11,7 @@ if (isset($_GET['type'])) {
     $type = "home";
 }
 
-
+echo '<span id="content"></span>';
 if ($type == 'category') {
     // This is the category section
 
