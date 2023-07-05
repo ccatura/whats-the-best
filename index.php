@@ -1,11 +1,11 @@
 <?php
 include_once('./db-connect.php');
 include_once('./functions.php');
-// session_unset();
-// session_destroy();
+
 
 session_start();
-$_SESSION['user'] = 'ccatura';
+// $_SESSION['user_name'] = 'ccatura';
+// session_destroy();
 ?>
 
 <!DOCTYPE html>

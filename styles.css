@@ -96,4 +96,14 @@ a {
 #content {
     /* border: 3px dotted red; */
     width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.home-image {
+    /* width: auto; */
+    max-width: 350px;
+    min-width: 250px;
 }

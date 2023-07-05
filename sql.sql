@@ -155,7 +155,7 @@ ORDER BY totals DESC
 SELECT genres.name, count(*) as 'totals'
 FROM answers
 INNER JOIN `genres` ON genres.id = answers.genre_id
-WHERE answers.data_id = 1
+WHERE answers.data_id = 1 -- tom hanks
 GROUP BY genres.name
 
 
