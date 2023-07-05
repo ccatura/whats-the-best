@@ -133,3 +133,56 @@ function get_name_from_data_id($conn, $data_id) {
         return $row['name'];
     }
 }
+
+function get_config($conn) {
+    $sql = "SELECT categories.id as 'cat_id', categories.name as 'cat_name', genres.id as 'genres_id', genres.name as 'genres_name'
+            FROM categories
+            CROSS JOIN genres
+            ORDER BY categories.name, genres.name;";
+
+    $sql_checked    = "SELECT * FROM cat_genre ORDER BY cat_genre.cat_id;";
+    $result         = mysqli_query($conn, $sql);
+    $result_checked = mysqli_query($conn, $sql_checked);
+    while ($row_checked = mysqli_fetch_assoc($result_checked)) {
+        $sql_checked_array[] = $row_checked;
+    }
+
+    $count = 0;
+    $checked = '';
+    $output = '<form action="./config-submit.php" method="post">';
+    $previous_cat_name = '';
+    while ($row = mysqli_fetch_assoc($result)) {
+        if ($row['cat_name'] != $previous_cat_name) {
+            $output .= "<br><br>";
+            $cat_name_non_repeat = $row['cat_name'];
+            $previous_cat_name = $cat_name_non_repeat;
+        } else {
+            $cat_name_non_repeat = '';
+        }
+
+        $checked = '';
+        foreach($sql_checked_array as $x => $row_checked) {
+            if ($row['cat_id'] == $row_checked['cat_id'] && $row['genres_id'] == $row_checked['genre_id']) {
+                $checked = 'checked';
+            }
+        }
+
+        $input_id = "{$row['cat_id']}_{$row['genres_id']}";
+        $output .= "{$cat_name_non_repeat}<br><input type='checkbox' $checked id='{$input_id}' name='{$input_id}'> <label for='{$input_id}'>{$row['genres_name']}</label>";
+        $count++;
+    }
+    $output .= "<br><br><input type='submit' name='submit' value='Submit'><div><input type='hidden' name='checkbox_count' value='{$count}'></div></form>";
+    echo $output;
+}
+
+function submit_config($conn, $sql) {
+    $erase = "DELETE FROM `cat_genre` WHERE 1;";
+    $erase_result = mysqli_query($conn, $erase);
+
+    $result = mysqli_multi_query($conn, $sql);
+
+    // while ($row = mysqli_fetch_assoc($result)) {
+
+    // }
+
+}

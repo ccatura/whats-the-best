@@ -43,14 +43,14 @@ CREATE TABLE data (
 );
 
 CREATE TABLE answers (
-    id              INT NOT NULL auto_increment,
+    users_user_name VARCHAR(32) NOT NULL,
     data_id         INT NOT NULL,
     genre_id        INT NOT NULL,
     cat_id          INT NOT NULL,
-    PRIMARY KEY (id),
     FOREIGN KEY (genre_id) REFERENCES genres (id),
     FOREIGN KEY (data_id)  REFERENCES data (id),
-    FOREIGN KEY (cat_id)   REFERENCES categories (id)
+    FOREIGN KEY (cat_id)   REFERENCES categories (id),
+    CONSTRAINT uq_answer UNIQUE(users_user_name, genre_id, cat_id)
 );
 
 
@@ -88,6 +88,40 @@ INSERT INTO `genres`(`name`) VALUES ('Horror'),
                                     ('Sci-Fi'),
                                     ('History');
 
+INSERT INTO `genres`(`name`) VALUES ('Rock');
+INSERT INTO `genres`(`name`) VALUES ('R and B');
+INSERT INTO `genres`(`name`) VALUES ('Jazz');
+INSERT INTO `genres`(`name`) VALUES ('Metal');
+INSERT INTO `genres`(`name`) VALUES ('Classical');
+
+INSERT INTO `genres`(`name`) VALUES ('Buffet');
+INSERT INTO `genres`(`name`) VALUES ('Ice Cream');
+INSERT INTO `genres`(`name`) VALUES ('Asian');
+INSERT INTO `genres`(`name`) VALUES ('Vegetarian');
+INSERT INTO `genres`(`name`) VALUES ('Fast Food');
+
+INSERT INTO `genres`(`name`) VALUES ('Clothing');
+INSERT INTO `genres`(`name`) VALUES ('Recreational');
+INSERT INTO `genres`(`name`) VALUES ('Malls');
+INSERT INTO `genres`(`name`) VALUES ('Convenient');
+INSERT INTO `genres`(`name`) VALUES ('Gas Stations');
+
+INSERT INTO `genres`(`name`) VALUES ('Adventure');
+INSERT INTO `genres`(`name`) VALUES ('Role Playing');
+INSERT INTO `genres`(`name`) VALUES ('Shoot ''em');
+INSERT INTO `genres`(`name`) VALUES ('Sports');
+INSERT INTO `genres`(`name`) VALUES ('Art');
+
+INSERT INTO `genres`(`name`) VALUES ('Infant');
+INSERT INTO `genres`(`name`) VALUES ('Toddler');
+INSERT INTO `genres`(`name`) VALUES ('Outdoor');
+INSERT INTO `genres`(`name`) VALUES ('Construction');
+INSERT INTO `genres`(`name`) VALUES ('Electronic');
+
+INSERT INTO `genres`(`name`) VALUES ('All');
+
+
+
 -- Make some genre-category links
 INSERT INTO `cat_genre` (`cat_id`, `genre_id`) VALUES ('1', '1');
 INSERT INTO `cat_genre` (`cat_id`, `genre_id`) VALUES ('1', '3');
@@ -119,10 +153,8 @@ INSERT INTO `data` (`name`, `cat_id`) VALUES ('Ferris Beuler''s Day Off', '2');
 
 
 -- Make some answers
-INSERT INTO `answers` (`data_id`, `genre_id`, `cat_id`) VALUES ('1', '3', '3');
-INSERT INTO `answers` (`data_id`, `genre_id`, `cat_id`) VALUES ('2', '2', '3');
-INSERT INTO `answers` (`data_id`, `genre_id`, `cat_id`) VALUES ('3', '1', '3');
-INSERT INTO `answers` (`data_id`, `genre_id`, `cat_id`) VALUES ('3', '2', '3');
+INSERT INTO `answers` (`users_user_name`, `data_id`, `genre_id`, `cat_id`) VALUES ('ccatura', '1', '3', '3');
+
 
 -- Join answers to genre
 SELECT data.name as 'data_name', genres.name as 'genres_name'
@@ -170,6 +202,43 @@ FROM `cat_genre`
 INNER JOIN categories ON categories.id = cat_genre.cat_id
 INNER JOIN genres ON genres.id = cat_genre.genre_id
 ORDER BY categories.name
+
+
+
+-- get all genres for each category
+SELECT categories.name as 'cat_name', genres.name as 'genre_name' FROM `cat_genre`
+INNER JOIN categories ON categories.id = cat_genre.cat_id
+INNER JOIN genres ON genres.id = cat_genre.genre_id
+ORDER BY categories.name, genres.name
+
+
+
+-- put all checkboxes into cat_genre table
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

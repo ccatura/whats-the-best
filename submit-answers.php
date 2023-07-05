@@ -1,21 +1,13 @@
 <?php
 require('./functions.php');
 include('./db-connect.php');
-?>
+session_start();
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
 
-<?php
+$category = $_POST['Category'];
+$user_name = $_SESSION['user_name'];
 
-$category    = $_POST['Category'];
-
+echo $_SESSION['user_name'];
 
 foreach ($_POST as $genre => $value) {
     $exists = false;
@@ -26,7 +18,7 @@ foreach ($_POST as $genre => $value) {
     $sql = "SELECT `name`, `id` FROM `data` WHERE `name` = '$name' LIMIT 1;";
     $exists = check_db_exist($conn, $sql);
 
-    // Enter new entries, if they exist, it gets ignored
+    // Enter new data entries, if they exist, they get ignored
     $sql = "INSERT INTO `data` (`name`, `cat_id`) VALUES ('{$name}', '{$category}');";
     if ($value != 'submit' && $value != '' && $genre != 'Category' && $exists == false) {
         $result = mysqli_query($conn, $sql);
@@ -35,8 +27,9 @@ foreach ($_POST as $genre => $value) {
     $sql = "SELECT `name`, `id` FROM `data` WHERE `name` = '$name' LIMIT 1;";
     $data_id = get_data_id($conn, $sql);
 
-    // Enter new answers, there can be duplicates
-    $sql = "INSERT INTO `answers` (`data_id`, `cat_id`, `genre_id`) VALUES ('{$data_id}', '{$category}', '{$genre}');";
+    // this needs to be corrected to change an answer if it exists
+    // Enter new answers, there can be duplicates but not for same type/genre/ combined for each user, but not data_id
+    $sql = "INSERT IGNORE INTO `answers` (`users_user_name`, `data_id`, `cat_id`, `genre_id`) VALUES ('{$user_name}', '{$data_id}', '{$category}', '{$genre}') ON DUPLICATE KEY UPDATE `data_id`='{$data_id}';";
     if ($value != 'submit' && $value != '' && $genre != 'Category') {
         $result = mysqli_query($conn, $sql);
     }
@@ -53,8 +46,7 @@ if (isset($_SERVER["HTTP_REFERER"])) {
 }
 
 ?>
-</body>
-</html>
+
 
 
 
