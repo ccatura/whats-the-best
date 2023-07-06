@@ -1,8 +1,9 @@
 <?php
 
 $sql = "SELECT data.name, count(*) as totals, data.id FROM answers
-    INNER JOIN `data` ON data.id = answers.data_id WHERE data.cat_id = $cat_id
-    GROUP BY answers.data_id ORDER BY totals DESC";
+INNER JOIN `data` ON data.id = answers.data_id
+WHERE answers.cat_id = {$cat_id}
+GROUP BY answers.data_id ORDER BY totals DESC";
 
     echo "Count of Most Popular in Category: {$desc}<br><br>";
     get_category_stats($conn, $sql, $cat_id);

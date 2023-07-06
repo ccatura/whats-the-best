@@ -22,7 +22,6 @@ function get_categorie_buttons($conn) {
     return $categories;
 }
 
-
 function get_year_buttons($conn) {
     $result = mysqli_query($conn,"SELECT DISTINCT `year_born` FROM `users` ORDER BY `year_born`");
 
@@ -57,7 +56,7 @@ function get_genres_and_inputs($conn, $desc) {
         "SELECT
         data.name as 'data_name'
         FROM `data`
-        INNER JOIN categories ON categories.id = data.cat_id
+        INNER JOIN categories
         WHERE categories.name = '$desc'
         ORDER BY   data.name"
     );
@@ -96,14 +95,6 @@ function get_data_id($conn, $sql) {
     $result = mysqli_query($conn, $sql);
     while($row = mysqli_fetch_assoc($result)) {
         return $row['id'];
-    }   
-}
-
-function get_category_stats($conn, $sql, $category) {
-    $result = mysqli_query($conn, $sql);
-    while ($row = mysqli_fetch_assoc($result)) {
-        $href = "./?type=stats&data_id={$row['id']}#content";
-        echo "<a href='$href'>{$row['totals']} votes - {$row['name']}</a>";
     }
 }
 
@@ -114,11 +105,20 @@ function get_cat_id_from_name($conn, $name) {
     }
 }
 
-function get_specific_stat($conn, $data_id) {
+function get_category_stats($conn, $sql, $category) {
+    $result = mysqli_query($conn, $sql);
+    while ($row = mysqli_fetch_assoc($result)) {
+        $href = "./?type=stats&data_id={$row['id']}&cat_id={$category}#content";
+        echo "<a href='$href'>{$row['totals']} votes - {$row['name']}</a>";
+    }
+}
+
+function get_specific_stat($conn, $data_id, $cat_id) {
     $sql     = "SELECT genres.name, count(*) as 'totals'
                 FROM answers
                 INNER JOIN `genres` ON genres.id = answers.genre_id
                 WHERE answers.data_id = $data_id
+                AND answers.cat_id = $cat_id
                 GROUP BY genres.name";
 
     $result = mysqli_query($conn, $sql);

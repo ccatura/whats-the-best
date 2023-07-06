@@ -37,10 +37,12 @@ CREATE TABLE cat_genre (
 CREATE TABLE data (
     id              INT NOT NULL auto_increment,
     name            VARCHAR(255) NOT NULL,
-    cat_id          INT NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (cat_id) REFERENCES categories (id)
+    PRIMARY KEY (id)
 );
+-- took off:
+-- cat_id          INT NOT NULL,
+-- FOREIGN KEY (cat_id) REFERENCES categories (id)
+
 
 CREATE TABLE answers (
     users_user_name VARCHAR(32) NOT NULL,
@@ -50,7 +52,7 @@ CREATE TABLE answers (
     FOREIGN KEY (genre_id) REFERENCES genres (id),
     FOREIGN KEY (data_id)  REFERENCES data (id),
     FOREIGN KEY (cat_id)   REFERENCES categories (id),
-    CONSTRAINT uq_answer UNIQUE(users_user_name, genre_id, cat_id)
+    CONSTRAINT uq_answer UNIQUE(users_user_name, cat_id, genre_id)
 );
 
 
@@ -119,6 +121,7 @@ INSERT INTO `genres`(`name`) VALUES ('Construction');
 INSERT INTO `genres`(`name`) VALUES ('Electronic');
 
 INSERT INTO `genres`(`name`) VALUES ('All');
+INSERT INTO `genres`(`name`) VALUES ('Maze/Puzzle');
 
 
 
@@ -140,16 +143,16 @@ INSERT INTO `cat_genre` (`cat_id`, `genre_id`) VALUES ('3', '10');
 
 
 -- Make some data
-INSERT INTO `data` (`name`, `cat_id`) VALUES ('Tom Hanks', '3');
-INSERT INTO `data` (`name`, `cat_id`) VALUES ('Tom Cruise', '3');
-INSERT INTO `data` (`name`, `cat_id`) VALUES ('Jennifer Lawrence', '3');
+INSERT INTO `data` (`name`) VALUES ('Tom Hanks');
+INSERT INTO `data` (`name`) VALUES ('Tom Cruise');
+INSERT INTO `data` (`name`) VALUES ('Jennifer Lawrence');
 
-INSERT INTO `data` (`name`, `cat_id`) VALUES ('Goosebumps', '1');
-INSERT INTO `data` (`name`, `cat_id`) VALUES ('The Hardy boys', '1');
+INSERT INTO `data` (`name`) VALUES ('Goosebumps');
+INSERT INTO `data` (`name`) VALUES ('The Hardy boys');
 
-INSERT INTO `data` (`name`, `cat_id`) VALUES ('Die Hard', '2');
-INSERT INTO `data` (`name`, `cat_id`) VALUES ('The Breakfast Club', '2');
-INSERT INTO `data` (`name`, `cat_id`) VALUES ('Ferris Beuler''s Day Off', '2');
+INSERT INTO `data` (`name`) VALUES ('Die Hard');
+INSERT INTO `data` (`name`) VALUES ('The Breakfast Club');
+INSERT INTO `data` (`name`) VALUES ('Ferris Beuler''s Day Off');
 
 
 -- Make some answers

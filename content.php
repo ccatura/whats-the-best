@@ -11,6 +11,7 @@ if (isset($_GET['type'])) {
     $type = "home";
 }
 
+
 echo '<span id="content"></span>';
 if ($type == 'home') {
     //check for login
