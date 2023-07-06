@@ -22,11 +22,18 @@ function get_categorie_buttons($conn) {
     return $categories;
 }
 
+function get_user_count($conn) {
+    $result =  mysqli_query($conn,"SELECT count(*) as 'total' FROM `users` ORDER BY `year_born`");
+    while ($row = mysqli_fetch_assoc($result)) {
+        return $row['total'];
+    }
+}
+
 function get_year_buttons($conn) {
     $result = mysqli_query($conn,"SELECT DISTINCT `year_born` FROM `users` ORDER BY `year_born`");
-
+    $user_count = get_user_count($conn);
     $years  =   '<div id="users" class="section">
-                <div class="sec-title">User Stats</div>';
+                <div class="sec-title">There are ' . $user_count . ' Users Registered</div>';
 
     while ($row = mysqli_fetch_assoc($result)) {
         $year = $row['year_born'];
@@ -185,4 +192,19 @@ function submit_config($conn, $sql) {
 
     // }
 
+}
+
+function get_users_for_year($conn, $year) {
+    $result = mysqli_query($conn,"SELECT * FROM `users` WHERE `year_born` = $year");
+
+    $output  = '<div id="users">
+                <div class="sec-title">Year Stats</div><br>';
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $the_user = $row['user_name'];
+        $the_name = $row['name'];
+        $output .= "<div>{$the_name} ({$the_user})</div>";
+    }
+    $output .= '</div>';
+    return $output;
 }
