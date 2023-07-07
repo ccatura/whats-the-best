@@ -58,7 +58,25 @@ function get_genres_and_inputs($conn, $desc) {
         WHERE categories.name = '$desc'
         ORDER BY   categories.name, genres.name"
     );
-    
+
+    $cat_id = get_cat_id_from_name($conn,  $desc);
+    $user_name = $_SESSION['user_name'];
+    $result_user = mysqli_query($conn,
+        "SELECT  answers.genre_id as 'answers_genre_id',
+        answers.data_id as 'answers_data_id',
+        data.name as 'data_name'
+        FROM answers
+        INNER JOIN users ON users.user_name = answers.users_user_name
+        INNER JOIN data ON data.id = answers.data_id
+        WHERE users.user_name = '{$user_name}'
+        AND answers.cat_id = $cat_id;"
+    );
+    if (mysqli_num_rows($result_user) != 0) {
+        while ($row_user = mysqli_fetch_assoc($result_user)) { //puts query into array for multi-use
+            $sql_user_array[] = $row_user;
+        }
+    }
+
     $result_data = mysqli_query($conn,
         "SELECT
         data.name as 'data_name'
@@ -69,22 +87,30 @@ function get_genres_and_inputs($conn, $desc) {
     );
 
     $output = '';
-    while ($row = mysqli_fetch_assoc($result_categories)) {
-        $genre_name = $row['genres_name'];
-        $genre_id = $row['genres_id'];
-        $cat_id = $row['categories_id'];
+    while ($row_cat = mysqli_fetch_assoc($result_categories)) {
+        $genre_name = $row_cat['genres_name'];
+        $genre_id = $row_cat['genres_id'];
+        $cat_id = $row_cat['categories_id'];
         $output .= "
         <form action='./submit-answers.php' method='post'>
-        <label>{$genre_name}: 
-            <input list='data' name='{$genre_id}' genre-id='{$genre_id}'>
-        </label><br>";
+        <label>{$genre_name}: ";
+        $placeholder = '';
+        if (mysqli_num_rows($result_user) != 0) {
+            foreach($sql_user_array as $x => $row_user) { // Puts user's choice into the input box
+                if ($row_user['answers_genre_id'] == $genre_id) {
+                    $placeholder = $row_user['data_name'];
+                }
+            }
+        }
+        $output .= "<input list='data' name='{$genre_id}' genre-id='{$genre_id}' placeholder='{$placeholder}'></label><br>";
+
     }
 
     $output .= "<input type='hidden' name='Category' value='{$cat_id}'>
                 <datalist id='data'>";
-    while ($row = mysqli_fetch_assoc($result_data)) {
+    while ($row_data = mysqli_fetch_assoc($result_data)) {
         $output .= "
-        <option value=\"" . $row['data_name'] . "\">";
+        <option value=\"" . $row_data['data_name'] . "\">";
     }
     $output .= "</datalist>";
     $output .= "<button name='submit' value='submit'>Submit All</button></form>";
@@ -150,7 +176,7 @@ function get_config_genres($conn) {
     $sql_checked    = "SELECT * FROM cat_genre ORDER BY cat_genre.cat_id;";
     $result         = mysqli_query($conn, $sql);
     $result_checked = mysqli_query($conn, $sql_checked);
-    while ($row_checked = mysqli_fetch_assoc($result_checked)) {
+    while ($row_checked = mysqli_fetch_assoc($result_checked)) { //puts query into array for multi-use
         $sql_checked_array[] = $row_checked;
     }
 
@@ -210,4 +236,53 @@ function get_users_for_year($conn, $year) {
     }
     $output .= '</div>';
     return $output;
+}
+
+function get_user_account($conn, $user_name) {
+    $result = mysqli_query($conn, "SELECT * FROM `users` WHERE `user_name` = '$user_name';");
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $output = "<div> 
+        Real Name: <input type='text' value='{$row['name']}'><br>
+        User Name: <input type='text' value='{$row['user_name']}' disabled title='Cannot change user name'><br>
+        Year Born: <input type='text' value='{$row['year_born']}'><br>
+        Password: <input type='password' value='{$row['pword']}'></div>";
+    }
+    return $output;
+}
+
+function get_user_votes ($conn, $user_name) {
+    $sql = "SELECT
+    data.name as 'data_name',
+    categories.name as 'categories_name',
+    genres.name as 'genres_name',
+    answers.data_id as 'answers_data_id',
+    answers.cat_id as 'answers_categories_id',
+    answers.genre_id as 'answers_genres_id'
+    FROM answers
+    JOIN data ON data.id = answers.data_id
+    JOIN categories ON categories.id = answers.cat_id
+    join genres ON genres.id = answers.genre_id
+    JOIN users ON users.user_name = answers.users_user_name
+    WHERE answers.users_user_name = '{$user_name}'";
+
+    $result = mysqli_query($conn, $sql);
+    $output = "<div class='vote-list'>";
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $data_name = $row['data_name'];
+        $data_id = $row['answers_data_id'];
+        $categories_name = $row['categories_name'];
+        $categories_id = $row['answers_categories_id'];
+        $genres_name = $row['genres_name'];
+        $genres_id = $row['answers_genres_id'];
+
+        $output .= "<div><strong><a href='./delete-answer.php?data_id={$data_id}&categories_id={$categories_id}&genres_id={$genres_id}'>&#10005;</a> {$row['data_name']}</strong> &gt; {$row['categories_name']} &gt; {$row['genres_name']}</div>";
+    }
+    $output .= "</div>";
+    return $output;
+}
+
+function run_sql($conn, $sql) {
+    $result = mysqli_query($conn, $sql);
 }

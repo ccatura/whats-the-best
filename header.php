@@ -9,8 +9,7 @@ echo '<a href="./">home</a><br>';
 
 
 if (isset($_SESSION['user_name'])) {
-    // $user_name = $_SESSION['user_name'];
-    echo 'user_name: ' . $_SESSION['user_name'] . '<br>';
+    echo 'user_name: <a href="./?type=account">' . $_SESSION['user_name'] . '</a><br>';
     if ($_SESSION['user_name'] == 'ccatura') {
         echo '<a href="./?type=config&desc=Config Genres">config genres</a>';
     }

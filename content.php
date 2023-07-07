@@ -28,6 +28,8 @@ if ($type == 'home') {
     include './years.php';
 } elseif ($type == 'config') {
     include './config.php';
+} elseif ($type == 'account') {
+    include './account.php';
 }
 
 
