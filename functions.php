@@ -98,7 +98,7 @@ function get_genres_and_inputs($conn, $desc) {
         if (mysqli_num_rows($result_user) != 0) {
             foreach($sql_user_array as $x => $row_user) { // Puts user's choice into the input box
                 if ($row_user['answers_genre_id'] == $genre_id) {
-                    $placeholder = $row_user['data_name'];
+                    $placeholder = str_replace("'", "&lsquo;", $row_user['data_name']);
                 }
             }
         }
@@ -142,7 +142,7 @@ function get_category_stats($conn, $sql, $category) {
     $result = mysqli_query($conn, $sql);
     while ($row = mysqli_fetch_assoc($result)) {
         $href = "./?type=stats&data_id={$row['id']}&cat_id={$category}#content";
-        echo "<a href='$href'>{$row['totals']} votes - {$row['name']}</a>";
+        return "<a href='$href'>{$row['totals']} votes - {$row['name']}</a>";
     }
 }
 
@@ -155,9 +155,11 @@ function get_specific_stat($conn, $data_id, $cat_id) {
                 GROUP BY genres.name";
 
     $result = mysqli_query($conn, $sql);
+    $output = '';
     while ($row = mysqli_fetch_assoc($result)) {
-        echo "{$row['totals']} votes - {$row['name']}<br>";
+        $output .= "{$row['totals']} votes - {$row['name']}<br>";
     }
+    return $output;
 }
 
 function get_name_from_data_id($conn, $data_id) {
@@ -205,7 +207,7 @@ function get_config_genres($conn) {
         $count++;
     }
     $output .= "<br><br><input type='submit' name='submit' value='Submit'><div><input type='hidden' name='checkbox_count' value='{$count}'></div></form>";
-    echo $output;
+    return $output;
 }
 
 function submit_config_genres($conn, $sql) {
@@ -242,11 +244,12 @@ function get_user_account($conn, $user_name) {
     $result = mysqli_query($conn, "SELECT * FROM `users` WHERE `user_name` = '$user_name';");
 
     while ($row = mysqli_fetch_assoc($result)) {
-        $output = "<div> 
-        Real Name: <input type='text' value='{$row['name']}'><br>
-        User Name: <input type='text' value='{$row['user_name']}' disabled title='Cannot change user name'><br>
-        Year Born: <input type='text' value='{$row['year_born']}'><br>
-        Password: <input type='password' value='{$row['pword']}'></div>";
+        $output = "<form action='./account-changes-submit.php' method='post'><div> 
+        Real Name: <input type='text' name='name' placeholder='{$row['name']}'><br>
+        User Name: <input type='text' name='user_name' placeholder='{$row['user_name']}' disabled title='Cannot change user name'><br>
+        Year Born: <input type='text' name='year_born' placeholder='{$row['year_born']}'><br>
+        Password: <input type='password' name='pword'><br>
+        <input type='submit' name='submit' value='Submit Changes'></div></form>";
     }
     return $output;
 }

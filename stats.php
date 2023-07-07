@@ -7,4 +7,4 @@ if (isset($_GET['data_id'])) {
 }
 
 echo $data_name . '<br>';
-get_specific_stat($conn, $data_id, $cat_id);
+echo get_specific_stat($conn, $data_id, $cat_id);
