@@ -11,6 +11,9 @@ echo '<a href="./">home</a><br>';
 if (isset($_SESSION['user_name'])) {
     // $user_name = $_SESSION['user_name'];
     echo 'user_name: ' . $_SESSION['user_name'] . '<br>';
+    if ($_SESSION['user_name'] == 'ccatura') {
+        echo '<a href="./?type=config&desc=Config Genres">config genres</a>';
+    }
     echo '<a href="./?session=false">logout</a><br><br>';
 }
 

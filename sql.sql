@@ -70,13 +70,20 @@ INSERT INTO `users`(`user_name`, `name`, `year_born`, `pword`) VALUES ('fcatura'
 INSERT INTO `categories`(`name`) VALUES ('Books'),
                                         ('Movies'),
                                         ('Actors'),
-                                        ('Bands'),
+                                        ('Music - Bands'),
                                         ('Video Game Consoles'),
-                                        ('Video Games'),
-                                        ('Arcade Games'),
+                                        ('Video Games - Home'),
+                                        ('Video Games - Arcade'),
                                         ('Toys'),
                                         ('Forgotten Restaurants'),
                                         ('Forgotten Stores');
+
+INSERT INTO `categories`(`name`) VALUES ('Electronics');
+INSERT INTO `categories`(`name`) VALUES ('Music - Singers');
+INSERT INTO `categories`(`name`) VALUES ('TV Shows');
+
+
+
 
 -- Make some genres
 INSERT INTO `genres`(`name`) VALUES ('Horror'),
@@ -95,6 +102,7 @@ INSERT INTO `genres`(`name`) VALUES ('R and B');
 INSERT INTO `genres`(`name`) VALUES ('Jazz');
 INSERT INTO `genres`(`name`) VALUES ('Metal');
 INSERT INTO `genres`(`name`) VALUES ('Classical');
+INSERT INTO `genres`(`name`) VALUES ('Rap');
 
 INSERT INTO `genres`(`name`) VALUES ('Buffet');
 INSERT INTO `genres`(`name`) VALUES ('Ice Cream');

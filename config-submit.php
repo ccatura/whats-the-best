@@ -1,7 +1,7 @@
 <?php
 include_once('./db-connect.php');
 include_once('./functions.php');
-
+session_start();
 
 $genres = $_POST;
 $sql = '';
@@ -16,7 +16,7 @@ foreach ($genres as $cat_genre => $n) {
 
 }
 
-submit_config($conn, $sql);
+submit_config_genres($conn, $sql);
 // $result = mysqli_multi_query($conn, $sql);
 
 echo $sql;

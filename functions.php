@@ -33,7 +33,7 @@ function get_year_buttons($conn) {
     $result = mysqli_query($conn,"SELECT DISTINCT `year_born` FROM `users` ORDER BY `year_born`");
     $user_count = get_user_count($conn);
     $years  =   '<div id="users" class="section">
-                <div class="sec-title">There are ' . $user_count . ' Users Registered</div>';
+                <div class="sec-title">There are ' . $user_count . ' Registered Users</div>';
 
     while ($row = mysqli_fetch_assoc($result)) {
         $year = $row['year_born'];
@@ -141,7 +141,7 @@ function get_name_from_data_id($conn, $data_id) {
     }
 }
 
-function get_config($conn) {
+function get_config_genres($conn) {
     $sql = "SELECT categories.id as 'cat_id', categories.name as 'cat_name', genres.id as 'genres_id', genres.name as 'genres_name'
             FROM categories
             CROSS JOIN genres
@@ -182,11 +182,15 @@ function get_config($conn) {
     echo $output;
 }
 
-function submit_config($conn, $sql) {
+function submit_config_genres($conn, $sql) {
     $erase = "DELETE FROM `cat_genre` WHERE 1;";
     $erase_result = mysqli_query($conn, $erase);
 
     $result = mysqli_multi_query($conn, $sql);
+
+    if ($result) {
+        header("Location: ./?type=config");
+    }
 
     // while ($row = mysqli_fetch_assoc($result)) {
 
@@ -197,8 +201,7 @@ function submit_config($conn, $sql) {
 function get_users_for_year($conn, $year) {
     $result = mysqli_query($conn,"SELECT * FROM `users` WHERE `year_born` = $year");
 
-    $output  = '<div id="users">
-                <div class="sec-title">Year Stats</div><br>';
+    $output  = '<div id="users">';
 
     while ($row = mysqli_fetch_assoc($result)) {
         $the_user = $row['user_name'];

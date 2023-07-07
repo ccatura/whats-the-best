@@ -11,7 +11,7 @@ if (isset($_GET['type'])) {
     $type = "home";
 }
 
-
+echo "<h1>{$desc}</h1>";
 echo '<span id="content"></span>';
 if ($type == 'home') {
     //check for login
@@ -26,6 +26,8 @@ if ($type == 'home') {
     include './stats.php';
 } elseif ($type == 'year') {
     include './years.php';
+} elseif ($type == 'config') {
+    include './config.php';
 }
 
 
