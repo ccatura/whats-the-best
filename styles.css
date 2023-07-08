@@ -93,6 +93,11 @@ a {
     color: black;
 }
 
+.link {
+    background-color: rgb(98, 179, 126);
+    color: black;
+}
+
 #content {
     /* border: 3px dotted red; */
     width: 100%;
@@ -110,4 +115,12 @@ a {
 
 .list-section {
     width: 200px;
+}
+
+.warning {
+    color: red;
+    background-color: black;
+    padding: 5px 5px 2px 5px;
+    text-transform: uppercase;
+    border-radius: 4px;
 }

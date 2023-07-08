@@ -5,15 +5,17 @@ if (isset($_GET['session'])) {
     }
 }
 
-echo '<a href="./">home</a><br>';
+
+echo '<div class="section"><a href="./" class="sub link" title="Go to Home Page">Home</a>';
 
 
 if (isset($_SESSION['user_name'])) {
-    echo 'user_name: <a href="./?type=account">' . $_SESSION['user_name'] . '</a><br>';
+    // echo 
+    echo '<a href="./?type=account" class="sub link" title="' . $_SESSION['name'] . '">' . $_SESSION['user_name'] . ' &#9776;</a><br>';
     if ($_SESSION['user_name'] == 'ccatura') {
-        echo '<a href="./?type=config&desc=Config Genres">config genres</a>';
+        echo '<a href="./?type=config&desc=Config Genres" class="sub link">Config Genres</a>';
     }
-    echo '<a href="./?session=false">logout</a><br><br>';
+    echo '<a href="./?session=false" class="sub link">Logout</a></div>';
 }
 
 

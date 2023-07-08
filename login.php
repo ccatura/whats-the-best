@@ -1,6 +1,9 @@
 <?php
 
+
 if(!isset($_GET['register'])) {
+    echo "<div style='width: 300px; text-align: center;'>Welcome to 'What's the Best?'. This app is in progress, so if something doesn't work correctly, it's probably being worked on at the moment. But, feel free to look around and even creat an account and put in some votes. I'd love people to help me test this out while I work out the bugs! PS. You will not be asked for personal information and should not write anything personal here. Thank!</div><br>";
+
     echo   '<form action="#" method="post">
                 <input type="hidden" name="login-type" value="login">
                 <div>User Name<br><input type="text" name="user_name" placeholder="User Name"></div>
@@ -30,7 +33,7 @@ if (!empty($_POST)) {
     $year_born = $_POST['year_born'];
     $name = $_POST['name'];
 
-    $result = mysqli_query($conn,"SELECT `user_name`, `pword` FROM `users` WHERE user_name = '{$user_name}' LIMIT 1;");
+    $result = mysqli_query($conn,"SELECT `name`, `user_name`, `pword` FROM `users` WHERE user_name = '{$user_name}' LIMIT 1;");
 
     // login here
     if ($_POST['login-type'] == 'login' && mysqli_num_rows($result) > 0) {
@@ -40,6 +43,7 @@ if (!empty($_POST)) {
 
             if ($user_name == $db_user_name && $pword == $db_pword) {
                 $_SESSION['user_name'] = $row['user_name'];
+                $_SESSION['name'] = $row['name'];
                 header("Location: ./");
             }
         }
