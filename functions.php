@@ -140,10 +140,12 @@ function get_cat_id_from_name($conn, $name) {
 
 function get_category_stats($conn, $sql, $category) {
     $result = mysqli_query($conn, $sql);
+    $output = '';
     while ($row = mysqli_fetch_assoc($result)) {
         $href = "./?type=stats&data_id={$row['id']}&cat_id={$category}#content";
-        return "<a href='$href'>{$row['totals']} votes - {$row['name']}</a>";
+        $output .= "<a href='$href'>{$row['totals']} votes - {$row['name']}</a>";
     }
+    return $output;
 }
 
 function get_specific_stat($conn, $data_id, $cat_id) {
@@ -267,7 +269,8 @@ function get_user_votes ($conn, $user_name) {
     JOIN categories ON categories.id = answers.cat_id
     join genres ON genres.id = answers.genre_id
     JOIN users ON users.user_name = answers.users_user_name
-    WHERE answers.users_user_name = '{$user_name}'";
+    WHERE answers.users_user_name = '{$user_name}'
+    ORDER BY categories.name";
 
     $result = mysqli_query($conn, $sql);
     $output = "<div class='vote-list'>";
@@ -280,7 +283,7 @@ function get_user_votes ($conn, $user_name) {
         $genres_name = $row['genres_name'];
         $genres_id = $row['answers_genres_id'];
 
-        $output .= "<div><strong><a href='./delete-answer.php?data_id={$data_id}&categories_id={$categories_id}&genres_id={$genres_id}'>&#10005;</a> {$row['data_name']}</strong> &gt; {$row['categories_name']} &gt; {$row['genres_name']}</div>";
+        $output .= "<div><strong><a href='./delete-answer.php?data_id={$data_id}&data_name={$data_name}&genres_name={$genres_name}&categories_id={$categories_id}&genres_id={$genres_id}'>&#10005;</a></strong> {$row['categories_name']} - {$row['genres_name']} - <strong>{$row['data_name']}</strong></div>";
     }
     $output .= "</div>";
     return $output;
