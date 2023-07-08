@@ -24,7 +24,7 @@ if (isset($_SESSION['user_name'])) {
 }
 
 
-echo get_categorie_buttons($conn);
+echo get_category_buttons($conn);
 echo get_year_buttons($conn);
 
 

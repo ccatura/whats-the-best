@@ -15,10 +15,10 @@ if(!isset($_GET['register'])) {
 } else {
     echo   '<form action="#" method="post">
                 <input type="hidden" name="login-type" value="register">
-                <div>Choose User Name<br><input type="text" name="user_name" placeholder="Choose User Name" minlength="4"></div>
-                <div>Real Name<br><input type="text" name="name" placeholder="Real Name"></div>
-                <div>Year Born<br><input type="number" name="year_born" placeholder="Year Born" min="1923" max="2020"></div>
-                <div>Choose Password<br><input type="password" name="pword" placeholder="Choose Password" minlength="8"></div>
+                <div>Choose User Name<br><input type="text" name="user_name" placeholder="Choose User Name" minlength="4" required></div>
+                <div>Real Name<br><input type="text" name="name" placeholder="Real Name" required></div>
+                <div>Year Born<br><input type="number" name="year_born" placeholder="Year Born" minlength="4" min="1923" max="2020" required></div>
+                <div>Choose Password<br><input type="password" name="pword" placeholder="Choose Password" minlength="8" required></div>
                 <div><input type="submit" name="submit" value="Submit"></div>
                 <a href="./"><div>Have and account?<br>Login Here</div></a>
             </form>';

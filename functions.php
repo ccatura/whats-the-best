@@ -9,7 +9,7 @@ function get_users_years_combined($conn) {
     return $year_count;
 }
 
-function get_categorie_buttons($conn) {
+function get_category_buttons($conn) {
     $result = mysqli_query($conn,"SELECT * FROM `categories` ORDER BY `name`");
     $categories =  '<div id="categories" class="section">
                     <div class="sec-title">Categories</div>';
@@ -59,7 +59,7 @@ function get_genres_and_inputs($conn, $desc) {
         ORDER BY   categories.name, genres.name"
     );
 
-    $cat_id = get_cat_id_from_name($conn,  $desc);
+    $cat_id = get_cat_id_from_name($conn, $desc);
     $user_name = $_SESSION['user_name'];
     $result_user = mysqli_query($conn,
         "SELECT  answers.genre_id as 'answers_genre_id',
@@ -283,8 +283,9 @@ function get_user_votes ($conn, $user_name) {
         $categories_id = $row['answers_categories_id'];
         $genres_name = $row['genres_name'];
         $genres_id = $row['answers_genres_id'];
+        $cat_id = get_cat_id_from_name($conn, $categories_name);
 
-        $output .= "<div><strong><a href='./delete-answer.php?data_id={$data_id}&data_name={$data_name}&genres_name={$genres_name}&categories_id={$categories_id}&genres_id={$genres_id}'>&#10005;</a></strong> {$row['categories_name']} - {$row['genres_name']} - <strong>{$row['data_name']}</strong></div>";
+        $output .= "<div><strong><a href='./delete-answer.php?data_id={$data_id}&data_name={$data_name}&genres_name={$genres_name}&categories_id={$categories_id}&genres_id={$genres_id}'>&#10005;</a></strong> <a href='./?type=category&desc={$row['categories_name']}'>{$row['categories_name']}</a> - {$row['genres_name']} - <strong><a href='./?type=stats&data_id={$data_id}&cat_id={$cat_id}#content'>{$row['data_name']}</a></strong></div>";
     }
     $output .= "</div>";
     return $output;
