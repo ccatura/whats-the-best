@@ -1,7 +1,12 @@
 <?php
+if (isset($_SESSION['message'])) {
+    echo $_SESSION['message'] . '<br><br>';
+}
+
 if (isset($_GET['session'])) {
     if ($_GET['session'] == 'false') {
         session_unset();
+        // session_destroy();
     }
 }
 

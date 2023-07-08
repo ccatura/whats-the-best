@@ -2,6 +2,7 @@
 
 
 if(!isset($_GET['register'])) {
+
     echo "<div style='width: 300px; text-align: center;'>Welcome to 'What's the Best?'. This app is in progress, so if something doesn't work correctly, it's probably being worked on at the moment. But, feel free to look around and even creat an account and put in some votes. I'd love people to help me test this out while I work out the bugs! PS. You will not be asked for personal information and should not write anything personal here. Thank!</div><br>";
 
     echo   '<form action="#" method="post">
@@ -14,10 +15,10 @@ if(!isset($_GET['register'])) {
 } else {
     echo   '<form action="#" method="post">
                 <input type="hidden" name="login-type" value="register">
-                <div>Choose User Name<br><input type="text" name="user_name" placeholder="Choose User Name"></div>
+                <div>Choose User Name<br><input type="text" name="user_name" placeholder="Choose User Name" minlength="4"></div>
                 <div>Real Name<br><input type="text" name="name" placeholder="Real Name"></div>
-                <div>Year Born<br><input type="number" name="year_born" placeholder="Year Born"></div>
-                <div>Choose Password<br><input type="password" name="pword" placeholder="Choose Password"></div>
+                <div>Year Born<br><input type="number" name="year_born" placeholder="Year Born" min="1923" max="2020"></div>
+                <div>Choose Password<br><input type="password" name="pword" placeholder="Choose Password" minlength="8"></div>
                 <div><input type="submit" name="submit" value="Submit"></div>
                 <a href="./"><div>Have and account?<br>Login Here</div></a>
             </form>';
