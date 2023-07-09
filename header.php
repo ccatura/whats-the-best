@@ -18,7 +18,7 @@ if (isset($_SESSION['user_name'])) {
     // echo 
     echo '<a href="./?type=account" class="sub link" title="' . $_SESSION['name'] . '">' . $_SESSION['user_name'] . ' &#9776;</a><br>';
     if ($_SESSION['user_name'] == 'ccatura') {
-        echo '<a href="./?type=config&desc=Config Genres" class="sub link">Config Genres</a>';
+        echo '<a href="./?type=config&desc=Config" class="sub link">Config</a>';
     }
     echo '<a href="./?session=false" class="sub link">Logout</a></div>';
 }

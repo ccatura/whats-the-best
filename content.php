@@ -30,7 +30,10 @@ if ($type == 'home') {
     include './config.php';
 } elseif ($type == 'account') {
     include './account.php';
+} elseif ($type == 'category-maker') {
+    include './category-maker.php';
 }
+
 
 
 

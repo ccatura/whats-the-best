@@ -186,7 +186,8 @@ function get_config_genres($conn) {
 
     $count = 0;
     $checked = '';
-    $output = '<form action="./config-submit.php" method="post">';
+    $output = "<form action='./config-submit.php' method='post'>
+    <input type='text' name='new' placeholder='Enter New Genre DOESNT WORK YET'>";
     $previous_cat_name = '';
     while ($row = mysqli_fetch_assoc($result)) {
         if ($row['cat_name'] != $previous_cat_name) {
@@ -208,7 +209,10 @@ function get_config_genres($conn) {
         $output .= "{$cat_name_non_repeat}<br><input type='checkbox' $checked id='{$input_id}' name='{$input_id}'> <label for='{$input_id}'>{$row['genres_name']}</label>";
         $count++;
     }
-    $output .= "<br><br><input type='submit' name='submit' value='Submit'><div><input type='hidden' name='checkbox_count' value='{$count}'></div></form>";
+    $output .= "<br><br><input type='submit' name='submit' value='Submit Genre Changes' style='position: sticky;bottom: 0px;'>
+    <input type='hidden' name='checkbox_count' value='{$count}'>
+    <input type='hidden' name='form_type' value='genres'>
+    </form>";
     return $output;
 }
 
@@ -219,13 +223,35 @@ function submit_config_genres($conn, $sql) {
     $result = mysqli_multi_query($conn, $sql);
 
     if ($result) {
-        header("Location: ./?type=config");
+        header("Location: ./?type=config&desc=Config");
     }
+}
 
-    // while ($row = mysqli_fetch_assoc($result)) {
+function get_config_categories($conn) {
+    $sql = "SELECT categories.id as 'cat_id', categories.name as 'cat_name'
+            FROM categories
+            ORDER BY categories.name";
+    $result         = mysqli_query($conn, $sql);
 
-    // }
 
+    $output = "<form action='./config-submit.php' method='post'>
+    <input type='text' name='new' placeholder='Enter New Category'><br><input type='submit' name='submit' value='Submit New Category'><br><br>";
+    while ($row = mysqli_fetch_assoc($result)) {
+        $input_id = "{$row['cat_id']}";
+        $output .= "<a href='./delete-category.php?cat_id={$input_id}'>&#10005;</a> {$row['cat_name']}<br>";
+    }
+    $output .= "<br><br>
+    <input type='hidden' name='form_type' value='categories'>
+    </form>";
+    return $output;
+}
+
+function submit_config_categories($conn, $sql) {
+    $result = mysqli_multi_query($conn, $sql);
+
+    if ($result) {
+        header("Location: ./?type=config&desc=Config");
+    }
 }
 
 function get_users_for_year($conn, $year) {
