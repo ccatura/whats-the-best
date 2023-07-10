@@ -18,6 +18,7 @@ if(!isset($_GET['register'])) {
                 <div>Choose User Name<br><input type="text" name="user_name" placeholder="Choose User Name" minlength="4" required></div>
                 <div>Real Name<br><input type="text" name="name" placeholder="Real Name" required></div>
                 <div>Year Born<br><input type="number" name="year_born" placeholder="Year Born" minlength="4" min="1923" max="2020" required></div>
+                <div>Email<br><input type="email" name="email" placeholder="Email" minlength="6" required></div>
                 <div>Choose Password<br><input type="password" name="pword" placeholder="Choose Password" minlength="8" required></div>
                 <div><input type="submit" name="submit" value="Submit"></div>
                 <a href="./"><div>Have and account?<br>Login Here</div></a>
@@ -33,6 +34,7 @@ if (!empty($_POST)) {
     $pword = $_POST['pword'];
     $year_born = $_POST['year_born'];
     $name = $_POST['name'];
+    $email = $_POST['email'];
 
     $result = mysqli_query($conn,"SELECT `name`, `user_name`, `pword` FROM `users` WHERE user_name = '{$user_name}' LIMIT 1;");
 
@@ -45,18 +47,43 @@ if (!empty($_POST)) {
             if ($user_name == $db_user_name && $pword == $db_pword) {
                 $_SESSION['user_name'] = $row['user_name'];
                 $_SESSION['name'] = $row['name'];
-                header("Location: ./");
+                // header("Location: ./");
             }
         }
     // register here
     } elseif ($_POST['login-type'] == 'register' && mysqli_num_rows($result) < 1) {
-        $result = mysqli_query($conn,"INSERT INTO `users` (`user_name`, `pword`, `year_born`, `name`) VALUES ('{$user_name}', '{$pword}', '{$year_born}', '{$name}');");
+        $result = mysqli_query($conn,"INSERT INTO `users` (`user_name`, `pword`, `year_born`, `name`, `email`) VALUES ('{$user_name}', '{$pword}', '{$year_born}', '{$name}', '{$email}');");
         if ($result) {
             $_SESSION['user_name'] = $user_name;
-            header("Location: ./");
+            echo 'right before emailing';
+            email($user_name, $name, $email);
+            // header("Location: ./");
         }
     } else {
         echo 'That user name exists. Please choose another.';
     }
 }
-?>
+
+function email($user_name, $name, $to) {
+    echo '<br>' . $user_name . '<br>' . $name . '<br>' . $email . '<br>';
+
+    $header[] = "From: admin@meetmeinthe80s.com";
+    $header[] = "MIME-Version: 1.0";
+    $header[] = "Content-type: text/html";
+
+    $subject = 'Welcome to MeetMeInThe80s!';
+    $message  = "Welcome {$name},";
+    $message .= "You have signed up to the MeetMeInThe80s.com app: What's the Best? with user name: {$user_name}.";
+    $message .= "To get started, login at MeetMeInThe80s.com";
+try {
+    $sendmail = mail('ccatura@gmail.com', $subject, $message, implode("\r\n", $header));
+}
+catch(Exception $e) {
+    echo 'Message: ' .$e->getMessage();
+  }
+    if( $sendmail == true ) {
+        echo "<h1>Your message was sent successfully!</h1><h3><a href='#' onclick='window.close();return false;'>Click here to close this tab.</a></h3>";
+    } else {
+        echo "<h1>Message could not be sent.</h1><h3><a href='#' onclick='window.close();return false;'>Click here to try again.</a></h3>";
+    }
+}

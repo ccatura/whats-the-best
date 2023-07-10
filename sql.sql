@@ -11,6 +11,7 @@ CREATE TABLE users (
     name        VARCHAR(255) NOT NULL,
     year_born   INT(4) NOT NULL,
     pword       VARCHAR(255) NOT NULL,
+    email       VARCHAR(255) NOT NULL,
     PRIMARY KEY (user_name)
 );
 
