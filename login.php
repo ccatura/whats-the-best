@@ -71,7 +71,7 @@ if (!empty($_POST)) {
 }
 
 function email($user_name, $name, $to) {
-    echo '<br>' . $user_name . '<br>' . $name . '<br>' . $email . '<br>';
+    echo '<br>' . $user_name . '<br>' . $name . '<br>' . $to . '<br>';
 
     $header[] = "From: admin@meetmeinthe80s.com";
     $header[] = "MIME-Version: 1.0";
@@ -82,7 +82,7 @@ function email($user_name, $name, $to) {
     $message .= "You have signed up to the MeetMeInThe80s.com app: What's the Best? with user name: {$user_name}.";
     $message .= "To get started, login at MeetMeInThe80s.com";
 try {
-    $sendmail = mail($email, $subject, $message, implode("\r\n", $header));
+    $sendmail = mail($to, $subject, $message, implode("\r\n", $header));
 }
 catch(Exception $e) {
     echo 'Message: ' .$e->getMessage();
