@@ -73,14 +73,14 @@ if (!empty($_POST)) {
 function email($user_name, $name, $to) {
     echo '<br>' . $user_name . '<br>' . $name . '<br>' . $to . '<br>';
 
-    $header[] = "From: admin@meetmeinthe80s.com";
+    $header[] = "From: charlie@meetmeinthe80s.com";
     $header[] = "MIME-Version: 1.0";
     $header[] = "Content-type: text/html";
 
     $subject = 'Welcome to MeetMeInThe80s!';
     $message  = "Welcome {$name},";
-    $message .= "You have signed up to the MeetMeInThe80s.com app: What's the Best? with user name: {$user_name}.";
-    $message .= "To get started, login at MeetMeInThe80s.com";
+    $message .= "You have signed up to the MeetMeInThe80s.com app: 'What's the Best?' with user name: {$user_name}.";
+    $message .= "To get started, login at <a href='http://meetmeinthe80s.com/apps/whats-the-best'>MeetMeInThe80s.com/apps/whats-the-best</a>";
 try {
     $sendmail = mail($to, $subject, $message, implode("\r\n", $header));
 }
@@ -90,6 +90,6 @@ catch(Exception $e) {
     if( $sendmail == true ) {
         echo "<h1>Your message was sent successfully!</h1><h3><a href='#' onclick='window.close();return false;'>Click here to close this tab.</a></h3>";
     } else {
-        echo "<h1>Message could not be sent.</h1><h3><a href='#' onclick='window.close();return false;'>Click here to try again.</a></h3>";
+        echo "<h1>Message could not be sent.</h1>";
     }
 }
