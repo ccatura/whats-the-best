@@ -36,6 +36,10 @@ if (!empty($_POST)) {
     $name = $_POST['name'];
     $email = $_POST['email'];
 
+    echo 'year: ' . $year_born . '<br>';
+    echo 'name: ' . $name . '<br>';
+    echo 'email: ' . $email . '<br>';
+
     $result = mysqli_query($conn,"SELECT `name`, `user_name`, `pword` FROM `users` WHERE user_name = '{$user_name}' LIMIT 1;");
 
     // login here
