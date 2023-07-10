@@ -32,9 +32,9 @@ if(!isset($_GET['register'])) {
 if (!empty($_POST)) {
     $user_name = strtolower($_POST['user_name']);
     $pword = $_POST['pword'];
-    // $year_born = $_POST['year_born'];
-    // $name = $_POST['name'];
-    // $email = $_POST['email'];
+    $year_born = $_POST['year_born'];
+    $name = $_POST['name'];
+    $email = $_POST['email'];
 
     $result = mysqli_query($conn,"SELECT `name`, `user_name`, `pword` FROM `users` WHERE user_name = '{$user_name}' LIMIT 1;");
 
