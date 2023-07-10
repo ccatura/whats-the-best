@@ -12,7 +12,7 @@ if (isset($_GET['type'])) {
 }
 
 echo "<h1>{$desc}</h1>";
-echo '<span id="content"></span>';
+// echo '<span id="content"></span>';
 if ($type == 'home') {
     //check for login
     if (isset($_SESSION['user_name'])) {

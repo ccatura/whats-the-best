@@ -58,6 +58,11 @@ a {
     margin-bottom: 20px;
 }
 
+.config-sec {
+    width: 20%;
+    min-width: 200px;
+}
+
 .sec-title {
     /* border: 2px dotted red; */
     width: 100%;

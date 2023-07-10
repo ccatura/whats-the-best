@@ -32,9 +32,9 @@ if(!isset($_GET['register'])) {
 if (!empty($_POST)) {
     $user_name = strtolower($_POST['user_name']);
     $pword = $_POST['pword'];
-    $year_born = $_POST['year_born'];
-    $name = $_POST['name'];
-    $email = $_POST['email'];
+    // $year_born = $_POST['year_born'];
+    // $name = $_POST['name'];
+    // $email = $_POST['email'];
 
     $result = mysqli_query($conn,"SELECT `name`, `user_name`, `pword` FROM `users` WHERE user_name = '{$user_name}' LIMIT 1;");
 
@@ -44,10 +44,12 @@ if (!empty($_POST)) {
             $db_user_name = $row['user_name'];
             $db_pword = $row['pword'];
 
+            // Compare passwords for login
             if ($user_name == $db_user_name && $pword == $db_pword) {
                 $_SESSION['user_name'] = $row['user_name'];
                 $_SESSION['name'] = $row['name'];
-                // header("Location: ./");
+                header("Location: ./");
+                exit;
             }
         }
     // register here
@@ -76,7 +78,7 @@ function email($user_name, $name, $to) {
     $message .= "You have signed up to the MeetMeInThe80s.com app: What's the Best? with user name: {$user_name}.";
     $message .= "To get started, login at MeetMeInThe80s.com";
 try {
-    $sendmail = mail('ccatura@gmail.com', $subject, $message, implode("\r\n", $header));
+    $sendmail = mail($email, $subject, $message, implode("\r\n", $header));
 }
 catch(Exception $e) {
     echo 'Message: ' .$e->getMessage();

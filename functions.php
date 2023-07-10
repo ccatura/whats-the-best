@@ -186,12 +186,12 @@ function get_config_genres($conn) {
 
     $count = 0;
     $checked = '';
-    $output = "<form action='./config-submit.php' method='post'>
-    <input type='text' name='new' placeholder='Enter New Genre DOESNT WORK YET'>";
+    $output = "<form class='section' action='./config-submit.php' method='post'>
+    <input type='text' name='new' placeholder='Enter New Genre' style='margin: 0 40%;'>";
     $previous_cat_name = '';
     while ($row = mysqli_fetch_assoc($result)) {
         if ($row['cat_name'] != $previous_cat_name) {
-            $output .= "<br><br>";
+            $output .= "<p class='config-sec'>";
             $cat_name_non_repeat = $row['cat_name'];
             $previous_cat_name = $cat_name_non_repeat;
         } else {
