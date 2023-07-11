@@ -32,6 +32,8 @@ if ($type == 'home') {
     include './account.php';
 } elseif ($type == 'category-maker') {
     include './category-maker.php';
+} elseif ($type == 'recover') {
+    include './recover.php';
 }
 
 

@@ -320,3 +320,11 @@ function get_user_votes ($conn, $user_name) {
 function run_sql($conn, $sql) {
     $result = mysqli_query($conn, $sql);
 }
+
+function email($user_name, $name, $to, $subject, $message) {
+    $header[] = "From: charlie@meetmeinthe80s.com";
+    $header[] = "MIME-Version: 1.0";
+    $header[] = "Content-type: text/html";
+
+    $sendmail = mail($to, $subject, $message, implode("\r\n", $header));
+}

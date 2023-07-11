@@ -1,6 +1,5 @@
 <?php
 
-
 if(!isset($_GET['register'])) {
 
     echo "<div style='width: 300px; text-align: center;'>Welcome to 'What's the Best?'. This app is in progress, so if something doesn't work correctly, it's probably being worked on at the moment. But, feel free to look around and even creat an account and put in some votes. I'd love people to help me test this out while I work out the bugs! PS. You will not be asked for personal information and should not write anything personal here. Thank!</div><br>";
@@ -9,8 +8,10 @@ if(!isset($_GET['register'])) {
                 <input type="hidden" name="login-type" value="login">
                 <div>User Name<br><input type="text" name="user_name" placeholder="User Name"></div>
                 <div>Password<br><input type="password" name="pword" placeholder="Password"></div>
+                <a href="./?type=recover&desc=Recover Account">I Forgot My Password</a>
                 <div><input type="submit" name="submit" value="Submit"></div>
                 <a href="./?register=true"><div>Click Here to Register</div></a>
+                
             </form>';
 } else {
     echo   '<form action="#" method="post">
@@ -25,20 +26,12 @@ if(!isset($_GET['register'])) {
             </form>';
 }
 
-
-
-
-
 if (!empty($_POST)) {
     $user_name = strtolower($_POST['user_name']);
     $pword = $_POST['pword'];
     $year_born = $_POST['year_born'];
     $name = $_POST['name'];
     $email = $_POST['email'];
-
-    echo 'year: ' . $year_born . '<br>';
-    echo 'name: ' . $name . '<br>';
-    echo 'email: ' . $email . '<br>';
 
     $result = mysqli_query($conn,"SELECT `name`, `user_name`, `pword` FROM `users` WHERE user_name = '{$user_name}' LIMIT 1;");
 
@@ -61,35 +54,19 @@ if (!empty($_POST)) {
         $result = mysqli_query($conn,"INSERT INTO `users` (`user_name`, `pword`, `year_born`, `name`, `email`) VALUES ('{$user_name}', '{$pword}', '{$year_born}', '{$name}', '{$email}');");
         if ($result) {
             $_SESSION['user_name'] = $user_name;
-            echo 'right before emailing';
-            email($user_name, $name, $email);
-            // header("Location: ./");
+            $_SESSION['name'] = $name;
+
+            $subject = 'Welcome to MeetMeInThe80s!';
+            $message  = "Welcome {$name},";
+            $message .= "You have signed up to the MeetMeInThe80s.com app: 'What's the Best?' with user name: {$user_name}.";
+            $message .= "To get started, login at <a href='http://meetmeinthe80s.com/apps/whats-the-best'>MeetMeInThe80s.com/apps/whats-the-best</a>";
+        
+            email($user_name, $name, $email, $subject, $message);
+            header("Location: ./");
+            exit;
         }
     } else {
-        echo 'That user name exists. Please choose another.';
+        echo 'There was a problem. Please try again.';
     }
 }
 
-function email($user_name, $name, $to) {
-    echo '<br>' . $user_name . '<br>' . $name . '<br>' . $to . '<br>';
-
-    $header[] = "From: charlie@meetmeinthe80s.com";
-    $header[] = "MIME-Version: 1.0";
-    $header[] = "Content-type: text/html";
-
-    $subject = 'Welcome to MeetMeInThe80s!';
-    $message  = "Welcome {$name},";
-    $message .= "You have signed up to the MeetMeInThe80s.com app: 'What's the Best?' with user name: {$user_name}.";
-    $message .= "To get started, login at <a href='http://meetmeinthe80s.com/apps/whats-the-best'>MeetMeInThe80s.com/apps/whats-the-best</a>";
-try {
-    $sendmail = mail($to, $subject, $message, implode("\r\n", $header));
-}
-catch(Exception $e) {
-    echo 'Message: ' .$e->getMessage();
-  }
-    if( $sendmail == true ) {
-        echo "<h1>Your message was sent successfully!</h1><h3><a href='#' onclick='window.close();return false;'>Click here to close this tab.</a></h3>";
-    } else {
-        echo "<h1>Message could not be sent.</h1>";
-    }
-}
