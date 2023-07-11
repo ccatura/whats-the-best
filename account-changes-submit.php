@@ -6,22 +6,24 @@ $user_name = $_SESSION['user_name'];
 
 
 $fields = $_POST;
-$fields_count = count(array_filter($fields));
+$non_empty_fields_count = count(array_filter($fields));
 $sql = "UPDATE `users` SET ";
 
-$count = 2;
+$count = 0;
 foreach ($fields as $field => $value) {
     if ($field !='submit' && $value != '' && $value != null) {
         $sql .= "`{$field}` = '{$value}'";
-        if ($count == $fields_count) {
+        if ($count == ($non_empty_fields_count -1)) {
             $sql .= ' ';
         } else {
             $sql .= ', ';
         }
+        $count++;
     } 
-    $count++;
 }
+echo 'non empty fields count: ' . $non_empty_fields_count . '  count: ' . $count . '<br>';
 $sql .= " WHERE `user_name` = '{$user_name}'";
+echo $sql;
 run_sql($conn, $sql);
-
+$_SESSION['message'] = "Account updated!";
 header("Location: ./?type=account");
