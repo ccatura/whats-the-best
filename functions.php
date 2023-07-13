@@ -303,17 +303,20 @@ function get_user_votes ($conn, $user_name) {
     $output = "<div class='vote-list'>";
 
     while ($row = mysqli_fetch_assoc($result)) {
-        $data_name = $row['data_name'];
+        // $data_name = $row['data_name'];
+        $data_name = str_replace("'", "&lsquo;", $row['data_name']);
         $data_id = $row['answers_data_id'];
-        $categories_name = $row['categories_name'];
+        // $categories_name = $row['categories_name'];
+        $categories_name = str_replace("'", "&lsquo;", $row['categories_name']);
         $categories_id = $row['answers_categories_id'];
-        $genres_name = $row['genres_name'];
+        // $genres_name = $row['genres_name'];
+        $genres_name = str_replace("'", "&lsquo;", $row['genres_name']);
         $genres_id = $row['answers_genres_id'];
         $cat_id = get_cat_id_from_name($conn, $categories_name);
 
         $output .= "<div>
                         <strong>
-                            <span href='./delete-answer.php?data_id={$data_id}&data_name={$data_name}&genres_name={$genres_name}&categories_id={$categories_id}&genres_id={$genres_id}' onclick='popup(`Delete vote`, `Delete {$data_name} from {$categories_name} / {$genres_name}?`, `./delete-answer.php?data_id={$data_id}&data_name={$data_name}&genres_name={$genres_name}&categories_id={$categories_id}&genres_id={$genres_id}`)' style='cursor: pointer;'>&#10005;</span>
+                            <span onclick='popup(`Delete vote`, `Delete {$data_name} from {$categories_name} / {$genres_name}?`, `./delete-answer.php?data_id={$data_id}&data_name={$data_name}&genres_name={$genres_name}&categories_id={$categories_id}&genres_id={$genres_id}`)' style='cursor: pointer;'>&#10005;</span>
                         </strong> 
                             <a href='./?type=category&desc={$row['categories_name']}'>{$row['categories_name']}</a> 
                         - {$row['genres_name']} - 

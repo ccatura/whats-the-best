@@ -2,10 +2,10 @@
 
 if (isset($_SESSION['user_name'])) {
     $user_name = $_SESSION['user_name'];
-    if (isset($_SESSION['message'])) {
-        echo $_SESSION['message'] . '<br><br>';
-        $_SESSION['message'] = null;
-    }
+    // if (isset($_SESSION['message'])) {
+    //     echo $_SESSION['message'] . '<br><br>';
+    //     $_SESSION['message'] = null;
+    // }
 } else {
     header("Location: ./");
 }
