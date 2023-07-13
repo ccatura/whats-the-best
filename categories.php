@@ -12,6 +12,6 @@ GROUP BY answers.data_id ORDER BY totals DESC, data.name";
         echo '* Voting for a different answer in the same genre will replace your existing vote.<br><br>';
         echo get_genres_and_inputs($conn, $desc);
     } else {
-        echo '<a href="./">Login to vote for shit</a>';
+        echo '<a href="./" style="text-decoration: underline;">Login to vote.</a>';
     }
 

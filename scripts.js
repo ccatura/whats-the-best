@@ -10,16 +10,29 @@ closeButton.addEventListener('click', function() {
     popupClose();
 })
 
+// Logout button
+var logoutButton = document.getElementById('logout');
+logoutButton.addEventListener('click', function() {
+    var title = 'Logout';
+    var message = 'Are you sure you want to logout of your account?';
+    var location  = './?session=false';
+    popup(title, message, location);
+})
+
+
+// Account page scripts
 if (pageType == 'account') {
+
     // Delete account section
     var deleteAccountButton = document.getElementById('delete-account');
     deleteAccountButton.addEventListener('click', function() {
         var title = 'Delete Account!';
-        var message = 'This will delete your account and all your votes.';
+        var message = 'Are you sure you want to delete your account? This will delete your account and all your votes.';
         var location  = './delete-account.php';
         popup(title, message, location);
     })
 }
+
 
 
 

@@ -311,7 +311,16 @@ function get_user_votes ($conn, $user_name) {
         $genres_id = $row['answers_genres_id'];
         $cat_id = get_cat_id_from_name($conn, $categories_name);
 
-        $output .= "<div><strong><a href='./delete-answer.php?data_id={$data_id}&data_name={$data_name}&genres_name={$genres_name}&categories_id={$categories_id}&genres_id={$genres_id}'>&#10005;</a></strong> <a href='./?type=category&desc={$row['categories_name']}'>{$row['categories_name']}</a> - {$row['genres_name']} - <strong><a href='./?type=stats&data_id={$data_id}&cat_id={$cat_id}#content'>{$row['data_name']}</a></strong></div>";
+        $output .= "<div>
+                        <strong>
+                            <span href='./delete-answer.php?data_id={$data_id}&data_name={$data_name}&genres_name={$genres_name}&categories_id={$categories_id}&genres_id={$genres_id}' onclick='popup(`Delete vote`, `Delete {$data_name} from {$categories_name} / {$genres_name}?`, `./delete-answer.php?data_id={$data_id}&data_name={$data_name}&genres_name={$genres_name}&categories_id={$categories_id}&genres_id={$genres_id}`)' style='cursor: pointer;'>&#10005;</span>
+                        </strong> 
+                            <a href='./?type=category&desc={$row['categories_name']}'>{$row['categories_name']}</a> 
+                        - {$row['genres_name']} - 
+                        <strong>
+                            <a href='./?type=stats&data_id={$data_id}&cat_id={$cat_id}#content'>{$row['data_name']}</a>
+                        </strong>
+                    </div>";
     }
     $output .= "</div>";
     return $output;
