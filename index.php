@@ -26,7 +26,13 @@ session_start();
     <div id="footer"><?php include "./footer.php"; ?></div>
 </div>
 
-
+<div id="popup-blackout">
+    <div id="popup-window">
+        <div id="popup-header"><div id="popup-title"></div><div id="close">&#10005;</div></div>
+        <div id="popup-message"></div>
+        <div id="popup-buttons"><button id='popup-yes' class='sub button'>Yes</button><button id='popup-no' class='sub button'>No</button></div>
+    </div>
+</div>
     
 </body>
 </html>

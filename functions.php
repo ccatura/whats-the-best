@@ -278,7 +278,7 @@ function get_user_account($conn, $user_name) {
         Year Born: <input type='text' name='year_born' placeholder='{$row['year_born']}'><br>
         Password: <input type='password' name='pword'><br>
         <input type='submit' value='Submit Changes'></div></form><br>
-        <a href='./delete-account.php' class='warning' id='delete-account'>Delete Account</a>";
+        <span href='./delete-account.php' class='warning' id='delete-account' style='cursor: pointer;'>Delete Account</span>";
     }
     return $output;
 }
