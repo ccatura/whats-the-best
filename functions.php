@@ -12,7 +12,7 @@ function get_users_years_combined($conn) {
 function get_category_buttons($conn) {
     $result = mysqli_query($conn,"SELECT * FROM `categories` ORDER BY `name`");
     $categories =  '<div id="categories" class="section">
-                    <div class="sec-title">Categories</div>';
+                    <div class="sec-title"></div>';
 
     while ($row = mysqli_fetch_assoc($result)) {
         $cat_name = $row['name'];
@@ -33,7 +33,7 @@ function get_year_buttons($conn) {
     $result = mysqli_query($conn,"SELECT DISTINCT `year_born` FROM `users` ORDER BY `year_born`");
     $user_count = get_user_count($conn);
     $years  =   '<div id="users" class="section">
-                <div class="sec-title">There are ' . $user_count . ' Registered Users</div>';
+                <div class="sec-title">There are ' . $user_count . ' registered users born in the following years:</div>';
 
     while ($row = mysqli_fetch_assoc($result)) {
         $year = $row['year_born'];
@@ -231,14 +231,14 @@ function get_config_categories($conn) {
     $sql = "SELECT categories.id as 'cat_id', categories.name as 'cat_name'
             FROM categories
             ORDER BY categories.name";
-    $result         = mysqli_query($conn, $sql);
+    $result = mysqli_query($conn, $sql);
 
 
     $output = "<form action='./config-submit.php' method='post'>
     <input type='text' name='new' placeholder='Enter New Category'><br><input type='submit' name='submit' value='Submit New Category'><br><br>";
     while ($row = mysqli_fetch_assoc($result)) {
         $input_id = "{$row['cat_id']}";
-        $output .= "<a href='./delete-category.php?cat_id={$input_id}'>&#10005;</a> {$row['cat_name']}<br>";
+        $output .= "<span onclick='popup(`Delete Category?`, `This will permanently delete the category: {$row['cat_name']}. This cannot be undone. Are you sure you want to delete it?`, `./delete-category.php?cat_id={$input_id}`)' class='pointer'>&#10005;</span> {$row['cat_name']}<br>";
     }
     $output .= "<br><br>
     <input type='hidden' name='form_type' value='categories'>
@@ -260,9 +260,15 @@ function get_users_for_year($conn, $year) {
     $output  = '<div id="users">';
 
     while ($row = mysqli_fetch_assoc($result)) {
-        $the_user = $row['user_name'];
-        $the_name = $row['name'];
-        $output .= "<div>{$the_name} ({$the_user})</div>";
+        $the_user  = $row['user_name'];
+        $the_name  = $row['name'];
+        $the_email = $row['email'];
+        $subject   = "Message from MeetMeInTHe80s.com!";
+        $message  = "User: {$_SESSION['user_name']} says hi! CLick here to say hi back!";
+        if (isset($_SESSION['user_name']) /*&& $_SESSION['user_name'] != $the_user*/) {
+            $say_hi = "<a href='./email.php?the_user={$the_user}&the_name={$the_name}&the_email={$the_email}&subject={$subject}&message={$message}&type=year&desc={$year}' class='pointer' title='Say hi to {$the_name}'>&#128515;</a>";
+        } else $say_hi = '';
+        $output .= "<div>{$say_hi} {$the_name} ({$the_user})</div>";
     }
     $output .= '</div>';
     return $output;
@@ -275,10 +281,10 @@ function get_user_account($conn, $user_name) {
         $output = "<form action='./account-changes-submit.php' method='post'><div> 
         Real Name: <input type='text' name='name' placeholder='{$row['name']}'><br>
         User Name: <input type='text' name='user_name' placeholder='{$row['user_name']}' disabled title='Cannot change user name'><br>
-        Year Born: <input type='text' name='year_born' placeholder='{$row['year_born']}'><br>
-        Password: <input type='password' name='pword'><br>
+        Year Born: <input type='text' name='year_born' placeholder='{$row['year_born']}' minlength='4' min='1923' max='2020'><br>
+        Password: <input type='password' name='pword' minlength='8'><br>
         <input type='submit' value='Submit Changes'></div></form><br>
-        <span href='./delete-account.php' class='warning' id='delete-account' style='cursor: pointer;'>Delete Account</span>";
+        <span href='./delete-account.php' class='warning pointer' id='delete-account'>Delete Account</span>";
     }
     return $output;
 }
@@ -316,7 +322,7 @@ function get_user_votes ($conn, $user_name) {
 
         $output .= "<div>
                         <strong>
-                            <span onclick='popup(`Delete vote`, `Delete {$data_name} from {$categories_name} / {$genres_name}?`, `./delete-answer.php?data_id={$data_id}&data_name={$data_name}&genres_name={$genres_name}&categories_id={$categories_id}&genres_id={$genres_id}`)' style='cursor: pointer;'>&#10005;</span>
+                            <span onclick='popup(`Delete vote`, `Delete {$data_name} from {$categories_name} / {$genres_name}?`, `./delete-answer.php?data_id={$data_id}&data_name={$data_name}&genres_name={$genres_name}&categories_id={$categories_id}&genres_id={$genres_id}`)' class='pointer'>&#10005;</span>
                         </strong> 
                             <a href='./?type=category&desc={$row['categories_name']}'>{$row['categories_name']}</a> 
                         - {$row['genres_name']} - 

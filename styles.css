@@ -122,6 +122,11 @@ a {
     color: black;
 }
 
+.pointer {
+    cursor: pointer;
+    font-weight: bold;
+}
+
 #content {
     /* border: 3px dotted red; */
     width: 100%;
