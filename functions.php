@@ -264,7 +264,7 @@ function get_users_for_year($conn, $year) {
         $the_name  = $row['name'];
         $the_email = $row['email'];
         $subject   = "Message from MeetMeInTHe80s.com!";
-        $message  = "User: {$_SESSION['user_name']} says hi! CLick here to say hi back!";
+        $message  = "User: {$_SESSION['user_name']} says hi! <a href='#'>Click Here</a> to say hi back!";
         if (isset($_SESSION['user_name']) /*&& $_SESSION['user_name'] != $the_user*/) {
             $say_hi = "<a href='./email.php?the_user={$the_user}&the_name={$the_name}&the_email={$the_email}&subject={$subject}&message={$message}&type=year&desc={$year}' class='pointer' title='Say hi to {$the_name}'>&#128515;</a>";
         } else $say_hi = '';
