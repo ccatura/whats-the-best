@@ -13,13 +13,16 @@ $desc      = $_GET['desc'];
 
 $_SESSION['message'] = 'Message sent!';
 
-
-email($the_user, $the_name, $the_email, $subject, $message);
-
 echo "the user: {$the_user}<br>";
 echo "the name: {$the_name}<br>";
 echo "the email: {$the_email}<br>";
+echo "subject: {$subject}<br>";
+echo "message: {$message}<br>";
 
-echo "type: {$type} desc: {$desc}";
+
+
+email($the_user, $the_name, $the_email, $subject, $message);
+
+echo "type: {$type}<br>desc: {$desc}";
 
 // header("Location: ./?type={$type}&desc={$desc}");
