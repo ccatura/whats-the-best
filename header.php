@@ -1,5 +1,8 @@
 <?php
 
+$message_count = '';
+$m_count = '';
+
 if (isset($_SESSION['message'])) {
     echo $_SESSION['message'] . '<br><br>';
     unset($_SESSION['message']);
