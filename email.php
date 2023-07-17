@@ -3,9 +3,9 @@ include_once('./db-connect.php');
 include_once('./functions.php');
 session_start();
 
-$the_user  = $_GET['the_user'];
-$the_name  = $_GET['the_name'];
-$the_email = $_GET['the_email'];
+$user_name  = $_GET['the_user'];
+$name  = $_GET['the_name'];
+$email = $_GET['the_email'];
 $subject   = $_GET['subject'];
 $message   = $_GET['message'];
 $type      = $_GET['type'];
