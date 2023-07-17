@@ -10,6 +10,8 @@ $message   = $_GET['message'];
 $type      = $_GET['type'];
 $desc      = $_GET['desc'];
 
+$_SESSION['message'] = 'Message sent!';
+
 
 email($the_user, $the_name, $the_email, $subject, $message);
 
