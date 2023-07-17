@@ -367,13 +367,20 @@ function message($conn, $from, $to, $subject, $message) {
 }
 
 function get_user_messages($conn, $user_name) {
-    // echo "{$user_name}";
     $output = '';
 
     $result = mysqli_query($conn,"SELECT * FROM `messages` WHERE `user_name_to` = '$user_name'");
     while ($row = mysqli_fetch_assoc($result)) {
-        $output .= "{$row['timestamp']} ({$row['id']})<br>From: {$row['user_name_from']}<br>Subject: {$row['subject']}<br>Message: {$row['message']}<br><input type='button' name='{$row['id']}' value='Delete'><br><br><br>";
+        $output .= "<span onclick='popup(`Delete message`, `Delete current message? This cannot be undone.`, `./delete-message.php?message_id={$row['id']}`)' class='pointer'>&#10005;</span>{$row['timestamp']} ({$row['id']})<br>From: {$row['user_name_from']}<br>Subject: {$row['subject']}<br>Message: {$row['message']}<br><br><br><br>
+        ";
     }
     return $output;
 
+}
+
+function get_message_count($conn, $user_name) {
+    $result =  mysqli_query($conn,"SELECT count(*) as 'count' FROM `messages` WHERE `user_name_to` = '$user_name' LIMIT 1");
+    while ($row = mysqli_fetch_assoc($result)) {
+        return $row['count'];
+    }
 }
