@@ -275,7 +275,7 @@ function get_users_for_year($conn, $year) {
         $subject   = "Message from {$_SESSION['name']}";
         $message   = "Hi!";
 
-        if (isset($_SESSION['user_name']) /*&& $_SESSION['user_name'] != $the_user*/) {
+        if (isset($_SESSION['user_name']) && $_SESSION['user_name'] != $the_user) {
             $say_hi = "<a href='./message.php?user_name={$the_user}&name={$the_name}&subject={$subject}&message={$message}' class='pointer' title='Say hi to {$the_name}'>&#128515;</a>";
         } else $say_hi = '';
         $output .= "<div>{$say_hi} {$the_name} ({$the_user})</div>";
@@ -359,9 +359,21 @@ function email($user_name, $name, $to, $subject, $message) {
 
 function message($conn, $from, $to, $subject, $message) {
     $timestamp = date('Y-m-d H:i:s');
-    $sql = "INSERT INTO `messages` (`user_name_from`, `user_name_to`, `subject`, `messages`, `timestamp`) VALUES ('{$from}', '{$to}', '{$subject}', '{$message}', '{$timestamp}')";
+    $sql = "INSERT INTO `messages` (`user_name_from`, `user_name_to`, `subject`, `message`, `timestamp`) VALUES ('{$from}', '{$to}', '{$subject}', '{$message}', '{$timestamp}')";
     
     // echo $sql . '<br><br>';
     run_sql($conn, $sql);
     $_SESSION['message'] = "Message sent!";
+}
+
+function get_user_messages($conn, $user_name) {
+    // echo "{$user_name}";
+    $output = '';
+
+    $result = mysqli_query($conn,"SELECT * FROM `messages` WHERE `user_name_to` = '$user_name'");
+    while ($row = mysqli_fetch_assoc($result)) {
+        $output .= "{$row['timestamp']} ({$row['id']})<br>From: {$row['user_name_from']}<br>Subject: {$row['subject']}<br>Message: {$row['message']}<br><input type='button' name='{$row['id']}' value='Delete'><br><br><br>";
+    }
+    return $output;
+
 }

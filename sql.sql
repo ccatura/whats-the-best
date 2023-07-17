@@ -61,7 +61,7 @@ CREATE TABLE messages (
     user_name_from      VARCHAR(32) NOT NULL,
     user_name_to        VARCHAR(32) NOT NULL,
     subject             VARCHAR(128) NOT NULL,
-    messages            TEXT NOT NULL,
+    message             TEXT NOT NULL,
     timestamp           DATETIME,
     PRIMARY KEY (id),
     FOREIGN KEY (user_name_from) REFERENCES users (user_name),

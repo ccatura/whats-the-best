@@ -34,6 +34,8 @@ if ($type == 'home') {
     include './category-maker.php';
 } elseif ($type == 'recover') {
     include './recover.php';
+} elseif ($type == 'messages') {
+    include './messages.php';
 }
 
 

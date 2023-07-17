@@ -8,7 +8,7 @@ if (isset($_SESSION['message'])) {
 if (isset($_GET['session'])) {
     if ($_GET['session'] == 'false') {
         session_unset();
-        session_destroy();
+        // session_destroy();
     }
 }
 
@@ -22,6 +22,7 @@ if (isset($_SESSION['user_name'])) {
     if ($_SESSION['user_name'] == 'ccatura') {
         echo '<a href="./?type=config&desc=Config" class="sub link button">Config</a>';
     }
+    echo '<a href="./?type=messages&desc=Messages" class="sub link button" title="Messages">Messages</a><br>';
     echo '<span class="sub link button" id="logout">Logout</span></div>';
 } else {
     echo '<div class="section"><a href="./" class="sub link button" title="Go to Home Page">Login</a>';
