@@ -21,7 +21,7 @@ echo "message: {$message}<br>";
 
 
 
-email($the_user, $the_name, $the_email, $subject, $message);
+email($user_name, $name, $email, $subject, $message);
 
 echo "type: {$type}<br>desc: {$desc}";
 
