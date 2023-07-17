@@ -21,4 +21,4 @@ echo "the email: {$the_email}<br>";
 
 echo "type: {$type} desc: {$desc}";
 
-header("Location: ./?type={$type}&desc={$desc}");
+// header("Location: ./?type={$type}&desc={$desc}");
