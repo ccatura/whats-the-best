@@ -1,6 +1,7 @@
 <?php
 include_once('./db-connect.php');
 include_once('./functions.php');
+session_start();
 
 $the_user  = $_GET['the_user'];
 $the_name  = $_GET['the_name'];
