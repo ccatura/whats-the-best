@@ -24,6 +24,7 @@ if ($data['form_type'] == 'genres') {
     }
   }
   submit_config_genres($conn, $sql_genre);
+  $_SESSION['message'] = "Updated genres.";
   echo $sql_genre;
 
 } elseif ($data['form_type'] == 'categories' && $data['new'] != '') {
@@ -34,6 +35,7 @@ if ($data['form_type'] == 'genres') {
     }
   }
   submit_config_categories($conn, $sql_cat);
+  $_SESSION['message'] = "Created new category: {$data['new']}";
   echo $sql_cat;
 
 }

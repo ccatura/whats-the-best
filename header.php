@@ -2,12 +2,13 @@
 
 if (isset($_SESSION['message'])) {
     echo $_SESSION['message'] . '<br><br>';
+    unset($_SESSION['message']);
 }
 
 if (isset($_GET['session'])) {
     if ($_GET['session'] == 'false') {
         session_unset();
-        // session_destroy();
+        session_destroy();
     }
 }
 

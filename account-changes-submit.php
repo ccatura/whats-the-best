@@ -19,11 +19,16 @@ foreach ($fields as $field => $value) {
             $sql .= ', ';
         }
         $count++;
-    } 
+    }
 }
 echo 'non empty fields count: ' . $non_empty_fields_count . '  count: ' . $count . '<br>';
 $sql .= " WHERE `user_name` = '{$user_name}'";
 echo $sql;
-run_sql($conn, $sql);
-$_SESSION['message'] = "Account updated!";
+
+
+if ($non_empty_fields_count != 0) {
+    run_sql($conn, $sql);
+    $_SESSION['message'] = "Account updated!";
+}
+
 header("Location: ./?type=account");

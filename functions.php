@@ -30,14 +30,16 @@ function get_user_count($conn) {
 }
 
 function get_year_buttons($conn) {
-    $result = mysqli_query($conn,"SELECT DISTINCT `year_born` FROM `users` ORDER BY `year_born`");
+    $result = mysqli_query($conn,"SELECT DISTINCT `year_born`, count(*) as 'count' FROM `users` GROUP BY `year_born` ORDER BY `year_born`");
     $user_count = get_user_count($conn);
-    $years  =   '<div id="users" class="section">
-                <div class="sec-title">There are ' . $user_count . ' registered users born in the following years:</div>';
+    // $years  =   "<div id='users' class='section'>
+                //  <div class='sec-title'>There are {$user_count} registered users born in the following years:</div>
+                //  <div class='sub year'>{$user_count} total users</div>";
+    $years  =   "<div id='users' class='section'><div class='sub year'>{$user_count} total users</div>";
 
     while ($row = mysqli_fetch_assoc($result)) {
         $year = $row['year_born'];
-        $years .= '<a href="./?type=year&desc=' . $year . '#content"><div class="sub year">' . $year . '</div></a>';
+        $years .= "<a href='./?type=year&desc={$year}#content'><div class='sub year' title='{$row['count']} user(s)'>{$year}</div></a>";
     }
     $years .= '</div>';
     return $years;
@@ -135,6 +137,13 @@ function get_cat_id_from_name($conn, $name) {
     $result = mysqli_query($conn, "SELECT `id` FROM categories WHERE `name` = '$name' LIMIT 1;");
     while ($row = mysqli_fetch_assoc($result)) {
         return $row['id'];
+    }
+}
+
+function get_cat_name_from_id($conn, $cat_id) {
+    $result = mysqli_query($conn, "SELECT `name` FROM categories WHERE `id` = $cat_id LIMIT 1;");
+    while ($row = mysqli_fetch_assoc($result)) {
+        return $row['name'];
     }
 }
 
@@ -263,12 +272,11 @@ function get_users_for_year($conn, $year) {
         $the_user  = $row['user_name'];
         $the_name  = $row['name'];
         $the_email = $row['email'];
-        $subject   = "Message from www.MeetMeInThe80s.com!";
-
-        $message   = "User: {$_SESSION['user_name']} says hi! &lt;a href=\"http://meetmeinthe80s.com/apps/whats-the-best/?type=year&amp;desc={$year}\"&gt;Click Here&lt;/a&gt; to say hi back!";
+        $subject   = "Message from {$_SESSION['name']}";
+        $message   = "Hi!";
 
         if (isset($_SESSION['user_name']) /*&& $_SESSION['user_name'] != $the_user*/) {
-            $say_hi = "<a href='./email.php?type=year&desc={$year}&user_name={$the_user}&name={$the_name}&email={$the_email}&subject={$subject}&message={$message}' class='pointer' title='Say hi to {$the_name}'>&#128515;</a>";
+            $say_hi = "<a href='./message.php?user_name={$the_user}&name={$the_name}&subject={$subject}&message={$message}' class='pointer' title='Say hi to {$the_name}'>&#128515;</a>";
         } else $say_hi = '';
         $output .= "<div>{$say_hi} {$the_name} ({$the_user})</div>";
     }
@@ -347,4 +355,13 @@ function email($user_name, $name, $to, $subject, $message) {
     $header[] = "Content-type: text/html";
 
     $sendmail = mail($to, $subject, $message, implode("\r\n", $header));
+}
+
+function message($conn, $from, $to, $subject, $message) {
+    $timestamp = date('Y-m-d H:i:s');
+    $sql = "INSERT INTO `messages` (`user_name_from`, `user_name_to`, `subject`, `messages`, `timestamp`) VALUES ('{$from}', '{$to}', '{$subject}', '{$message}', '{$timestamp}')";
+    
+    // echo $sql . '<br><br>';
+    run_sql($conn, $sql);
+    $_SESSION['message'] = "Message sent!";
 }

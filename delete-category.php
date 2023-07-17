@@ -15,8 +15,10 @@ if ($user_name == 'ccatura') {
     WHERE `id` = $cat_id;";
 }
 
+$cat_name = get_cat_name_from_id($conn, $cat_id);
 run_sql($conn, $sql);
+$_SESSION['message'] = "Deleted category: {$cat_name}.";
 
-echo $sql . '<br>';
+echo "{$sql}<br> name: {$cat_name}";
 
 header("Location: ./?type=config&desc=Config");

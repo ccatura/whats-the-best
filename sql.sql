@@ -56,6 +56,17 @@ CREATE TABLE answers (
     CONSTRAINT uq_answer UNIQUE(users_user_name, cat_id, genre_id)
 );
 
+CREATE TABLE messages (
+    id                  INT NOT NULL auto_increment,
+    user_name_from      VARCHAR(32) NOT NULL,
+    user_name_to        VARCHAR(32) NOT NULL,
+    subject             VARCHAR(128) NOT NULL,
+    messages            TEXT NOT NULL,
+    timestamp           DATETIME,
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_name_from) REFERENCES users (user_name),
+    FOREIGN KEY (user_name_to) REFERENCES users (user_name)
+);
 
 
 -- Make some users
