@@ -8,9 +8,9 @@ $message_id = $_GET['message_id'];
 $user_name = $_SESSION['user_name'];
 
 
-if ($user_name == 'ccatura') {
+// if ($user_name == 'ccatura') {
     $sql = "DELETE FROM `messages` WHERE `id` = $message_id;";
-}
+// }
 
 run_sql($conn, $sql);
 $_SESSION['message'] = "Message deleted.";
