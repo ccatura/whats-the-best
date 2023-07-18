@@ -381,19 +381,24 @@ function message($conn, $from, $to, $subject, $message) {
 
 function get_user_messages($conn, $user_name) {
     $output = '';
+    $sql = "SELECT * FROM `messages`
+            JOIN `users` ON users.user_name = user_name_from
+            WHERE `user_name_to` = '$user_name'
+            ORDER BY timestamp DESC";
 
-    $result = mysqli_query($conn,"SELECT * FROM `messages` WHERE `user_name_to` = '$user_name' ORDER BY timestamp DESC");
+    $result = mysqli_query($conn, $sql);
     while ($row = mysqli_fetch_assoc($result)) {
         $date = strtotime($row['timestamp']);
         $formatted_date = date('M d, Y h:i:s', $date);
 
-
-        $output .= "<span onclick='popup(`Delete message`, `Delete current message? This cannot be undone.`, `./delete-message.php?message_id={$row['id']}`)' class='pointer'>&#10005;</span>
-        $formatted_date<br>
-        From: {$row['user_name_from']}<br>
-        Subject: {$row['subject']}<br>
-        Message: {$row['message']}<br><br><br><br>
-        ";
+        $output .= "<div class='message_single'>
+                        <div class='message_row_date'><span onclick='popup(`Delete message`, `Delete current message? This cannot be undone.`, `./delete-message.php?message_id={$row['id']}`)' class='pointer'>&#10005;</span>
+                        $formatted_date</div>
+                        <div class='message_row'>{$row['name']} ({$row['user_name_from']})</div>
+                        <div class='message_row'>{$row['subject']}</div>
+                        <div class='message_row'>{$row['message']}</div>
+                    </div>
+                   ";
     }
     return $output;
 
