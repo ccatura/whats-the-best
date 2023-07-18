@@ -369,7 +369,9 @@ function email($user_name, $name, $to, $subject, $message) {
 }
 
 function message($conn, $from, $to, $subject, $message) {
-    $timestamp = date('Y-m-d H:i:s');
+
+
+
     $sql = "INSERT INTO `messages` (`user_name_from`, `user_name_to`, `subject`, `message`, `timestamp`) VALUES ('{$from}', '{$to}', '{$subject}', '{$message}', '{$timestamp}')";
     
     // echo $sql . '<br><br>';
@@ -380,9 +382,17 @@ function message($conn, $from, $to, $subject, $message) {
 function get_user_messages($conn, $user_name) {
     $output = '';
 
-    $result = mysqli_query($conn,"SELECT * FROM `messages` WHERE `user_name_to` = '$user_name'");
+    $result = mysqli_query($conn,"SELECT * FROM `messages` WHERE `user_name_to` = '$user_name' ORDER BY timestamp DESC");
     while ($row = mysqli_fetch_assoc($result)) {
-        $output .= "<span onclick='popup(`Delete message`, `Delete current message? This cannot be undone.`, `./delete-message.php?message_id={$row['id']}`)' class='pointer'>&#10005;</span>{$row['timestamp']} ({$row['id']})<br>From: {$row['user_name_from']}<br>Subject: {$row['subject']}<br>Message: {$row['message']}<br><br><br><br>
+        $date = strtotime($row['timestamp']);
+        $formatted_date = date('M d, Y h:i:s', $date);
+
+
+        $output .= "<span onclick='popup(`Delete message`, `Delete current message? This cannot be undone.`, `./delete-message.php?message_id={$row['id']}`)' class='pointer'>&#10005;</span>
+        $formatted_date<br>
+        From: {$row['user_name_from']}<br>
+        Subject: {$row['subject']}<br>
+        Message: {$row['message']}<br><br><br><br>
         ";
     }
     return $output;
