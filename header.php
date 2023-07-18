@@ -2,14 +2,8 @@
 
 $message_count = '';
 $m_count = '';
-$message_count = get_message_count($conn, $_SESSION['user_name']);
-if ($message_count == 0) {
-    $m_count = '';
-} else {
-    $m_count = '(' . $message_count . ')';
-}
 
-
+// Display message if exists
 if (isset($_SESSION['message'])) {
     echo $_SESSION['message'] . '<br><br>';
     unset($_SESSION['message']);
@@ -19,6 +13,13 @@ if (isset($_GET['session'])) {
     if ($_GET['session'] == 'false') {
         session_unset();
         // session_destroy();
+    } else {
+        $message_count = get_message_count($conn, $_SESSION['user_name']);
+        if ($message_count == 0) {
+            $m_count = '';
+        } else {
+            $m_count = '(' . $message_count . ')';
+        }
     }
 }
 
