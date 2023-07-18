@@ -147,6 +147,13 @@ function get_cat_name_from_id($conn, $cat_id) {
     }
 }
 
+function get_genre_name_from_id($conn, $genres_id) {
+    $result = mysqli_query($conn, "SELECT `name` FROM genres WHERE `id` = $genres_id LIMIT 1;");
+    while ($row = mysqli_fetch_assoc($result)) {
+        return $row['name'];
+    }
+}
+
 function get_category_stats($conn, $sql, $category) {
     $result = mysqli_query($conn, $sql);
     $output = '';
@@ -215,7 +222,11 @@ function get_config_genres($conn) {
         }
 
         $input_id = "{$row['cat_id']}_{$row['genres_id']}";
-        $output .= "{$cat_name_non_repeat}<br><input type='checkbox' $checked id='{$input_id}' name='{$input_id}'> <label for='{$input_id}'>{$row['genres_name']}</label>";
+        $output .= "{$cat_name_non_repeat}<br>
+
+        <span onclick='popup(`Delete Genere?`, `This will permanently delete the genre {$row['genres_name']} for ALL categories. This cannot be undone. Are you sure you want to delete it?`, `./delete-genre.php?genres_id={$row['genres_id']}`)' class='pointer'>&#10005;</span>
+
+        <input type='checkbox' $checked id='{$input_id}' name='{$input_id}'> <label for='{$input_id}'>{$row['genres_name']}</label>";
         $count++;
     }
     $output .= "<br><br><input type='submit' name='submit' value='Submit Genre Changes' style='position: sticky;bottom: 0px;'>
