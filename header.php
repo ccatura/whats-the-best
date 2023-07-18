@@ -1,6 +1,4 @@
 <?php
-
-
 $message_count = '';
 $m_count = '';
 
@@ -11,16 +9,15 @@ if (isset($_SESSION['message'])) {
 }
 
 if (isset($_GET['session'])) {
-    if ($_GET['session'] == 'false') {
-        session_unset();
-        // session_destroy();
-    } else {
-        $message_count = get_message_count($conn, $_SESSION['user_name']);
+    $message_count = get_message_count($conn, $_SESSION['user_name']);
         if ($message_count == 0) {
             $m_count = '';
         } else {
             $m_count = '(' . $message_count . ')';
         }
+    if ($_GET['session'] == 'false') {
+        session_unset();
+        // session_destroy();
     }
 }
 
