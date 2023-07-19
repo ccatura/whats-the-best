@@ -224,7 +224,7 @@ function get_config_genres($conn) {
         $input_id = "{$row['cat_id']}_{$row['genres_id']}";
         $output .= "{$cat_name_non_repeat}<br>
 
-        <span onclick='popup(`Delete Genere?`, `This will permanently delete the genre {$row['genres_name']} for ALL categories. This cannot be undone. Are you sure you want to delete it?`, `./delete-genre.php?genres_id={$row['genres_id']}`)' class='pointer'>&#10005;</span>
+        <span onclick='popup(`Delete Genre?`, `This will permanently delete the genre {$row['genres_name']} for ALL categories. This cannot be undone. Are you sure you want to delete it?`, `./delete-genre.php?genres_id={$row['genres_id']}`)' class='pointer'>&#10005;</span>
 
         <input type='checkbox' $checked id='{$input_id}' name='{$input_id}'> <label for='{$input_id}'>{$row['genres_name']}</label>";
         $count++;
@@ -257,7 +257,7 @@ function get_config_categories($conn) {
     $output = "<form action='./config-submit.php' method='post'>
     <input type='text' name='new' placeholder='Enter New Category'><br><input type='submit' name='submit' value='Submit New Category'><br><br>";
     while ($row = mysqli_fetch_assoc($result)) {
-        $input_id = "{$row['cat_id']}";
+        $input_id = $row['cat_id'];
         $output .= "<span onclick='popup(`Delete Category?`, `This will permanently delete the category: {$row['cat_name']}. This cannot be undone. Are you sure you want to delete it?`, `./delete-category.php?cat_id={$input_id}`)' class='pointer'>&#10005;</span> {$row['cat_name']}<br>";
     }
     $output .= "<br><br>
@@ -408,4 +408,54 @@ function get_message_count($conn, $user_name) {
     while ($row = mysqli_fetch_assoc($result)) {
         return $row['count'];
     }
+}
+
+function get_config_combine_data($conn) {
+    $sql = "SELECT data.id as 'data_id', data.name as 'data_name'
+            FROM data
+            ORDER BY data.name";
+    $result = mysqli_query($conn, $sql);
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $data[] = $row;
+    }
+
+    $output =  "<form action='./combine-data.php' method='post'>
+                Delete:
+                <select name='data_id_delete'>";
+    foreach($data as $x => $d) {
+        $data_id = $d['data_id'];
+        $data_name = $d['data_name'];
+        $output .= "<option value='{$data_id}'>{$data_name} ({$data_id})</option>";
+    }
+    $output .= "</select>
+                 and replace with:
+                <select name='data_id'>";
+    foreach($data as $x => $d) {
+        $data_id = $d['data_id'];
+        $data_name = $d['data_name'];
+        $output .= "<option value='{$data_id}'>{$data_name} ({$data_id})</option>";
+    }
+    $output .= "</select>
+                <br><br>
+                <input type='submit' name='submit' value='Combine'>
+                </form>";
+
+    return $output;
+}
+
+function get_config_delete_data($conn) {
+    $sql = "SELECT data.id, data.name
+            FROM data
+            ORDER BY data.name";
+    $result = mysqli_query($conn, $sql);
+
+    $output = "<div>";
+    while ($row = mysqli_fetch_assoc($result)) {
+        $data_id = $row['id'];
+        $data_name = $row['name'];
+        $output .= "<span onclick='popup(`Delete Data?`, `This will permanently delete the data and all  votes for: {$data_name}. This cannot be undone. Are you sure you want to delete it?`, `./delete-data.php?data_id={$data_id}&data_name={$data_name}`)' class='pointer'>&#10005;</span> {$data_name}<br>";
+    }
+    $output .= "<br><br></div>";
+    return $output;
 }

@@ -236,107 +236,12 @@ ORDER BY categories.name, genres.name
 
 
 
--- put all checkboxes into cat_genre table
+-- Combine answers: This combines 111 and 112
+-- First replaces all 112 answers with 111
+-- Then deletes the wrong/misspelled data (112)
+UPDATE `answers`
+SET `data_id` = 111
+WHERE `data_id` = 112;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
--- OLD OLD OLD OLD
--- Joins board row and payer to show only results with ccatura
-SELECT *
-FROM board_row
-INNER JOIN payer
-ON board_row.payer_id = payer.user_name
-WHERE board_row.payer_id = 'ccatura'
-
--- Joins all tables on board #1 - it may be messed up a little, but for the most part, it works
-SELECT *
-FROM board_row
-INNER JOIN payer
-ON board_row.payer_id = payer.user_name
-INNER JOIN board
-ON board.payer_id = payer.user_name
-INNER JOIN payee
-ON payee.id = board_row.payee_id
-WHERE board.id = 1
-
-
--- with all the months
-SELECT 	board.name,
-		payer.user_name,
-		payee.name,
-		board_row.january,
-        board_row.february,
-        board_row.march,
-        board_row.april,
-        board_row.may,
-        board_row.june,
-        board_row.july,
-        board_row.august,
-        board_row.september,
-        board_row.october,
-        board_row.november,
-        board_row.december
-FROM board_row
-INNER JOIN payer
-ON board_row.payer_id = payer.user_name
-INNER JOIN board
-ON board.payer_id = payer.user_name
-INNER JOIN payee
-ON payee.id = board_row.payee_id
-WHERE board.id = 1
-
-
-=======
-
-
-
-
-SELECT  board_row.id as 'board_row_id',
-		payee.id as 'payee_id',
-		payee.name as 'payee_name',
-		board.name as 'board_name',
-		board_row.board_id as 'board_row_board_id',
-	    payer.user_name,
-        board_row.january,
-        board_row.february,
-        board_row.march,
-        board_row.april,
-        board_row.may,
-        board_row.june,
-        board_row.july,
-        board_row.august,
-        board_row.september,
-        board_row.october,
-        board_row.november,
-        board_row.december
-FROM payer
-INNER JOIN board ON board.payer_id = payer.user_name
-INNER JOIN board_row on board_row.board_id = board.id
-INNER JOIN payee on payee.id = board_row.payee_id
-WHERE board.id = 1;
+DELETE FROM `data`
+WHERE `id` = 112;
