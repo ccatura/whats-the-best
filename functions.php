@@ -369,8 +369,7 @@ function email($user_name, $name, $to, $subject, $message) {
 }
 
 function message($conn, $from, $to, $subject, $message) {
-
-
+    $timestamp = date('Y-m-d H:i:s');
 
     $sql = "INSERT INTO `messages` (`user_name_from`, `user_name_to`, `subject`, `message`, `timestamp`) VALUES ('{$from}', '{$to}', '{$subject}', '{$message}', '{$timestamp}')";
     
@@ -384,7 +383,7 @@ function get_user_messages($conn, $user_name) {
     $sql = "SELECT * FROM `messages`
             JOIN `users` ON users.user_name = user_name_from
             WHERE `user_name_to` = '$user_name'
-            ORDER BY timestamp DESC";
+            ORDER BY `id` DESC";
 
     $result = mysqli_query($conn, $sql);
     while ($row = mysqli_fetch_assoc($result)) {
