@@ -42,8 +42,9 @@ if (!empty($_POST)) {
             if ($user_name == $db_user_name && $pword == $db_pword) {
                 $_SESSION['user_name'] = $row['user_name'];
                 $_SESSION['name'] = $row['name'];
-                header("Location: ./");
-                // exit;
+                // header("Location: ./");
+                echo "<script>window.location.replace('./');</script>";
+                exit;
             }
         }
     // register here
