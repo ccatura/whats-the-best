@@ -11,7 +11,7 @@ if (isset($_SESSION['message'])) {
 if (isset($_GET['session'])) {
     if ($_GET['session'] == 'false') {
         session_unset();
-        // session_destroy();
+        session_destroy();
     }
 }
 
@@ -29,7 +29,7 @@ if (isset($_SESSION['user_name'])) {
 if (isset($_SESSION['user_name'])) {
     echo '<div class="section"><a href="./" class="sub link button" title="Go to Home Page">Home</a>';
     // echo 
-    echo '<a href="./?type=account" class="sub link button" title="' . $_SESSION['name'] . '">' . $_SESSION['user_name'] . ' &#9776;</a><br>';
+    echo '<a href="./?type=account&desc=Account" class="sub link button" title="' . $_SESSION['name'] . '">' . $_SESSION['user_name'] . ' &#9776;</a><br>';
     if ($_SESSION['user_name'] == 'ccatura') {
         echo '<a href="./?type=config&desc=Config" class="sub link button">Config</a>';
     }

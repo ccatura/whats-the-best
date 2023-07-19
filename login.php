@@ -29,9 +29,6 @@ if(!isset($_GET['register'])) {
 if (!empty($_POST)) {
     $user_name = strtolower($_POST['user_name']);
     $pword = $_POST['pword'];
-    $year_born = $_POST['year_born'];
-    $name = $_POST['name'];
-    $email = $_POST['email'];
 
     $result = mysqli_query($conn,"SELECT `name`, `user_name`, `pword` FROM `users` WHERE user_name = '{$user_name}' LIMIT 1;");
 
@@ -51,6 +48,10 @@ if (!empty($_POST)) {
         }
     // register here
     } elseif ($_POST['login-type'] == 'register' && mysqli_num_rows($result) < 1) {
+        $year_born  = $_POST['year_born'];
+        $name       = $_POST['name'];
+        $email      = $_POST['email'];
+
         $result = mysqli_query($conn,"INSERT INTO `users` (`user_name`, `pword`, `year_born`, `name`, `email`) VALUES ('{$user_name}', '{$pword}', '{$year_born}', '{$name}', '{$email}');");
         if ($result) {
             $_SESSION['user_name'] = $user_name;

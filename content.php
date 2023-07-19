@@ -9,6 +9,7 @@ if (isset($_GET['type'])) {
     $cat_id = get_cat_id_from_name($conn, $desc);
 } else {
     $type = "home";
+    $desc = "What's the Best?";
 }
 
 echo "<h1>{$desc}</h1>";
