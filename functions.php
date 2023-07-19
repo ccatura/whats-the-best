@@ -391,12 +391,12 @@ function get_user_messages($conn, $user_name) {
         $date = strtotime($row['timestamp']);
         $formatted_date = date('M d, Y h:i:s', $date);
 
-        $output .= "<div class='message_single'>
-                        <div class='message_row_date'><span onclick='popup(`Delete message`, `Delete current message? This cannot be undone.`, `./delete-message.php?message_id={$row['id']}`)' class='pointer'>&#10005;</span>
+        $output .= "<div class='message-single'>
+                        <div class='message-row-date'><span onclick='popup(`Delete message`, `Delete current message? This cannot be undone.`, `./delete-message.php?message_id={$row['id']}`)' class='pointer'>&#10005;</span>
                         $formatted_date</div>
-                        <div class='message_row'>{$row['name']} ({$row['user_name_from']})</div>
-                        <div class='message_row'>{$row['subject']}</div>
-                        <div class='message_row'>{$row['message']}</div>
+                        <div class='message-row'>{$row['name']} ({$row['user_name_from']})</div>
+                        <div class='message-row'>{$row['subject']}</div>
+                        <div class='message-row'>{$row['message']}</div>
                     </div>
                    ";
     }

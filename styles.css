@@ -212,7 +212,7 @@ a {
     margin-top: auto;
 }
 
-.message_single {
+.message-single {
     background-color: rgb(210, 255, 212);
     color: black;
     display: flex;
@@ -228,10 +228,10 @@ a {
     min-width: 340px;
 }
 
-.message_row {
+.message-row {
     margin: 0 0 10px 0;
 }
 
-.message_row_date {
+.message-row_date {
     margin: 0 0 10px 0;
 }
