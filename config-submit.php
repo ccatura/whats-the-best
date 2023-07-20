@@ -41,7 +41,7 @@ if ($data['form_type'] == 'genres') {
 }
 
 
-// header("Location: ./?type=config&desc=Config");
+header("Location: ./?type=config&desc=Config");
 
 
 

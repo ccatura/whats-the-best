@@ -13,4 +13,6 @@ $message    = $_GET['message'];
 echo "name: {$name}";
 message($conn, $from, $to, $subject, $message);
 
-header("Location: ./");
+header('Location: ' . $_SERVER['HTTP_REFERER']);
+
+// header("Location: ./");
