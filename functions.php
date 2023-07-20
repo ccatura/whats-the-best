@@ -1,7 +1,9 @@
 <?php
 
 function get_users_years_combined($conn) {
+    // I don't think I'm using this
     // Get count of all user years born combined
+    // For example, 10 users are born in 1973 and 4 are born in 1975, returns 2 for the 2 different years
     $result = mysqli_query($conn,"SELECT count(DISTINCT `year_born`) as 'year_born' FROM `users`");
     while ($row = mysqli_fetch_assoc($result)) {
         $year_count = $row['year_born'];
@@ -22,13 +24,6 @@ function get_category_buttons($conn) {
     return $categories;
 }
 
-function get_user_count($conn) {
-    $result =  mysqli_query($conn,"SELECT count(*) as 'total' FROM `users` ORDER BY `year_born`");
-    while ($row = mysqli_fetch_assoc($result)) {
-        return $row['total'];
-    }
-}
-
 function get_year_buttons($conn) {
     $result = mysqli_query($conn,"SELECT DISTINCT `year_born`, count(*) as 'count' FROM `users` GROUP BY `year_born` ORDER BY `year_born`");
     $user_count = get_user_count($conn);
@@ -43,6 +38,13 @@ function get_year_buttons($conn) {
     }
     $years .= '</div>';
     return $years;
+}
+
+function get_user_count($conn) {
+    $result =  mysqli_query($conn,"SELECT count(*) as 'total' FROM `users` ORDER BY `year_born`");
+    while ($row = mysqli_fetch_assoc($result)) {
+        return $row['total'];
+    }
 }
 
 function get_genres_and_inputs($conn, $desc) {
@@ -120,13 +122,24 @@ function get_genres_and_inputs($conn, $desc) {
 }
 
 function check_db_exist($conn, $sql) {
+    // Checks if the sql returns any results
+    // If yes, returns true, if no, returns false
     $result = mysqli_query($conn, $sql);
     while($row = mysqli_fetch_assoc($result)) {
         return true;
     }
 }
 
-function get_data_id($conn, $sql) {
+// Delete this if no problems arise
+// function get_data_id($conn, $sql) {
+//     $result = mysqli_query($conn, $sql);
+//     while($row = mysqli_fetch_assoc($result)) {
+//         return $row['id'];
+//     }
+// }
+
+function get_data_id_from_name($conn, $name) {
+    $sql = "SELECT `id` FROM `data` WHERE `name` = '$name' LIMIT 1;";
     $result = mysqli_query($conn, $sql);
     while($row = mysqli_fetch_assoc($result)) {
         return $row['id'];
@@ -154,11 +167,18 @@ function get_genre_name_from_id($conn, $genres_id) {
     }
 }
 
-function get_category_stats($conn, $sql, $category) {
+function get_category_stats($conn, $cat_id) {
+    // Gets stats from that category
+    // Example: Lists all actors and their votes
+    $sql = "SELECT data.name, count(*) as totals, data.id FROM answers
+    INNER JOIN `data` ON data.id = answers.data_id
+    WHERE answers.cat_id = {$cat_id}
+    GROUP BY answers.data_id ORDER BY totals DESC, data.name";
+
     $result = mysqli_query($conn, $sql);
     $output = '';
     while ($row = mysqli_fetch_assoc($result)) {
-        $href = "./?type=stats&data_id={$row['id']}&cat_id={$category}#content";
+        $href = "./?type=stats&data_id={$row['id']}&cat_id={$cat_id}#content";
         $output .= "<a href='$href'>{$row['totals']} votes - {$row['name']}</a>";
     }
     return $output;
@@ -184,6 +204,146 @@ function get_name_from_data_id($conn, $data_id) {
     $result = mysqli_query($conn, "SELECT `name` FROM data WHERE `id` = '$data_id' LIMIT 1;");
     while ($row = mysqli_fetch_assoc($result)) {
         return $row['name'];
+    }
+}
+
+function get_users_for_year($conn, $year) {
+    $result = mysqli_query($conn,"SELECT * FROM `users` WHERE `year_born` = $year");
+
+    $output  = '<div id="users">';
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $the_user  = $row['user_name'];
+        $the_name  = $row['name'];
+        $the_email = $row['email'];
+        $subject   = "Message from {$_SESSION['name']}";
+        $message   = "Hi!";
+        $view_user = "<a href='./?type=view-votes&desc={$the_user}&rsquo;s Votes&the_user={$the_user}'>{$the_name} ({$the_user})</a>";
+
+        if (isset($_SESSION['user_name']) && $_SESSION['user_name'] != $the_user) {
+            $say_hi = "<a href='./message.php?user_name={$the_user}&name={$the_name}&subject={$subject}&message={$message}' class='pointer' title='Say hi to {$the_name}'>&#128515;</a>";
+        } else $say_hi = '';
+        $output .= "<div>{$say_hi} {$view_user}</div>";
+    }
+    $output .= '</div>';
+    return $output;
+}
+
+function get_user_account($conn, $user_name) {
+    // When user clicks on their account, this is where it is generated
+    $result = mysqli_query($conn, "SELECT * FROM `users` WHERE `user_name` = '$user_name';");
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $output = "<form action='./account-changes-submit.php' method='post'><div> 
+        Real Name: <input type='text' name='name' placeholder='{$row['name']}'><br>
+        User Name: <input type='text' name='user_name' placeholder='{$row['user_name']}' disabled title='Cannot change user name'><br>
+        Year Born: <input type='text' name='year_born' placeholder='{$row['year_born']}' minlength='4' min='1923' max='2020'><br>
+        Password: <input type='password' name='pword' minlength='8'><br>
+        <input type='submit' value='Submit Changes'></div></form><br>
+        <span href='./delete-account.php' class='warning pointer' id='delete-account'>Delete Account</span>";
+    }
+    return $output;
+}
+
+function get_user_votes ($conn, $user_name) {
+    $sql = "SELECT
+    data.name as 'data_name',
+    categories.name as 'categories_name',
+    genres.name as 'genres_name',
+    answers.data_id as 'answers_data_id',
+    answers.cat_id as 'answers_categories_id',
+    answers.genre_id as 'answers_genres_id'
+    FROM answers
+    JOIN data ON data.id = answers.data_id
+    JOIN categories ON categories.id = answers.cat_id
+    join genres ON genres.id = answers.genre_id
+    JOIN users ON users.user_name = answers.users_user_name
+    WHERE answers.users_user_name = '{$user_name}'
+    ORDER BY categories.name";
+
+    $result = mysqli_query($conn, $sql);
+    $output = "<div class='vote-list'>";
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        // $data_name = $row['data_name'];
+        $data_name = str_replace("'", "&lsquo;", $row['data_name']);
+        $data_id = $row['answers_data_id'];
+        // $categories_name = $row['categories_name'];
+        $categories_name = str_replace("'", "&lsquo;", $row['categories_name']);
+        $categories_id = $row['answers_categories_id'];
+        // $genres_name = $row['genres_name'];
+        $genres_name = str_replace("'", "&lsquo;", $row['genres_name']);
+        $genres_id = $row['answers_genres_id'];
+        $cat_id = get_cat_id_from_name($conn, $categories_name);
+
+        $output .= "<div>";
+        if ($user_name == $_SESSION['user_name'] || $_SESSION['user_name'] == 'ccatura') {
+            $output .= "<strong>
+                            <span onclick='popup(`Delete vote`, `Delete {$data_name} from {$categories_name} / {$genres_name}?`, `./delete-answer.php?data_id={$data_id}&data_name={$data_name}&genres_name={$genres_name}&categories_id={$categories_id}&genres_id={$genres_id}&the_user={$user_name}`)' class='pointer'>&#10005;</span>
+                        </strong>";
+        }
+        $output .= "<a href='./?type=category&desc={$row['categories_name']}'>{$row['categories_name']}</a> 
+                        - {$row['genres_name']} - 
+                        <strong>
+                            <a href='./?type=stats&data_id={$data_id}&cat_id={$cat_id}#content'>{$row['data_name']}</a>
+                        </strong>
+                    </div>";
+    }
+    $output .= "</div>";
+    return $output;
+}
+
+function run_sql($conn, $sql) {
+    $result = mysqli_query($conn, $sql);
+}
+
+function email($user_name, $name, $to, $subject, $message) {
+    $header[] = "From: charlie@meetmeinthe80s.com";
+    $header[] = "MIME-Version: 1.0";
+    $header[] = "Content-type: text/html";
+
+    $sendmail = mail($to, $subject, $message, implode("\r\n", $header));
+}
+
+function message($conn, $from, $to, $subject, $message) {
+    $timestamp = date('Y-m-d H:i:s');
+
+    $sql = "INSERT INTO `messages` (`user_name_from`, `user_name_to`, `subject`, `message`, `timestamp`) VALUES ('{$from}', '{$to}', '{$subject}', '{$message}', '{$timestamp}')";
+    
+    // echo $sql . '<br><br>';
+    run_sql($conn, $sql);
+    $_SESSION['message'] = "Message sent!";
+}
+
+function get_user_messages($conn, $user_name) {
+    $output = '';
+    $sql = "SELECT * FROM `messages`
+            JOIN `users` ON users.user_name = user_name_from
+            WHERE `user_name_to` = '$user_name'
+            ORDER BY `id` DESC";
+
+    $result = mysqli_query($conn, $sql);
+    while ($row = mysqli_fetch_assoc($result)) {
+        $date = strtotime($row['timestamp']);
+        $formatted_date = date('M d, Y h:i:s', $date);
+
+        $output .= "<div class='message-single'>
+                        <div class='message-row-date'><span onclick='popup(`Delete message`, `Delete current message? This cannot be undone.`, `./delete-message.php?message_id={$row['id']}`)' class='pointer'>&#10005;</span>
+                        $formatted_date</div>
+                        <div class='message-row'>{$row['name']} ({$row['user_name_from']})</div>
+                        <div class='message-row'>{$row['subject']}</div>
+                        <div class='message-row'>{$row['message']}</div>
+                    </div>
+                   ";
+    }
+    return $output;
+
+}
+
+function get_message_count($conn, $user_name) {
+    $result =  mysqli_query($conn,"SELECT count(*) as 'count' FROM `messages` WHERE `user_name_to` = '$user_name' LIMIT 1");
+    while ($row = mysqli_fetch_assoc($result)) {
+        return $row['count'];
     }
 }
 
@@ -271,142 +431,6 @@ function submit_config_categories($conn, $sql) {
 
     if ($result) {
         header("Location: ./?type=config&desc=Config");
-    }
-}
-
-function get_users_for_year($conn, $year) {
-    $result = mysqli_query($conn,"SELECT * FROM `users` WHERE `year_born` = $year");
-
-    $output  = '<div id="users">';
-
-    while ($row = mysqli_fetch_assoc($result)) {
-        $the_user  = $row['user_name'];
-        $the_name  = $row['name'];
-        $the_email = $row['email'];
-        $subject   = "Message from {$_SESSION['name']}";
-        $message   = "Hi!";
-
-        if (isset($_SESSION['user_name']) && $_SESSION['user_name'] != $the_user) {
-            $say_hi = "<a href='./message.php?user_name={$the_user}&name={$the_name}&subject={$subject}&message={$message}' class='pointer' title='Say hi to {$the_name}'>&#128515;</a>";
-        } else $say_hi = '';
-        $output .= "<div>{$say_hi} {$the_name} ({$the_user})</div>";
-    }
-    $output .= '</div>';
-    return $output;
-}
-
-function get_user_account($conn, $user_name) {
-    $result = mysqli_query($conn, "SELECT * FROM `users` WHERE `user_name` = '$user_name';");
-
-    while ($row = mysqli_fetch_assoc($result)) {
-        $output = "<form action='./account-changes-submit.php' method='post'><div> 
-        Real Name: <input type='text' name='name' placeholder='{$row['name']}'><br>
-        User Name: <input type='text' name='user_name' placeholder='{$row['user_name']}' disabled title='Cannot change user name'><br>
-        Year Born: <input type='text' name='year_born' placeholder='{$row['year_born']}' minlength='4' min='1923' max='2020'><br>
-        Password: <input type='password' name='pword' minlength='8'><br>
-        <input type='submit' value='Submit Changes'></div></form><br>
-        <span href='./delete-account.php' class='warning pointer' id='delete-account'>Delete Account</span>";
-    }
-    return $output;
-}
-
-function get_user_votes ($conn, $user_name) {
-    $sql = "SELECT
-    data.name as 'data_name',
-    categories.name as 'categories_name',
-    genres.name as 'genres_name',
-    answers.data_id as 'answers_data_id',
-    answers.cat_id as 'answers_categories_id',
-    answers.genre_id as 'answers_genres_id'
-    FROM answers
-    JOIN data ON data.id = answers.data_id
-    JOIN categories ON categories.id = answers.cat_id
-    join genres ON genres.id = answers.genre_id
-    JOIN users ON users.user_name = answers.users_user_name
-    WHERE answers.users_user_name = '{$user_name}'
-    ORDER BY categories.name";
-
-    $result = mysqli_query($conn, $sql);
-    $output = "<div class='vote-list'>";
-
-    while ($row = mysqli_fetch_assoc($result)) {
-        // $data_name = $row['data_name'];
-        $data_name = str_replace("'", "&lsquo;", $row['data_name']);
-        $data_id = $row['answers_data_id'];
-        // $categories_name = $row['categories_name'];
-        $categories_name = str_replace("'", "&lsquo;", $row['categories_name']);
-        $categories_id = $row['answers_categories_id'];
-        // $genres_name = $row['genres_name'];
-        $genres_name = str_replace("'", "&lsquo;", $row['genres_name']);
-        $genres_id = $row['answers_genres_id'];
-        $cat_id = get_cat_id_from_name($conn, $categories_name);
-
-        $output .= "<div>
-                        <strong>
-                            <span onclick='popup(`Delete vote`, `Delete {$data_name} from {$categories_name} / {$genres_name}?`, `./delete-answer.php?data_id={$data_id}&data_name={$data_name}&genres_name={$genres_name}&categories_id={$categories_id}&genres_id={$genres_id}`)' class='pointer'>&#10005;</span>
-                        </strong> 
-                            <a href='./?type=category&desc={$row['categories_name']}'>{$row['categories_name']}</a> 
-                        - {$row['genres_name']} - 
-                        <strong>
-                            <a href='./?type=stats&data_id={$data_id}&cat_id={$cat_id}#content'>{$row['data_name']}</a>
-                        </strong>
-                    </div>";
-    }
-    $output .= "</div>";
-    return $output;
-}
-
-function run_sql($conn, $sql) {
-    $result = mysqli_query($conn, $sql);
-}
-
-function email($user_name, $name, $to, $subject, $message) {
-    $header[] = "From: charlie@meetmeinthe80s.com";
-    $header[] = "MIME-Version: 1.0";
-    $header[] = "Content-type: text/html";
-
-    $sendmail = mail($to, $subject, $message, implode("\r\n", $header));
-}
-
-function message($conn, $from, $to, $subject, $message) {
-    $timestamp = date('Y-m-d H:i:s');
-
-    $sql = "INSERT INTO `messages` (`user_name_from`, `user_name_to`, `subject`, `message`, `timestamp`) VALUES ('{$from}', '{$to}', '{$subject}', '{$message}', '{$timestamp}')";
-    
-    // echo $sql . '<br><br>';
-    run_sql($conn, $sql);
-    $_SESSION['message'] = "Message sent!";
-}
-
-function get_user_messages($conn, $user_name) {
-    $output = '';
-    $sql = "SELECT * FROM `messages`
-            JOIN `users` ON users.user_name = user_name_from
-            WHERE `user_name_to` = '$user_name'
-            ORDER BY `id` DESC";
-
-    $result = mysqli_query($conn, $sql);
-    while ($row = mysqli_fetch_assoc($result)) {
-        $date = strtotime($row['timestamp']);
-        $formatted_date = date('M d, Y h:i:s', $date);
-
-        $output .= "<div class='message-single'>
-                        <div class='message-row-date'><span onclick='popup(`Delete message`, `Delete current message? This cannot be undone.`, `./delete-message.php?message_id={$row['id']}`)' class='pointer'>&#10005;</span>
-                        $formatted_date</div>
-                        <div class='message-row'>{$row['name']} ({$row['user_name_from']})</div>
-                        <div class='message-row'>{$row['subject']}</div>
-                        <div class='message-row'>{$row['message']}</div>
-                    </div>
-                   ";
-    }
-    return $output;
-
-}
-
-function get_message_count($conn, $user_name) {
-    $result =  mysqli_query($conn,"SELECT count(*) as 'count' FROM `messages` WHERE `user_name_to` = '$user_name' LIMIT 1");
-    while ($row = mysqli_fetch_assoc($result)) {
-        return $row['count'];
     }
 }
 

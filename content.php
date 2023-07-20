@@ -37,6 +37,8 @@ if ($type == 'home') {
     include './recover.php';
 } elseif ($type == 'messages') {
     include './messages.php';
+} elseif ($type == 'view-votes') {
+    include './view-votes.php';
 }
 
 
