@@ -14,6 +14,8 @@
         header('Location: ' . $_SERVER['HTTP_REFERER']);
 
 
+    } elseif (!isset($_SESSION['user_name'])) {
+        echo "<a href='./'>Login to use help</a>";
     } else {
         echo   "<form class='message-single' action='#' method='post'>
                 Send message to<strong>Help</strong><br>
