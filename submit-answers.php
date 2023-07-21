@@ -26,7 +26,7 @@ foreach ($_POST as $genre => $value) {
             $data_id = get_data_id_from_name($conn, $name);
             $to = 'ccatura@gmail.com';
             $subject = 'New data created';
-            $message = "{$user_name} created a new data: <strong>{$name} ({$data_id})</strong>";
+            $message = "<strong>{$user_name}</strong> created a new data: <strong>{$name} ({$data_id})</strong>";
 
             email($user_name, $name, $to, $subject, $message);
         
@@ -43,10 +43,11 @@ foreach ($_POST as $genre => $value) {
         echo $sql . '<br><br>';
     }
 }
+$_SESSION['message'] = "Your votes have been submitted!";
 
-$sql         = "SELECT data.name, count(*) as totals FROM answers
-                INNER JOIN `data` ON data.id = answers.data_id WHERE data.cat_id = {$category}
-                GROUP BY answers.data_id ORDER BY totals DESC";
+// $sql         = "SELECT data.name, count(*) as totals FROM answers
+//                 INNER JOIN `data` ON data.id = answers.data_id WHERE data.cat_id = {$category}
+//                 GROUP BY answers.data_id ORDER BY totals DESC";
 
 // get_category_stats($conn, $sql, $category);
 // echo '<br><br>';
