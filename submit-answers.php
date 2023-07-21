@@ -26,9 +26,10 @@ foreach ($_POST as $genre => $value) {
 
             $to = 'ccatura@gmail.com';
             $subject = 'New data created';
-            $message = "{$user_name} created a new data: <strong>{$name} ({$data_id})</strong>}";
+            $message = "{$user_name} created a new data: <strong>{$name} ({$data_id})</strong>";
 
-            email($user_name, $name, $to, $subject, $message)
+            email($user_name, $name, $to, $subject, $message);
+        
         }
         // I CLEANED THIS NEXT BLOCK UP, BUT KEPT IT JUST IN CASE
         // Get ID of previously entered answer... IF PREVIOUSLY DID NOT EXIST IN DB
