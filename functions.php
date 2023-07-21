@@ -219,11 +219,15 @@ function get_users_for_year($conn, $year) {
         $subject   = "Message from {$_SESSION['name']}";
         $message   = "Hi!";
         $view_user = "<a href='./?type=view-votes&desc={$the_user}&rsquo;s Votes&the_user={$the_user}'>{$the_name} ({$the_user})</a>";
-
+        
         if (isset($_SESSION['user_name']) && $_SESSION['user_name'] != $the_user) {
+            $wtb_message = "<a href='./?type=wtb-message&desc=Send Message&the_user={$the_user}'> &#9993; </a>";
             $say_hi = "<a href='./message.php?user_name={$the_user}&name={$the_name}&subject={$subject}&message={$message}' class='pointer' title='Say hi to {$the_name}'>&#128515;</a>";
-        } else $say_hi = '';
-        $output .= "<div>{$say_hi} {$view_user}</div>";
+        } else {
+            $wtb_message = '';
+            $say_hi = '';
+        }
+        $output .= "<div>{$say_hi} {$view_user} {$wtb_message}</div>";
     }
     $output .= '</div>';
     return $output;

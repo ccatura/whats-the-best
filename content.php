@@ -39,6 +39,8 @@ if ($type == 'home') {
     include './messages.php';
 } elseif ($type == 'view-votes') {
     include './view-votes.php';
+} elseif ($type == 'wtb-message') {
+    include './wtb-message.php';
 }
 
 
