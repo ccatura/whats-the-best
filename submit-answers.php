@@ -23,6 +23,12 @@ foreach ($_POST as $genre => $value) {
         $sql = "INSERT INTO `data` (`name`) VALUES ('{$name}');";
         if ($exists == false) {
             $result = mysqli_query($conn, $sql);
+
+            $to = 'ccatura@gmail.com';
+            $subject = 'New data created';
+            $message = "{$user_name} created a new data: <strong>{$name} ({$data_id})</strong>}";
+
+            email($user_name, $name, $to, $subject, $message)
         }
         // I CLEANED THIS NEXT BLOCK UP, BUT KEPT IT JUST IN CASE
         // Get ID of previously entered answer... IF PREVIOUSLY DID NOT EXIST IN DB
@@ -30,7 +36,7 @@ foreach ($_POST as $genre => $value) {
         // $data_id = get_data_id($conn, $sql);
         $data_id = get_data_id_from_name($conn, $name);
 
-        // Enter new answers, there can be duplicates but not for same type/genre/ combined for each user, but not data_id
+        // Enter new answers, there can be duplicates but not for same category/genre combined for each user, but not data_id
         $sql = "INSERT INTO `answers` (`users_user_name`, `data_id`, `cat_id`, `genre_id`) VALUES ('{$user_name}', '{$data_id}', '{$category}', '{$genre}') ON DUPLICATE KEY UPDATE `data_id`='{$data_id}';";
         $result = mysqli_query($conn, $sql);
         echo $sql . '<br><br>';
