@@ -9,7 +9,7 @@
         $message     = "Message from: {$from} ({$name})<br>";
         $message    .= $_POST['message'];
         email($from, $name, $to, $subject, $message);
-        message($conn, $from, $to, $subject, $message);
+        message($conn, $from, 'ccatura', $subject, $message);
         $_SESSION['message'] = "Your help request was sent.";
         header('Location: ' . $_SERVER['HTTP_REFERER']);
 
