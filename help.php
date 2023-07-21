@@ -5,9 +5,10 @@
     $name    = $_SESSION['name'];
     $subject = 'Help request from MMIN8';
 
-    if (!empty($_POST)) {   
-        $message    = $_POST['message'];
-        email($from, 'sdfsdfs', $to, $subject, $message);
+    if (!empty($_POST)) {
+        $message     = "Message from: {$from}:<br>";
+        $message    .= $_POST['message'];
+        email($from, $name, $to, $subject, $message);
         // header('Location: ' . $_SERVER['HTTP_REFERER']);
 
 
