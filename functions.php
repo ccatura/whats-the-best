@@ -216,8 +216,15 @@ function get_users_for_year($conn, $year) {
         $the_user  = $row['user_name'];
         $the_name  = $row['name'];
         $the_email = $row['email'];
-        $subject   = "Message from {$_SESSION['name']}";
-        $message   = "Hi!";
+
+        if (isset($_SESSION['user_name'])) {
+            $subject   = "Message from {$_SESSION['name']}";
+            $message   = "Hi!";
+        } else {
+            $subject = '';
+            $message = '';
+        }
+
         $view_user = "<a href='./?type=view-votes&desc={$the_user}&rsquo;s Votes&the_user={$the_user}'>{$the_name} ({$the_user})</a>";
         
         if (isset($_SESSION['user_name']) && $_SESSION['user_name'] != $the_user) {
@@ -243,8 +250,11 @@ function get_user_account($conn, $user_name) {
         User Name: <input type='text' name='user_name' placeholder='{$row['user_name']}' disabled title='Cannot change user name'><br>
         Year Born: <input type='text' name='year_born' placeholder='{$row['year_born']}' minlength='4' min='1923' max='2020'><br>
         Password: <input type='password' name='pword' minlength='8'><br>
-        <input type='submit' value='Submit Changes'></div></form><br>
-        <span href='./delete-account.php' class='warning pointer' id='delete-account'>Delete Account</span>";
+        <input type='submit' value='Submit Changes'></div></form><br>";
+
+        if ($user_name != 'ccatura') {
+            $output .= "<span href='./delete-account.php' class='warning pointer' id='delete-account'>Delete Account</span>";
+        }
     }
     return $output;
 }
