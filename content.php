@@ -41,6 +41,8 @@ if ($type == 'home') {
     include './view-votes.php';
 } elseif ($type == 'wtb-message') {
     include './wtb-message.php';
+} elseif ($type == 'help') {
+    include './help.php';
 }
 
 
