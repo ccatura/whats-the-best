@@ -23,7 +23,7 @@ foreach ($_POST as $genre => $value) {
         $sql = "INSERT INTO `data` (`name`) VALUES ('{$name}');";
         if ($exists == false) {
             $result = mysqli_query($conn, $sql);
-
+            $data_id = get_data_id_from_name($conn, $name);
             $to = 'ccatura@gmail.com';
             $subject = 'New data created';
             $message = "{$user_name} created a new data: <strong>{$name} ({$data_id})</strong>";
