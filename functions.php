@@ -291,10 +291,12 @@ function get_user_votes ($conn, $user_name) {
         $cat_id = get_cat_id_from_name($conn, $categories_name);
 
         $output .= "<div>";
-        if ($user_name == $_SESSION['user_name'] || $_SESSION['user_name'] == 'ccatura') {
-            $output .= "<strong>
-                            <span onclick='popup(`Delete vote`, `Delete {$data_name} from {$categories_name} / {$genres_name}?`, `./delete-answer.php?data_id={$data_id}&data_name={$data_name}&genres_name={$genres_name}&categories_id={$categories_id}&genres_id={$genres_id}&the_user={$user_name}`)' class='pointer'>&#10005;</span>
-                        </strong>";
+        if (isset($_SESSION['user_name'])) {
+            if ($user_name == $_SESSION['user_name'] || $_SESSION['user_name'] == 'ccatura') {
+                $output .= "<strong>
+                                <span onclick='popup(`Delete vote`, `Delete {$data_name} from {$categories_name} / {$genres_name}?`, `./delete-answer.php?data_id={$data_id}&data_name={$data_name}&genres_name={$genres_name}&categories_id={$categories_id}&genres_id={$genres_id}&the_user={$user_name}`)' class='pointer'>&#10005;</span>
+                            </strong>";
+            }
         }
         $output .= "<a href='./?type=category&desc={$row['categories_name']}'>{$row['categories_name']}</a> 
                         - {$row['genres_name']} - 
