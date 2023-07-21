@@ -334,7 +334,7 @@ function get_user_messages($conn, $user_name) {
         $output .= "<div class='message-single'>
                         <div class='message-row-date'><span onclick='popup(`Delete message`, `Delete current message? This cannot be undone.`, `./delete-message.php?message_id={$row['id']}`)' class='pointer'>&#10005;</span>
                         $formatted_date</div>
-                        <div class='message-row'>{$row['name']} ({$row['user_name_from']})</div>
+                        <div class='message-row'><a href='./?type=wtb-message&desc=Send Message&the_user={$row['user_name_from']}' style='color:black'>{$row['name']} ({$row['user_name_from']})</a></div>
                         <div class='message-row'>{$row['subject']}</div>
                         <div class='message-row'>{$row['message']}</div>
                     </div>
