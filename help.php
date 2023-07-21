@@ -7,8 +7,8 @@
 
     if (!empty($_POST)) {   
         $message    = $_POST['message'];
-        email($from, $name, $to, $subject, $message);
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        email($from, 'sdfsdfs', $to, $subject, $message);
+        // header('Location: ' . $_SERVER['HTTP_REFERER']);
 
 
     } else {
