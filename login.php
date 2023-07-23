@@ -64,6 +64,17 @@ if (!empty($_POST)) {
             $message .= "To get started, login at <a href='http://meetmeinthe80s.com/apps/whats-the-best'>MeetMeInThe80s.com/apps/whats-the-best</a>";
         
             email($user_name, $name, $email, $subject, $message);
+
+
+            $subject = "Someone just registered on MMIT8";
+            $message = "New user: {$user_name} - {$name}";
+            email('ccatura', 'CHarles Catura', 'ccatura@gmail.com', $subject, $message);
+
+
+
+
+
+
             header("Location: ./");
             exit;
         }
