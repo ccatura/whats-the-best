@@ -2,8 +2,9 @@
 
 <form action="#" method="post">
     <div>
-    <div>User Name<br><input type="text" name="user_name" placeholder="User Name"></div>
+    <div>Email Address<br><input type="text" name="email" placeholder="Email Address"></div>
     <div><input type="submit" name="submit" value="Recover Account"></div>
+    <div>* THIS WILL RESET YOUR PASSWORD.</div>
 </form>
 
 
@@ -12,9 +13,12 @@
 <?php
 
 if (!empty($_POST)) {
-    $user_name = strtolower($_POST['user_name']);
+    $email = strtolower($_POST['email']);
+    $new_pword = mt_rand(10000000,99999999);
 
-    $result = mysqli_query($conn,"SELECT `user_name`, `name`, `email`, `pword` FROM `users` WHERE user_name = '{$user_name}' LIMIT 1;");
+    $sql = "UPDATE `users` SET `pword` = '{$new_pword}' WHERE email = '{$email}';";
+    run_sql($conn, $sql);
+    $result = mysqli_query($conn,"SELECT `user_name`, `name`, `email`, `pword` FROM `users` WHERE email = '{$email}' LIMIT 1;");
 
     // recover here
     if (mysqli_num_rows($result) > 0) {
