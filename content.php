@@ -43,6 +43,12 @@ if ($type == 'home') {
     include './wtb-message.php';
 } elseif ($type == 'help') {
     include './help.php';
+} elseif ($type == 'how-to') {
+    include './how-to.php';
+} elseif ($type == 'how-to-2') {
+    include './how-to-2.php';
+} elseif ($type == 'how-to-3') {
+    include './how-to-3.php';
 }
 
 

@@ -68,14 +68,15 @@ if (!empty($_POST)) {
 
             $subject = "Someone just registered on MMIT8";
             $message = "New user: {$user_name} - {$name}";
-            email('ccatura', 'CHarles Catura', 'ccatura@gmail.com', $subject, $message);
+            email('ccatura', 'Charles Catura', 'ccatura@gmail.com', $subject, $message);
+            $_SESSION['how-to'] = true;
 
 
 
 
+            echo "<script>window.location.replace('./?type=how-to&desc=Awesome! You are logged in. Here is a quick guide on what to do...');</script>";
 
-
-            header("Location: ./");
+            // header("Location: ./?type=how-to&desc=Awesome! You are logged in. Here is a quick guide on what to do...");
             exit;
         }
     } else {

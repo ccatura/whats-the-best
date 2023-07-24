@@ -235,3 +235,8 @@ a {
 .message-row_date {
     margin: 0 0 10px 0;
 }
+
+.tutorial {
+    transform: scale(2);
+    margin-bottom: 30px;
+}
