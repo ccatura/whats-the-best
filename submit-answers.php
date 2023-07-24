@@ -52,11 +52,9 @@ $_SESSION['message'] = "Your votes have been submitted!";
 // get_category_stats($conn, $sql, $category);
 // echo '<br><br>';
 if ($_SESSION['how-to'] != true) {
-    if (isset($_SERVER["HTTP_REFERER"])) {
-        header("Location: " . $_SERVER["HTTP_REFERER"]);
-    } else {
-        header("Location: ./type=how-to-3&desc=Congratulations!");
-    }
+    header("Location: " . $_SERVER["HTTP_REFERER"]);
+} else {
+    header("Location: ./?type=how-to-3&desc=Congratulations!");
 }
 
 ?>

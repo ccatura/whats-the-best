@@ -1,10 +1,5 @@
 
 
 
-<div class="tutorial">Type your favorite comedy actor from the 70's, 80's, or 90's and click SUBMIT</div>
+<div>Keep up the good work! Your contribution is crucial to the ongoing development of this web-app.I'm continuously adding, fixing, and improving various aspects of it. I hope you find it enjoyable!</div>
 
-<form action='submit-answers.php' method='post'>
-    <label>Comedy: <input list="data" name="2" genre-id="2" placeholder="Type here!"></label>
-    <input type="hidden" name="Category" value="3">
-    <button name="submit" value="submit">Submit All</button>
-</form>
