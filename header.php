@@ -12,7 +12,7 @@ if (isset($_GET['session'])) {
     if ($_GET['session'] == 'false') {
         session_unset();
         session_destroy();
-        header("Location: ./");
+        // header("Location: ./");
     }
 }
 
