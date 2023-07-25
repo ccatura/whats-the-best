@@ -63,9 +63,9 @@ if (!empty($_POST)) {
             $_SESSION['name'] = $name;
 
             $subject = 'Welcome to MeetMeInThe80s!';
-            $message  = "Welcome {$name},";
-            $message .= "You have signed up to the MeetMeInThe80s.com app: 'What's the Best?' with user name: {$user_name}.";
-            $message .= "To get started, login at <a href='http://meetmeinthe80s.com/apps/whats-the-best'>MeetMeInThe80s.com/apps/whats-the-best</a>";
+            $message  = "Welcome {$name}!<br>";
+            $message .= "You have signed up to the MeetMeInThe80s.com app: 'What's the Best?' using user name: {$user_name}. ";
+            $message .= "To get started, login at <a href='http://meetmeinthe80s.com/apps/whats-the-best/?session=false'>MeetMeInThe80s.com/apps/whats-the-best</a>";
         
             email($user_name, $name, $email, $subject, $message);
 
