@@ -12,6 +12,10 @@ $sql = "UPDATE `users` SET ";
 $count = 0;
 foreach ($fields as $field => $value) {
     if ($field !='submit' && $value != '' && $value != null) {
+        echo 'field ' . $field . '   value: ' . $value . '<br><br>';
+        if ($field == 'pword') {
+            $value = hash('sha256', $value);
+        }
         $sql .= "`{$field}` = '{$value}'";
         if ($count == ($non_empty_fields_count -1)) {
             $sql .= ' ';
