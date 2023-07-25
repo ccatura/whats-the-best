@@ -36,7 +36,9 @@ if (!empty($_POST)) {
     if ($_POST['login-type'] == 'login' && mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
             $db_user_name = $row['user_name'];
-            $db_pword = $row['pword'];
+            $db_pword     = $row['pword'];
+            $pword        = hash('sha256', $pword);
+
 
             // Compare passwords for login
             if ($user_name == $db_user_name && $pword == $db_pword) {
@@ -52,8 +54,10 @@ if (!empty($_POST)) {
         $year_born  = $_POST['year_born'];
         $name       = $_POST['name'];
         $email      = $_POST['email'];
+        $pword      = hash('sha256', $pword);
 
-        $result = mysqli_query($conn,"INSERT INTO `users` (`user_name`, `pword`, `year_born`, `name`, `email`) VALUES ('{$user_name}', '{$pword}', '{$year_born}', '{$name}', '{$email}');");
+
+        $result = mysqli_query($conn,"INSERT INTO `users` (`user_name`, `pword`, `year_born`, `name`, `email`, `admin`) VALUES ('{$user_name}', '{$pword}', '{$year_born}', '{$name}', '{$email}', 0);");
         if ($result) {
             $_SESSION['user_name'] = $user_name;
             $_SESSION['name'] = $name;

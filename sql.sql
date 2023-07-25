@@ -12,6 +12,7 @@ CREATE TABLE users (
     year_born   INT(4) NOT NULL,
     pword       VARCHAR(255) NOT NULL,
     email       VARCHAR(255) NOT NULL,
+    admin       BIT,
     PRIMARY KEY (user_name)
     CONSTRAINT uq_users UNIQUE(email)
 );

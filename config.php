@@ -1,5 +1,8 @@
 <?php
-if ($_SESSION['user_name'] == 'ccatura') {
+
+
+
+if (is_admin($conn, $_SESSION['user_name'])) {
     echo '<a href="#config_categories">Skip to Categories</a>';
     echo '<h2>Genres</h2>';
     echo get_config_genres($conn);

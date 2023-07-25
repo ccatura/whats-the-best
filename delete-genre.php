@@ -11,7 +11,7 @@ echo $genres_id . '<br>';
 $genres_name = get_genre_name_from_id($conn, $genres_id);
 
 
-if ($user_name == 'ccatura') {
+if (is_admin($conn, $_SESSION['user_name'])) {
     $sql = "DELETE FROM `cat_genre`
     WHERE `genre_id` = $genres_id;";
     run_sql($conn, $sql);

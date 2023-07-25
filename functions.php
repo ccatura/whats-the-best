@@ -292,7 +292,7 @@ function get_user_votes ($conn, $user_name) {
 
         $output .= "<div>";
         if (isset($_SESSION['user_name'])) {
-            if ($user_name == $_SESSION['user_name'] || $_SESSION['user_name'] == 'ccatura') {
+            if ($user_name == $_SESSION['user_name'] || is_admin($conn, $_SESSION['user_name'])) {
                 $output .= "<strong>
                                 <span onclick='popup(`Delete vote`, `Delete {$data_name} from {$categories_name} / {$genres_name}?`, `./delete-answer.php?data_id={$data_id}&data_name={$data_name}&genres_name={$genres_name}&categories_id={$categories_id}&genres_id={$genres_id}&the_user={$user_name}`)' class='pointer'>&#10005;</span>
                             </strong>";
@@ -498,4 +498,11 @@ function get_config_delete_data($conn) {
     }
     $output .= "<br><br></div>";
     return $output;
+}
+
+function is_admin($conn, $user_name) {
+    $result = mysqli_query($conn,"SELECT `admin` FROM `users` WHERE `user_name` = '$user_name' LIMIT 1;");
+    while ($row = mysqli_fetch_assoc($result)) {
+        return $row['admin'];
+    }
 }

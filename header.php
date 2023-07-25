@@ -31,7 +31,7 @@ if (isset($_SESSION['user_name'])) {
     echo '<div class="section"><a href="./" class="sub link button" title="Go to Home Page">Home</a>';
     // echo 
     echo '<a href="./?type=account&desc=Account" class="sub link button" title="' . $_SESSION['name'] . '">' . $_SESSION['user_name'] . ' &#9776;</a><br>';
-    if ($_SESSION['user_name'] == 'ccatura') {
+    if (is_admin($conn, $_SESSION['user_name'])) {
         echo '<a href="./?type=config&desc=Config" class="sub link button">Config</a>';
     }
     echo "<a href='./?type=messages&desc=Messages' class='sub link button' title='Messages'>Messages {$m_count}</a><br>";

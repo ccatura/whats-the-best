@@ -10,7 +10,7 @@ $user_name = $_SESSION['user_name'];
 // IMPORTANT
 // before deleting cetgory, need to delete cat_genre entries
 // THEY ARE FORIGN KEY CONSTRAINTS
-if ($user_name == 'ccatura') {
+if (is_admin($conn, $_SESSION['user_name'])) {
     $sql = "DELETE FROM `categories`
     WHERE `id` = $cat_id;";
 }

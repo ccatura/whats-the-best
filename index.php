@@ -4,8 +4,7 @@ include_once('./functions.php');
 
 
 session_start();
-// $_SESSION['user_name'] = 'ccatura';
-// session_destroy();
+
 ?>
 
 <!DOCTYPE html>
