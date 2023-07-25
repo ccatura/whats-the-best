@@ -1,6 +1,7 @@
 <?php
 require('./functions.php');
 include('./db-connect.php');
+require "vendor/autoload.php";
 session_start();
 
 $user_name  = $_POST['user_name'];
