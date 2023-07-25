@@ -12,6 +12,8 @@ if (is_admin($conn, $_SESSION['user_name'])) {
     echo get_config_delete_data($conn);
     echo '<h2>Combine Data</h2>';
     echo get_config_combine_data($conn);
+    echo '<h2>Make Admin</h2>';
+    echo config_make_admin($conn);
 }
 ?>
 

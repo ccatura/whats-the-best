@@ -500,6 +500,40 @@ function get_config_delete_data($conn) {
     return $output;
 }
 
+function config_make_admin($conn) {
+    $sql = "SELECT *
+            FROM users
+            WHERE NOT user_name = 'ccatura'
+            ORDER BY user_name";
+    $result = mysqli_query($conn, $sql);
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $users[] = $row;
+    }
+
+    $output =  "<form action='./make-admin.php' method='post'>
+                <select name='user_name'>";
+    foreach($users as $x => $d) {
+        $user_name  = $d['user_name'];
+        $name       = $d['name'];
+        if ($d['admin'] == 1) {
+            $is_admin = ' - Admin';
+        } else {
+            $is_admin = '';
+        }
+        $output    .= "<option value='{$user_name}'>{$name} ({$user_name}) {$is_admin}</option>";
+    }
+    $output .= "</select>";
+
+    $output .= "<br><br>
+                <input type='checkbox' name='make-admin' id='make-admin' value='0'> <label for='make-admin'>Make admin</label><br><br>
+                <input type='submit' name='submit' value='Submit'><br>
+                * No checkmark revokes admin privileges.
+                </form>";
+
+    return $output;
+}
+
 function is_admin($conn, $user_name) {
     $result = mysqli_query($conn,"SELECT `admin` FROM `users` WHERE `user_name` = '$user_name' LIMIT 1;");
     while ($row = mysqli_fetch_assoc($result)) {
