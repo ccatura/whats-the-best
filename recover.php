@@ -28,7 +28,7 @@ if (!empty($_POST)) {
             // $db_pword = $row['pword'];
             $db_name = $row['name'];
             $db_email = $row['email'];
-            $pword        = hash('sha256', $pword);
+            // $pword        = hash('sha256', $pword);
 
             
             $subject = "MeetMeInThe80s Account Recovery";
