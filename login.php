@@ -85,7 +85,7 @@ if (!empty($_POST)) {
             // IMAGE UPLOAD SECTION
             // IMAGE UPLOAD SECTION
             // IMAGE UPLOAD SECTION
-            if(isset($_POST["fileToUpload"])) {
+            // if(isset($_POST["fileToUpload"])) {
                 $target_dir     = "./images/user_pics/";
                 $target_file    = $target_dir . basename($_FILES["fileToUpload"] . "asdfasdfsd");
                 $uploadOk       = 1;
@@ -130,7 +130,7 @@ if (!empty($_POST)) {
                         echo "Sorry, there was an error uploading your file.";
                     }
                 }
-            }
+            // }
             // END IMAGE UPLOAD SECTION
             // END IMAGE UPLOAD SECTION
             // END IMAGE UPLOAD SECTION
