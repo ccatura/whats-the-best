@@ -15,7 +15,7 @@
 
 
 } else {
-    echo   "<form class='message-single' action='#' method='post'>
+    echo   "<form class='alert-single' action='#' method='post'>
             Send message to: {$to}<br><br>
             <input type='hidden' name='to' value='{$to}'>
             Subject

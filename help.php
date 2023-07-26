@@ -17,7 +17,7 @@
     } elseif (!isset($_SESSION['user_name'])) {
         echo "<a href='./'>Login to use help</a>";
     } else {
-        echo   "<form class='message-single' action='#' method='post'>
+        echo   "<form class='alert-single' action='#' method='post'>
                 Send message to<strong>Help</strong><br>
                 <input type='hidden' name='to' value='{$to}'>
                 From<strong>{$from} ({$name})</strong><br>

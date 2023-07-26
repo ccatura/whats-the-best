@@ -4,7 +4,7 @@ $m_count = '';
 
 // Display message if exists
 if (isset($_SESSION['message'])) {
-    echo $_SESSION['message'] . '<br><br>';
+    echo "<div class='sub session-message'>{$_SESSION['message']}</div>";
     unset($_SESSION['message']);
 }
 

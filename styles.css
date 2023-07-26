@@ -98,6 +98,11 @@ a {
     color: black;
 }
 
+.session-message {
+    background-color: rgb(241, 181, 90);
+    color: black;
+}
+
 .button {
     background-color: rgb(209, 209, 209);
     color: black;
@@ -212,8 +217,8 @@ a {
     margin-top: auto;
 }
 
-.message-single {
-    background-color: rgb(210, 255, 212);
+.alert-single {
+    background-color: lightgray;
     color: black;
     display: flex;
     flex-flow: column nowrap;
@@ -225,14 +230,14 @@ a {
     border: 5px solid black;
     border-radius: 20px;
     box-shadow: 20px 20px 0 black;
-    min-width: 340px;
+    min-width: 280px;
 }
 
-.message-row {
+.alert-row {
     margin: 0 0 10px 0;
 }
 
-.message-row_date {
+.alert-row_date {
     margin: 0 0 10px 0;
 }
 
