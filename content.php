@@ -49,7 +49,10 @@ if ($type == 'home') {
     include './how-to-2.php';
 } elseif ($type == 'how-to-3') {
     include './how-to-3.php';
+} elseif ($type == 'login') {
+    include './login.php';
 }
+
 
 
 

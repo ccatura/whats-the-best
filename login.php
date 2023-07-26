@@ -4,7 +4,7 @@ if(!isset($_GET['register'])) {
 
     echo "<div class='alert-single' style='max-width: 500px; text-align: center;'>Welcome to 'What's the Best?' – an exciting web app in development that aims to determine the top picks from the iconic eras of the 70s, 80s, and 90s. Join our community, cast your votes, and let's collectively identify the ultimate favorites in movies, books, retro computers, stores, restaurants, and more. Sign up today and play a crucial role in shaping this unique platform!</div><br>";
 
-    echo   '<form action="#" method="post">
+    echo   '<form action="./?type=login" method="post">
                 <input type="hidden" name="login-type" value="login">
                 <div>User Name<br><input type="text" name="user_name" placeholder="User Name"></div>
                 <div>Password<br><input type="password" name="pword" placeholder="Password"></div>
@@ -14,12 +14,13 @@ if(!isset($_GET['register'])) {
                 
             </form>';
 } else {
-    echo   '<form action="#" method="post">
+    echo   '<form action="./?type=login" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="login-type" value="register">
                 <div>Choose User Name<br><input type="text" name="user_name" placeholder="Choose User Name" minlength="4" required></div>
                 <div>Real Name<br><input type="text" name="name" placeholder="Real Name" required></div>
                 <div>Year Born<br><input type="number" name="year_born" placeholder="Year Born" minlength="4" min="1923" max="2020" required></div>
                 <div>Email<br><input type="email" name="email" placeholder="Email" minlength="6" required></div>
+                <div>Profile Pic<br><input type="file" name="profile_pic" placeholder="Profile pic"></div>
                 <div>Choose Password<br><input type="password" name="pword" placeholder="Choose Password" minlength="8" required></div>
                 <div><input type="submit" name="submit" value="Submit"></div>
                 <a href="./"><div>Have and account?<br>Login Here</div></a>
