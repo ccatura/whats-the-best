@@ -126,7 +126,7 @@ if (!empty($_POST)) {
 
                     if (move_uploaded_file($image_name, $target_file_resized)) {
                         echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
-                        rename($target_file, $user_name . '.jpg');
+                        rename($target_file, $target_dir . $user_name . '_profile.jpg');
                     } else {
                         echo "Sorry, there was an error uploading your file.";
                     }
