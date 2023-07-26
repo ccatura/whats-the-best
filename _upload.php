@@ -52,7 +52,7 @@ if ($uploadOk == 0) {
 
   if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
     echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
-    $target_file =  imagescale ( basename($target_file) , 100 , 100 );
+    $target_file =  imagescale ( basename($target_file.'.jpg') , 100 , 100 );
     move_uploaded_file($target_file, '_'.$target_file);
 
   } else {
