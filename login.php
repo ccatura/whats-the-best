@@ -122,11 +122,11 @@ if (!empty($_POST)) {
                     $image_name  = $_FILES["fileToUpload"]["tmp_name"];
                     $image       = imagecreatefromjpeg ($image_name);
                     $imgResized  = imagescale($image , 100, -1);
-                    $target_file = imagejpeg($imgResized, $target_file);
+                    // $target_file = imagejpeg($imgResized, $target_file);
 
-                    echo "image_name: {$image_name}<br>";
-                    echo "image: {$image}<br>";
-                    echo "imgResized: {$imgResized}<br>";
+                    // echo "image_name: {$image_name}<br>";
+                    // echo "image: {$image}<br>";
+                    // echo "imgResized: {$imgResized}<br>";
                     echo "target_file: {$target_file}<br>";
 
                     if (move_uploaded_file($image_name, $target_file)) {
