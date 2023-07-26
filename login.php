@@ -87,7 +87,7 @@ if (!empty($_POST)) {
             // IMAGE UPLOAD SECTION
             // if(isset($_POST["fileToUpload"])) {
                 $target_dir     = "./images/user_pics/";
-                $target_file    = $target_dir . basename($_FILES["fileToUpload"][$user_name]);
+                $target_file    = $target_dir . basename($_FILES["fileToUpload"]["name"]);
                 $uploadOk       = 1;
                 $imageFileType  = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
