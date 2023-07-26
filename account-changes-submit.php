@@ -11,7 +11,7 @@ $sql = "UPDATE `users` SET ";
 
 $count = 0;
 foreach ($fields as $field => $value) {
-    if ($field !='submit' && $value != '' && $value != null) {
+    if ($field !='submit' && $field != 'fileToUpload' && $value != '' && $value != null) {
         echo 'field ' . $field . '   value: ' . $value . '<br><br>';
         if ($field == 'pword') {
             $value = hash('sha256', $value);
@@ -35,4 +35,4 @@ if ($non_empty_fields_count != 0) {
     $_SESSION['message'] = "Account updated!";
 }
 
-header("Location: ./?type=account");
+// header("Location: ./?type=account");
