@@ -47,7 +47,7 @@ if ($uploadOk == 0) {
 
   $image_name  = $target_file;
   $image       = imagecreatefromjpeg ($image_name);
-  $imgResized  = imagescale($image , 100, 100);
+  $imgResized  = imagescale($image , 100, -1);
   $target_file = imagejpeg($imgResized, $target_file);
 
 
