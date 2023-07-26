@@ -46,8 +46,9 @@ if ($uploadOk == 0) {
 } else {
 
 
+$target_file =  imagescale ( $target_file , 100 , 100 );
 
-  $target_file = imagecreatefromjpeg($_FILES["fileToUpload"]["tmp_name"]);
+
 
 
   if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
