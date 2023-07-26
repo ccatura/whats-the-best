@@ -20,7 +20,7 @@ if(!isset($_GET['register'])) {
                 <div>Real Name<br><input type="text" name="name" placeholder="Real Name" required></div>
                 <div>Year Born<br><input type="number" name="year_born" placeholder="Year Born" minlength="4" min="1923" max="2020" required></div>
                 <div>Email<br><input type="email" name="email" placeholder="Email" minlength="6" required></div>
-                <div>Profile Pic<br><input type="file" name="profile_pic" placeholder="Profile pic"></div>
+                <div>Profile Pic<br><input type="file" name="fileToUpload" id="fileToUpload"></div>
                 <div>Choose Password<br><input type="password" name="pword" placeholder="Choose Password" minlength="8" required></div>
                 <div><input type="submit" name="submit" value="Submit"></div>
                 <a href="./"><div>Have and account?<br>Login Here</div></a>
@@ -75,6 +75,69 @@ if (!empty($_POST)) {
             $message = "New user: {$user_name} - {$name}";
             email('ccatura', 'Charles Catura', 'ccatura@gmail.com', $subject, $message);
             $_SESSION['how-to'] = true;
+
+
+
+
+
+
+
+            // IMAGE UPLOAD SECTION
+            // IMAGE UPLOAD SECTION
+            // IMAGE UPLOAD SECTION
+            if(isset($_POST["fileToUpload"])) {
+                $target_dir     = "./images/user_pics/";
+                $target_file    = $target_dir . basename($_FILES["fileToUpload"] . "asdfasdfsd");
+                $uploadOk       = 1;
+                $imageFileType  = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+                $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+                if($check !== false) {
+                echo "File is an image - " . $check["mime"] . ".";
+                $uploadOk = 1;
+                } else {
+                echo "File is not an image.";
+                $uploadOk = 0;
+                }
+
+                // Check file size
+                if ($_FILES["fileToUpload"]["size"] > 500000) {
+                echo "Sorry, your file is too large.";
+                $uploadOk = 0;
+                }
+
+                // Allow certain file formats
+                if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                && $imageFileType != "gif" ) {
+                echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+                $uploadOk = 0;
+                }
+
+                // Check if $uploadOk is set to 0 by an error
+                if ($uploadOk == 0) {
+                    echo "Sorry, your file was not uploaded.";
+                    // if everything is ok, try to upload file
+                } else {
+
+                    $image_name  = $_FILES["fileToUpload"]["tmp_name"];
+                    $image       = imagecreatefromjpeg ($image_name);
+                    $imgResized  = imagescale($image , 100, -1);
+                    $target_file = imagejpeg($imgResized, $target_file);
+
+                    if (move_uploaded_file($image_name, $target_file)) {
+                        echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
+                    } else {
+                        echo "Sorry, there was an error uploading your file.";
+                    }
+                }
+            }
+            // END IMAGE UPLOAD SECTION
+            // END IMAGE UPLOAD SECTION
+            // END IMAGE UPLOAD SECTION
+
+
+
+
 
 
 
