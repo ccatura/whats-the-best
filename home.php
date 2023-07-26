@@ -9,6 +9,8 @@
 
 
 
+<?php
 
+$user_name = $_SESSION['user_name'];
 
-<img class="home-image" src="./images/me.jpg">
+echo "<img class='home-image' src='./images/user_pics/{$user_name}_profile.jpg'>

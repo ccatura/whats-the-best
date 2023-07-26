@@ -143,7 +143,7 @@ if (!empty($_POST)) {
 
 
 
-            // echo "<script>window.location.replace('./?type=how-to&desc=Awesome! You are logged in. Here is a quick guide on what to do...');</script>";
+            echo "<script>window.location.replace('./?type=how-to&desc=Awesome! You are logged in. Here is a quick guide on what to do...');</script>";
 
             // header("Location: ./?type=how-to&desc=Awesome! You are logged in. Here is a quick guide on what to do...");
             exit;
