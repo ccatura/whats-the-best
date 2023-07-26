@@ -45,18 +45,15 @@ if ($uploadOk == 0) {
 // if everything is ok, try to upload file
 } else {
 
-
-
-
+  $image_name  = $target_file;
+  $image       = imagecreatefromjpeg ($image_name);
+  $imgResized  = imagescale($image , 100, 100);
+  $target_file = imagejpeg($imgResized, $target_file);
 
 
   if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
     echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
 
-    $image_name  = $target_file;
-    $image       = imagecreatefromjpeg ($image_name);
-    $imgResized  = imagescale($image , 100, 100); // width=500 and height = 400
-    imagejpeg($imgResized, $target_file);
 
 
     move_uploaded_file($target_file, '_'.$target_file);
