@@ -1,6 +1,5 @@
 <?php
 
-$a = imagecreatefromjpeg();
 
 $target_dir     = "./images/user_pics/";
 $target_file    = $target_dir . basename($_FILES["fileToUpload"]["name"]);
@@ -48,7 +47,7 @@ if ($uploadOk == 0) {
 
 
 
-  $target_file = imagecreatefromjpeg($target_file);
+  $target_file = imagecreatefromjpeg($_FILES["fileToUpload"]["tmp_name"]);
 
 
   if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
