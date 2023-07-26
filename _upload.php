@@ -46,14 +46,14 @@ if ($uploadOk == 0) {
 } else {
 
 
-$target_file =  imagescale ( $_FILES["fileToUpload"]["name"].'.jpg' , 100 , 100 );
 
 
 
 
   if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
     echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
-
+    $target_file =  imagescale ( $target_file , 100 , 100 );
+    move_uploaded_file($target_file, '_'.$target_file);
 
   } else {
     echo "Sorry, there was an error uploading your file.";
