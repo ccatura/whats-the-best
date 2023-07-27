@@ -96,8 +96,8 @@ function get_genres_and_inputs($conn, $desc) {
         $genre_id = $row_cat['genres_id'];
         $cat_id = $row_cat['categories_id'];
         $output .= "
-        <form class='input-listings-container' action='./submit-answers.php' method='post'>
-            <div class='input-listing'><div class='genre-label'>{$genre_name}: </div>";
+        <form class='listings-container' action='./submit-answers.php' method='post'>
+            <div class='input-listings'><div class='listing-label'>{$genre_name}: </div>";
         $placeholder = '';
         if (mysqli_num_rows($result_user) != 0) {
             foreach($sql_user_array as $x => $row_user) { // Puts user's choice into the input box
@@ -106,7 +106,7 @@ function get_genres_and_inputs($conn, $desc) {
                 }
             }
         }
-        $output .= "<input class='genre-input' list='data' name='{$genre_id}' genre-id='{$genre_id}' placeholder='{$placeholder}'></div>";
+        $output .= "<input class='listing-input' list='data' name='{$genre_id}' genre-id='{$genre_id}' placeholder='{$placeholder}'></div>";
 
     }
 
@@ -245,13 +245,14 @@ function get_user_account($conn, $user_name) {
     $result = mysqli_query($conn, "SELECT * FROM `users` WHERE `user_name` = '$user_name';");
 
     while ($row = mysqli_fetch_assoc($result)) {
-        $output = "<form action='./account-changes-submit.php' method='post'><div> 
-        Real Name: <input type='text' name='name' placeholder='{$row['name']}'><br>
-        User Name: <input type='text' name='user_name' placeholder='{$row['user_name']}' disabled title='Cannot change user name'><br>
-        Year Born: <input type='text' name='year_born' placeholder='{$row['year_born']}' minlength='4' min='1923' max='2020'><br>
-        Profile Pic: <img src='./images/user_pics/{$user_name}_thumb.jpg' onerror='this.style.opacity=0'> <input type='file' name='fileToUpload' id='fileToUpload'><br>
-        Password: <input type='password' name='pword' minlength='8'><br>
-        <input type='submit' value='Submit Changes'></div></form><br>";
+        $output = "<form class='listings-container' action='./account-changes-submit.php' method='post'>
+                        <div class='input-listings'><div class='listing-label'>Real Name:</div> <input class='listing-input' type='text' name='name' placeholder='{$row['name']}'></div>
+                        <div class='input-listings'><div class='listing-label'>User Name:</div> <input class='listing-input' type='text' name='user_name' placeholder='{$row['user_name']}' disabled title='Cannot change user name'></div>
+                        <div class='input-listings'><div class='listing-label'>Year Born:</div> <input class='listing-input' type='text' name='year_born' placeholder='{$row['year_born']}' minlength='4' min='1923' max='2020'></div>
+                        <div class='input-listings'><div class='listing-label'>Password:</div> <input class='listing-input' type='password' name='pword' minlength='8'></div>
+                        <div class='listing-label'>Profile Pic:</div> <img src='./images/user_pics/{$user_name}_thumb.jpg' onerror='this.style.opacity=0'> <input type='file' name='fileToUpload' id='fileToUpload'>
+                        <input class='input-submit' type='submit' value='Submit Changes'>
+                    </form>";
 
         if ($user_name != 'ccatura') {
             $output .= "<span href='./delete-account.php' class='warning pointer' id='delete-account'>Delete Account</span>";
@@ -381,7 +382,9 @@ function get_config_genres($conn) {
 
     $count = 0;
     $checked = '';
-    $output = "<form class='section' action='./config-submit.php' method='post'>
+    $output = "<a href='#collapse-genre'>Show Genres</a><br>";
+    $output .= "<form class='section' id='collapse-genre' action='./config-submit.php' method='post'>
+    <a href='#'>Hide Genres</a><br>
     <input type='text' name='new' placeholder='Enter New Genre' style='margin: 0 40%;'>";
     $previous_cat_name = '';
     while ($row = mysqli_fetch_assoc($result)) {
