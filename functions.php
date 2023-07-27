@@ -13,14 +13,14 @@ function get_users_years_combined($conn) {
 
 function get_category_buttons($conn) {
     $result = mysqli_query($conn,"SELECT * FROM `categories` ORDER BY `name`");
-    $categories =  '<div id="categories" class="section">
-                    <div class="sec-title"></div>';
+    $categories =  "<div id='categories' class='section'>
+                    <div class='sec-title'></div>";
 
     while ($row = mysqli_fetch_assoc($result)) {
         $cat_name = $row['name'];
-        $categories .= '<a class="sub cat" href="./?type=category&desc=' . $cat_name . '#content">' . $cat_name . '</a>';
+        $categories .= "<a class='sub cat' href='./?type=category&desc={$cat_name}#content'>{$cat_name}</a>";
     }
-    $categories .= '</div>';
+    $categories .= "</div>";
     return $categories;
 }
 
@@ -36,7 +36,7 @@ function get_year_buttons($conn) {
         $year = $row['year_born'];
         $years .= "<a class='sub year' href='./?type=year&desc={$year}#content' title='{$row['count']} user(s)'>{$year}</a>";
     }
-    $years .= '</div>';
+    $years .= "</div>";
     return $years;
 }
 
@@ -90,7 +90,7 @@ function get_genres_and_inputs($conn, $desc) {
         ORDER BY   data.name"
     );
 
-    $output = '';
+    $output = "";
     while ($row_cat = mysqli_fetch_assoc($result_categories)) {
         $genre_name = $row_cat['genres_name'];
         $genre_id = $row_cat['genres_id'];
@@ -98,7 +98,7 @@ function get_genres_and_inputs($conn, $desc) {
         $output .= "
         <form class='listings-container' action='./submit-answers.php' method='post'>
             <div class='input-listings'><div class='listing-label'>{$genre_name}: </div>";
-        $placeholder = '';
+        $placeholder = "";
         if (mysqli_num_rows($result_user) != 0) {
             foreach($sql_user_array as $x => $row_user) { // Puts user's choice into the input box
                 if ($row_user['answers_genre_id'] == $genre_id) {
@@ -176,7 +176,7 @@ function get_category_stats($conn, $cat_id) {
     GROUP BY answers.data_id ORDER BY totals DESC, data.name";
 
     $result = mysqli_query($conn, $sql);
-    $output = '';
+    $output = "";
     while ($row = mysqli_fetch_assoc($result)) {
         $href = "./?type=stats&data_id={$row['id']}&cat_id={$cat_id}#content";
         $output .= "<a href='$href'>{$row['totals']} votes - {$row['name']}</a>";
@@ -193,7 +193,7 @@ function get_specific_stat($conn, $data_id, $cat_id) {
                 GROUP BY genres.name";
 
     $result = mysqli_query($conn, $sql);
-    $output = '';
+    $output = "";
     while ($row = mysqli_fetch_assoc($result)) {
         $output .= "{$row['totals']} votes - {$row['name']}<br>";
     }
@@ -210,7 +210,7 @@ function get_name_from_data_id($conn, $data_id) {
 function get_users_for_year($conn, $year) {
     $result = mysqli_query($conn,"SELECT * FROM `users` WHERE `year_born` = $year");
 
-    $output  = '<div id="users">';
+    $output  = "<div id='users'>";
 
     while ($row = mysqli_fetch_assoc($result)) {
         $the_user  = $row['user_name'];
@@ -221,8 +221,8 @@ function get_users_for_year($conn, $year) {
             $subject   = "Message from {$_SESSION['name']}";
             $message   = "Hi!";
         } else {
-            $subject = '';
-            $message = '';
+            $subject = "";
+            $message = "";
         }
 
         $view_user = "<a href='./?type=view-votes&desc={$the_user}&rsquo;s Votes&the_user={$the_user}'>{$the_name} ({$the_user})</a>";
@@ -231,12 +231,12 @@ function get_users_for_year($conn, $year) {
             $wtb_message = "<a href='./?type=wtb-message&desc=Send Message&the_user={$the_user}'> &#9993; </a>";
             $say_hi = "<a href='./message.php?user_name={$the_user}&name={$the_name}&subject={$subject}&message={$message}' class='pointer' title='Say hi to {$the_name}'>&#128515;</a>";
         } else {
-            $wtb_message = '';
-            $say_hi = '';
+            $wtb_message = "";
+            $say_hi = "";
         }
         $output .= "<div>{$say_hi} {$view_user} {$wtb_message}</div>";
     }
-    $output .= '</div>';
+    $output .= "</div>";
     return $output;
 }
 
@@ -334,7 +334,7 @@ function message($conn, $from, $to, $subject, $message) {
 }
 
 function get_user_messages($conn, $user_name) {
-    $output = '';
+    $output = "";
     $sql = "SELECT * FROM `messages`
             JOIN `users` ON users.user_name = user_name_from
             WHERE `user_name_to` = '$user_name'
@@ -381,25 +381,25 @@ function get_config_genres($conn) {
     }
 
     $count = 0;
-    $checked = '';
+    $checked = "";
     $output = "<a href='#collapse-genre'>Show Genres</a><br>";
     $output .= "<form class='section' id='collapse-genre' action='./config-submit.php' method='post'>
     <a href='#content'>Hide Genres</a><br>
     <input type='text' name='new' placeholder='Enter New Genre' style='margin: 0 40%;'>";
-    $previous_cat_name = '';
+    $previous_cat_name = "";
     while ($row = mysqli_fetch_assoc($result)) {
         if ($row['cat_name'] != $previous_cat_name) {
             $output .= "<p class='config-sec'>";
             $cat_name_non_repeat = $row['cat_name'];
             $previous_cat_name = $cat_name_non_repeat;
         } else {
-            $cat_name_non_repeat = '';
+            $cat_name_non_repeat = "";
         }
 
-        $checked = '';
+        $checked = "";
         foreach($sql_checked_array as $x => $row_checked) {
             if ($row['cat_id'] == $row_checked['cat_id'] && $row['genres_id'] == $row_checked['genre_id']) {
-                $checked = 'checked';
+                $checked = "checked";
             }
         }
 
@@ -523,9 +523,9 @@ function config_make_admin($conn) {
         $user_name  = $d['user_name'];
         $name       = $d['name'];
         if ($d['admin'] == 1) {
-            $is_admin = ' - Admin';
+            $is_admin = " - Admin";
         } else {
-            $is_admin = '';
+            $is_admin = "";
         }
         $output    .= "<option value='{$user_name}'>{$name} ({$user_name}) {$is_admin}</option>";
     }
