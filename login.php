@@ -101,12 +101,6 @@ if (!empty($_POST)) {
                     $uploadOk = 0;
                 }
 
-                // // Check file size
-                // if ($_FILES["fileToUpload"]["size"] > 5000000) {
-                //     echo "Sorry, your file is too large.";
-                //     $uploadOk = 0;
-                // }
-
                 // Allow certain file formats
                 if($imageFileType != "jpg" /* && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" */) {
                     echo "Sorry, only JPG or JPEG files are allowed.";
@@ -122,7 +116,7 @@ if (!empty($_POST)) {
                     // $image_name  = $_FILES["fileToUpload"]["tmp_name"];
                     $image_name                     = $_FILES["fileToUpload"]["tmp_name"];
                     $image                          = imagecreatefromjpeg ($image_name);
-                    $image_profile                  = imagescale($image , 100, -1);
+                    $image_profile                  = imagescale($image , 100, -1, IMG_BICUBIC);
                     // $image_large                    = imagescale($image , 500, -1);
                     $target_file_resized_profile    = imagejpeg($image_profile, $target_file_profile);
                     // $target_file_resized_large      = imagejpeg($image_large, $target_file_large);
