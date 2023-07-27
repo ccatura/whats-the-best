@@ -14,7 +14,7 @@ if(!isset($_GET['register'])) {
                 
             </form>";
 } else {
-    echo   "<form id='login' action='./?type=login' method='post' enctype='multipart/form-data'>
+    echo   "<form id='login' action='./?type=login' method='post' enctype='multipart/form-data' autocomplete='off'>
                 <input type='hidden' name='login-type' value='register'>
                 <div>Choose User Name<br><input type='text' name='user_name' placeholder='Choose User Name' minlength='4' required></div>
                 <div>Real Name<br><input type='text' name='name' placeholder='Real Name' required></div>
