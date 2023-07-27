@@ -88,6 +88,8 @@ if (!empty($_POST)) {
                 $target_dir             = "./images/user_pics/";
                 $original_file_name     = $target_dir . basename($_FILES["fileToUpload"]["name"]); // Original name of image, including path to save it
                 $imageFileType          = strtolower(pathinfo($original_file_name, PATHINFO_EXTENSION)); // The file's extension
+                $new_thumb_name         = $target_dir . $user_name . '_thumb.jpg';
+                $new_large_name         = $target_dir . $user_name . '_large.jpg';
                 $uploadOk               = 1;
 
                 echo "target_dir: {$target_dir}<br>";
@@ -97,14 +99,11 @@ if (!empty($_POST)) {
                 $image_name     = $_FILES["fileToUpload"]["tmp_name"];
                 $image          = imagecreatefromjpeg ($image_name);
                 $image_thumb    = imagescale($image , 100, -1);
-                $image_large    = imagescale($image , 500, -1);
-
-                $new_thumb_name = $target_dir . $user_name . '_thumb.jpg';
-                $new_large_name = $target_dir . $user_name . '_large.jpg';
-
                 imagejpeg($image_thumb, $new_thumb_name);
+
+                $image          = imagecreatefromjpeg ($image_name);
+                $image_large    = imagescale($image , 500, -1);
                 imagejpeg($image_thumb, $new_large_name);
-                // rename($original_file_name, $target_dir . $user_name . '_thumb.jpg');
 
             // END IMAGE UPLOAD SECTION
             // END IMAGE UPLOAD SECTION
