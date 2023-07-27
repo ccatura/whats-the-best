@@ -18,7 +18,7 @@ function get_category_buttons($conn) {
 
     while ($row = mysqli_fetch_assoc($result)) {
         $cat_name = $row['name'];
-        $categories .= '<a href="./?type=category&desc=' . $cat_name . '#content"><div class="sub cat">' . $cat_name . '</div></a>';
+        $categories .= '<a class="sub cat" href="./?type=category&desc=' . $cat_name . '#content">' . $cat_name . '</a>';
     }
     $categories .= '</div>';
     return $categories;
@@ -34,7 +34,7 @@ function get_year_buttons($conn) {
 
     while ($row = mysqli_fetch_assoc($result)) {
         $year = $row['year_born'];
-        $years .= "<a href='./?type=year&desc={$year}#content'><div class='sub year' title='{$row['count']} user(s)'>{$year}</div></a>";
+        $years .= "<a class='sub year' href='./?type=year&desc={$year}#content' title='{$row['count']} user(s)'>{$year}</a>";
     }
     $years .= '</div>';
     return $years;
@@ -96,8 +96,8 @@ function get_genres_and_inputs($conn, $desc) {
         $genre_id = $row_cat['genres_id'];
         $cat_id = $row_cat['categories_id'];
         $output .= "
-        <form action='./submit-answers.php' method='post'>
-        <label>{$genre_name}: ";
+        <form class='input-listings-container' action='./submit-answers.php' method='post'>
+            <div class='input-listing'><div class='genre-label'>{$genre_name}: </div>";
         $placeholder = '';
         if (mysqli_num_rows($result_user) != 0) {
             foreach($sql_user_array as $x => $row_user) { // Puts user's choice into the input box
@@ -106,7 +106,7 @@ function get_genres_and_inputs($conn, $desc) {
                 }
             }
         }
-        $output .= "<input list='data' name='{$genre_id}' genre-id='{$genre_id}' placeholder='{$placeholder}'></label><br>";
+        $output .= "<input class='genre-input' list='data' name='{$genre_id}' genre-id='{$genre_id}' placeholder='{$placeholder}'></div>";
 
     }
 
@@ -117,7 +117,7 @@ function get_genres_and_inputs($conn, $desc) {
         <option value=\"" . $row_data['data_name'] . "\">";
     }
     $output .= "</datalist>";
-    $output .= "<button name='submit' value='submit'>Submit All</button></form>";
+    $output .= "<button class='input-submit' name='submit' value='submit'>Submit All</button></form>";
     return $output;
 }
 

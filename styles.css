@@ -79,7 +79,7 @@ a {
     border-radius: 10px;
     margin: 5px;
     overflow: hidden;
-    white-space: nowrap;
+    /* white-space: nowrap; */
     height: 30px;
     font-weight: bold;
     box-shadow: 5px 5px 0 rgb(0, 0, 0);
@@ -249,4 +249,52 @@ a {
 .profile-small {
     width: 80px;
     height: auto;
+}
+
+.input-listings-container {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-listing {
+    /* border: 2px solid red; */
+    max-width: 400px;
+    min-width: 300px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.genre-label {
+    max-width: 120px;
+    text-align: right;
+}
+
+.genre-input {
+    max-width: 180px;
+}
+
+.input-submit {
+    margin-top: 1em;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 450px) {
+    .sub {
+        width: 100%;
+    }
 }
