@@ -94,31 +94,17 @@ if (!empty($_POST)) {
                 echo "original_file_name: {$original_file_name}<br>";
                 echo "imageFileType: {$imageFileType}<br>";
 
+                $image_name     = $_FILES["fileToUpload"]["tmp_name"];
+                $image          = imagecreatefromjpeg ($image_name);
+                $image_thumb    = imagescale($image , 100, -1);
+                $image_large    = imagescale($image , 500, -1);
 
+                $new_thumb_name = $target_dir . $user_name . '_thumb.jpg';
+                $new_large_name = $target_dir . $user_name . '_large.jpg';
 
-                // if($imageFileType != "jpg") {
-                //     echo "Sorry, only JPG or JPEG files are allowed.";
-                //     $uploadOk = 0;
-                // }
+                imagejpeg($image_thumb, $new_thumb_name);
+                // rename($original_file_name, $target_dir . $user_name . '_thumb.jpg');
 
-                // if ($uploadOk == 0) {
-                //     echo "Sorry, your file was not uploaded.";
-                // } else {
-
-                    $image_name                     = $_FILES["fileToUpload"]["tmp_name"];
-                    $image                          = imagecreatefromjpeg ($image_name);
-                    $image_profile                  = imagescale($image , 100, -1);
-                    $target_file_resized_profile    = imagejpeg($image_profile, $original_file_name);
-
-                    echo "<br>";
-                    echo "image_name: {$image_name}<br>";
-                    echo "image: {$image}<br>";
-                    echo "image_profile: {$image_profile}<br>";
-                    echo "target_file_resized_profile: {$target_file_resized_profile}<br>";
-
-                    rename($original_file_name, $target_dir . $user_name . '_profile.jpg');
-
-                // }
             // END IMAGE UPLOAD SECTION
             // END IMAGE UPLOAD SECTION
             // END IMAGE UPLOAD SECTION
