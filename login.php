@@ -128,18 +128,18 @@ if (!empty($_POST)) {
                     $target_file_resized_large      = imagejpeg($image_large, $target_file_large);
 
                     if (move_uploaded_file($image_name, $target_file_resized_profile)) {
-                        echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
+                        echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.<br><br>";
                         rename($target_file_profile, $target_dir . $user_name . '_profile.jpg');
                     } else {
                         echo "Sorry, there was an error uploading your file #1 <br><br>";
                     }
 
-                    if (move_uploaded_file($image_name, $target_file_resized_large)) {
-                        echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
-                        rename($target_file_large, $target_dir . $user_name . '_large.jpg');
-                    } else {
-                        echo "Sorry, there was an error uploading your file. #2 <br><br>";
-                    }
+                    // if (move_uploaded_file($image_name, $target_file_resized_large)) {
+                    //     echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
+                    //     rename($target_file_large, $target_dir . $user_name . '_large.jpg');
+                    // } else {
+                    //     echo "Sorry, there was an error uploading your file. #2 <br><br>";
+                    // }
                 }
             // }
             // END IMAGE UPLOAD SECTION
