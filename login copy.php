@@ -52,29 +52,29 @@ if (!empty($_POST)) {
         }
     // register here
     } elseif ($_POST['login-type'] == 'register' && mysqli_num_rows($result) < 1) {
-        // $year_born  = $_POST['year_born'];
-        // $name       = $_POST['name'];
-        // $email      = $_POST['email'];
-        // $pword      = hash('sha256', $pword);
+        $year_born  = $_POST['year_born'];
+        $name       = $_POST['name'];
+        $email      = $_POST['email'];
+        $pword      = hash('sha256', $pword);
 
 
-        // $result = mysqli_query($conn,"INSERT INTO `users` (`user_name`, `pword`, `year_born`, `name`, `email`, `admin`) VALUES ('{$user_name}', '{$pword}', '{$year_born}', '{$name}', '{$email}', 0);");
-        // if ($result) {
-        //     $_SESSION['user_name'] = $user_name;
-        //     $_SESSION['name'] = $name;
+        $result = mysqli_query($conn,"INSERT INTO `users` (`user_name`, `pword`, `year_born`, `name`, `email`, `admin`) VALUES ('{$user_name}', '{$pword}', '{$year_born}', '{$name}', '{$email}', 0);");
+        if ($result) {
+            $_SESSION['user_name'] = $user_name;
+            $_SESSION['name'] = $name;
 
-        //     $subject = 'Welcome to MeetMeInThe80s!';
-        //     $message  = "Welcome {$name}!<br>";
-        //     $message .= "You have signed up to the MeetMeInThe80s.com app: 'What's the Best?' using user name: {$user_name}. ";
-        //     $message .= "To get started, login at <a href='http://meetmeinthe80s.com/apps/whats-the-best/?session=false'>MeetMeInThe80s.com/apps/whats-the-best</a>";
+            $subject = 'Welcome to MeetMeInThe80s!';
+            $message  = "Welcome {$name}!<br>";
+            $message .= "You have signed up to the MeetMeInThe80s.com app: 'What's the Best?' using user name: {$user_name}. ";
+            $message .= "To get started, login at <a href='http://meetmeinthe80s.com/apps/whats-the-best/?session=false'>MeetMeInThe80s.com/apps/whats-the-best</a>";
         
-        //     email($user_name, $name, $email, $subject, $message);
+            email($user_name, $name, $email, $subject, $message);
 
 
-        //     $subject = "Someone just registered on MMIT8";
-        //     $message = "New user: {$user_name} - {$name}";
-        //     email('ccatura', 'Charles Catura', 'ccatura@gmail.com', $subject, $message);
-        //     $_SESSION['how-to'] = true;
+            $subject = "Someone just registered on MMIT8";
+            $message = "New user: {$user_name} - {$name}";
+            email('ccatura', 'Charles Catura', 'ccatura@gmail.com', $subject, $message);
+            $_SESSION['how-to'] = true;
 
 
 
@@ -85,46 +85,48 @@ if (!empty($_POST)) {
             // IMAGE UPLOAD SECTION
             // IMAGE UPLOAD SECTION
             // IMAGE UPLOAD SECTION
+            // if(isset($_POST["fileToUpload"])) {
                 $target_dir             = "./images/user_pics/";
-                $original_file_name     = $target_dir . basename($_FILES["fileToUpload"]["name"]); // Original name of image, including path to save it
-                $imageFileType          = strtolower(pathinfo($original_file_name, PATHINFO_EXTENSION)); // The file's extension
+                $target_file_profile    = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+                // $target_file_large      = $target_dir . basename($_FILES["fileToUpload"]["name"]);
                 $uploadOk               = 1;
+                $imageFileType          = strtolower(pathinfo($target_file_profile, PATHINFO_EXTENSION));
 
-                echo "target_dir: {$target_dir}<br>";
-                echo "original_file_name: {$original_file_name}<br>";
-                echo "imageFileType: {$imageFileType}<br>";
+                // Allow certain file formats
+                if($imageFileType != "jpg" /* && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" */) {
+                    echo "Sorry, only JPG or JPEG files are allowed.";
+                    $uploadOk = 0;
+                }
 
+                // Check if $uploadOk is set to 0 by an error
+                if ($uploadOk == 0) {
+                    echo "Sorry, your file was not uploaded.";
+                // if everything is ok, try to upload file
+                } else {
 
-
-                // if($imageFileType != "jpg") {
-                //     echo "Sorry, only JPG or JPEG files are allowed.";
-                //     $uploadOk = 0;
-                // }
-
-                // if ($uploadOk == 0) {
-                //     echo "Sorry, your file was not uploaded.";
-                // } else {
-
+                    // $image_name  = $_FILES["fileToUpload"]["tmp_name"];
                     $image_name                     = $_FILES["fileToUpload"]["tmp_name"];
                     $image                          = imagecreatefromjpeg ($image_name);
                     $image_profile                  = imagescale($image , 100, -1);
-                    $target_file_resized_profile    = imagejpeg($image_profile, $original_file_name);
+                    // $image_large                    = imagescale($image , 500, -1);
+                    $target_file_resized_profile    = imagejpeg($image_profile, $target_file_profile);
+                    // $target_file_resized_large      = imagejpeg($image_large, $target_file_large);
 
-                    echo "<br>";
-                    echo "image_name: {$image_name}<br>";
-                    echo "image: {$image}<br>";
-                    echo "image_profile: {$image_profile}<br>";
-                    echo "target_file_resized_profile: {$target_file_resized_profile}<br>";
+                    if (move_uploaded_file($image_name, $target_file_resized_profile)) {
+                        echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.<br><br>";
+                        rename($target_file_profile, $target_dir . $user_name . '_profile.jpg');
+                    } else {
+                        echo "Sorry, there was an error uploading your file #1 <br><br>";
+                    }
 
-
-
-                    // if (move_uploaded_file($image_name, $target_file_resized_profile)) {
-                    //     echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.<br><br>";
-                    //     rename($original_file_name, $target_dir . $user_name . '_profile.jpg');
+                    // if (move_uploaded_file($image_name, $target_file_resized_large)) {
+                    //     echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
+                    //     rename($target_file_large, $target_dir . $user_name . '_large.jpg');
                     // } else {
-                    //     echo "Sorry, there was an error uploading your file #1 <br><br>";
+                    //     echo "Sorry, there was an error uploading your file. #2 <br><br>";
                     // }
-                // }
+                }
+            // }
             // END IMAGE UPLOAD SECTION
             // END IMAGE UPLOAD SECTION
             // END IMAGE UPLOAD SECTION
@@ -144,5 +146,5 @@ if (!empty($_POST)) {
     } else {
         echo 'There was a problem. Please try again.';
     }
-// }
+}
 
