@@ -86,10 +86,11 @@ if (!empty($_POST)) {
             // IMAGE UPLOAD SECTION
             // IMAGE UPLOAD SECTION
             // if(isset($_POST["fileToUpload"])) {
-                $target_dir     = "./images/user_pics/";
-                $target_file    = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-                $uploadOk       = 1;
-                $imageFileType  = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+                $target_dir             = "./images/user_pics/";
+                $target_file_profile    = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+                $target_file_large      = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+                $uploadOk               = 1;
+                $imageFileType          = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
                 $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
                 if($check !== false) {
@@ -123,19 +124,19 @@ if (!empty($_POST)) {
                     $image                          = imagecreatefromjpeg ($image_name);
                     $image_profile                  = imagescale($image , 100, -1);
                     $image_large                    = imagescale($image , 500, -1);
-                    $target_file_resized_profile    = imagejpeg($image_profile, $target_file);
-                    $target_file_resized_large      = imagejpeg($image_large, $target_file);
+                    $target_file_resized_profile    = imagejpeg($image_profile, $target_file_profile);
+                    $target_file_resized_large      = imagejpeg($image_large, $target_file_large);
 
                     if (move_uploaded_file($image_name, $target_file_resized_profile)) {
                         echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
-                        rename($target_file, $target_dir . $user_name . '_profile.jpg');
+                        rename($target_file_profile, $target_dir . $user_name . '_profile.jpg');
                     } else {
                         echo "Sorry, there was an error uploading your file #1 <br><br>";
                     }
 
                     if (move_uploaded_file($image_name, $target_file_resized_large)) {
                         echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
-                        rename($target_file, $target_dir . $user_name . '_large.jpg');
+                        rename($target_file_large, $target_dir . $user_name . '_large.jpg');
                     } else {
                         echo "Sorry, there was an error uploading your file. #2 <br><br>";
                     }
