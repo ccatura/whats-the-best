@@ -30,14 +30,14 @@ if (isset($_SESSION['user_name'])) {
 if (isset($_SESSION['user_name'])) {
     echo '<div class="section"><a href="./" class="sub link button" title="Go to Home Page">Home</a>';
     // echo 
-    echo '<a href="./?type=account&desc=Account" class="sub link button" title="' . $_SESSION['name'] . '">' . $_SESSION['user_name'] . ' &#9776;</a>';
+    echo '<a href="./?type=account&desc=Account#content" class="sub link button" title="' . $_SESSION['name'] . '">' . $_SESSION['user_name'] . ' &#9776;</a>';
     if (is_admin($conn, $_SESSION['user_name'])) {
-        echo '<a href="./?type=config&desc=Config" class="sub link button">Config</a>';
+        echo '<a href="./?type=config&desc=Config#content" class="sub link button">Config</a>';
     }
-    echo "<a href='./?type=messages&desc=Messages' class='sub link button' title='Messages'>Messages {$m_count}</a>";
+    echo "<a href='./?type=messages&desc=Messages#content' class='sub link button' title='Messages'>Messages {$m_count}</a>";
     echo '<span class="sub link button" id="logout">Logout</span></div>';
 } else {
-    echo '<div class="section"><a href="./" class="sub link button" title="Go to Home Page">Login</a>';
+    echo '<div class="section"><a href="./#login" class="sub link button" title="Go to Home Page">Login</a>';
 }
 
 

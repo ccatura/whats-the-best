@@ -384,7 +384,7 @@ function get_config_genres($conn) {
     $checked = '';
     $output = "<a href='#collapse-genre'>Show Genres</a><br>";
     $output .= "<form class='section' id='collapse-genre' action='./config-submit.php' method='post'>
-    <a href='#'>Hide Genres</a><br>
+    <a href='#content'>Hide Genres</a><br>
     <input type='text' name='new' placeholder='Enter New Genre' style='margin: 0 40%;'>";
     $previous_cat_name = '';
     while ($row = mysqli_fetch_assoc($result)) {

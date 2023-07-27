@@ -99,6 +99,7 @@ a {
 }
 
 .session-message {
+    height: auto !important;
     background-color: rgb(241, 181, 90);
     color: black;
 }
