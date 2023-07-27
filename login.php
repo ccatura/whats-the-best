@@ -75,7 +75,7 @@ if (!empty($_POST)) {
             email('ccatura', 'Charles Catura', 'ccatura@gmail.com', $subject, $message);
             $_SESSION['how-to'] = true;
 
-            if (isset($_FILES['file-to-upload'])) {
+            if ($_FILES['file-to-upload']) {
                 prepare_images_uploaded($_FILES, $user_name);
             } else {
                 // Assign generic profile pics
