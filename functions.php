@@ -249,7 +249,7 @@ function get_user_account($conn, $user_name) {
         Real Name: <input type='text' name='name' placeholder='{$row['name']}'><br>
         User Name: <input type='text' name='user_name' placeholder='{$row['user_name']}' disabled title='Cannot change user name'><br>
         Year Born: <input type='text' name='year_born' placeholder='{$row['year_born']}' minlength='4' min='1923' max='2020'><br>
-        Profile Pic: <img src='./images/user_pics/{$user_name}_profile.jpg'> <input type='file' name='fileToUpload' id='fileToUpload'><br>
+        Profile Pic: <img src='./images/user_pics/{$user_name}_thumb.jpg'> <input type='file' name='fileToUpload' id='fileToUpload'><br>
         Password: <input type='password' name='pword' minlength='8'><br>
         <input type='submit' value='Submit Changes'></div></form><br>";
 
@@ -346,7 +346,7 @@ function get_user_messages($conn, $user_name) {
         $user_name_from = $row['user_name_from'];
 
         $output .= "<div class='alert-single'>
-                        <img class='profile-small' src='./images/user_pics/{$user_name_from}_profile.jpg'>
+                        <img class='profile-small' src='./images/user_pics/{$user_name_from}_thumb.jpg'>
                         <div class='alert-row-date'><span onclick='popup(`Delete message`, `Delete current message? This cannot be undone.`, `./delete-message.php?message_id={$row['id']}`)' class='pointer'>&#10005;</span>
                         $formatted_date</div>
                         <div class='alert-row'><a href='./?type=wtb-message&desc=Send Message&the_user={$row['user_name_from']}' style='color:black'>{$row['name']} ({$row['user_name_from']})</a></div>

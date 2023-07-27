@@ -13,4 +13,4 @@
 
 $user_name = $_SESSION['user_name'];
 
-echo "<img class='home-image' src='./images/user_pics/{$user_name}_profile.jpg'>";
+echo "<img class='home-image' src='./images/user_pics/{$user_name}_large.jpg'>";
