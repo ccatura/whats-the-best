@@ -79,32 +79,9 @@ if (!empty($_POST)) {
 
 
 
+            prepare_images_uploaded($_FILES, $user_name);
 
 
-
-            // IMAGE UPLOAD SECTION
-            // IMAGE UPLOAD SECTION
-            // IMAGE UPLOAD SECTION
-            $target_dir             = "./images/user_pics/";
-            $original_file_name     = $target_dir . basename($_FILES["file-to-upload"]["name"]); // Original name of image, including path to save it
-            $imageFileType          = strtolower(pathinfo($original_file_name, PATHINFO_EXTENSION)); // The file's extension
-            $new_thumb_name         = $target_dir . $user_name . '_thumb.jpg';
-            $new_large_name         = $target_dir . $user_name . '_large.jpg';
-
-            echo "target_dir: {$target_dir}<br>";
-            echo "original_file_name: {$original_file_name}<br>";
-            echo "imageFileType: {$imageFileType}<br>";
-
-            $image_name     = $_FILES["file-to-upload"]["tmp_name"];
-            $image          = imagecreatefromjpeg ($image_name);
-            $image_large    = imagescale($image , 500, -1);
-            $image_thumb    = imagescale($image , 100, -1);
-
-            imagejpeg($image_large, $new_large_name);
-            imagejpeg($image_thumb, $new_thumb_name);
-            // END IMAGE UPLOAD SECTION
-            // END IMAGE UPLOAD SECTION
-            // END IMAGE UPLOAD SECTION
 
             echo "<script>window.location.replace('./?type=how-to&desc=Awesome! You are logged in. Here is a quick guide on what to do...');</script>";
             exit;
