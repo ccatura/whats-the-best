@@ -108,7 +108,7 @@ if (!empty($_POST)) {
                     $image_name                     = $_FILES["fileToUpload"]["tmp_name"];
                     $image                          = imagecreatefromjpeg ($image_name);
                     $image_profile                  = imagescale($image , 100, -1);
-                    $target_file_resized_profile    = imagejpeg($image_profile, "{$original_file_name}");
+                    $target_file_resized_profile    = imagejpeg($image_profile, $original_file_name);
 
                     echo "<br>";
                     echo "image_name: {$image_name}<br>";
@@ -116,14 +116,8 @@ if (!empty($_POST)) {
                     echo "image_profile: {$image_profile}<br>";
                     echo "target_file_resized_profile: {$target_file_resized_profile}<br>";
 
+                    rename($original_file_name, $target_dir . $user_name . '_profile.jpg');
 
-
-                    if (move_uploaded_file($image_name, $target_file_resized_profile)) {
-                        echo "<br><br>The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.<br><br>";
-                        rename($original_file_name, $target_dir . $user_name . '_profile.jpg');
-                    } else {
-                        echo "Sorry, there was an error uploading your file #1 <br><br>";
-                    }
                 // }
             // END IMAGE UPLOAD SECTION
             // END IMAGE UPLOAD SECTION
