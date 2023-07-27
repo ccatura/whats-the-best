@@ -100,15 +100,15 @@ if (!empty($_POST)) {
                     $uploadOk = 0;
                 }
 
-                // Check file size
-                if ($_FILES["fileToUpload"]["size"] > 5000000) {
-                    echo "Sorry, your file is too large.";
-                    $uploadOk = 0;
-                }
+                // // Check file size
+                // if ($_FILES["fileToUpload"]["size"] > 5000000) {
+                //     echo "Sorry, your file is too large.";
+                //     $uploadOk = 0;
+                // }
 
                 // Allow certain file formats
-                if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" ) {
-                    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+                if($imageFileType != "jpg" /* && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" */) {
+                    echo "Sorry, only JPG or JPEG files are allowed.";
                     $uploadOk = 0;
                 }
 
@@ -119,14 +119,23 @@ if (!empty($_POST)) {
                 } else {
 
                     // $image_name  = $_FILES["fileToUpload"]["tmp_name"];
-                    $image_name  = $_FILES["fileToUpload"]["tmp_name"];
-                    $image       = imagecreatefromjpeg ($image_name);
-                    $imgResized  = imagescale($image , 100, -1);
-                    $target_file_resized = imagejpeg($imgResized, $target_file);
+                    $image_name                     = $_FILES["fileToUpload"]["tmp_name"];
+                    $image                          = imagecreatefromjpeg ($image_name);
+                    $image_profile                  = imagescale($image , 100, -1);
+                    $image_large                    = imagescale($image , 500, -1);
+                    $target_file_resized_profile    = imagejpeg($image_profile, $target_file);
+                    $target_file_resized_large      = imagejpeg($image_large, $target_file);
 
-                    if (move_uploaded_file($image_name, $target_file_resized)) {
+                    if (move_uploaded_file($image_name, $target_file_resized_profile)) {
                         echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
                         rename($target_file, $target_dir . $user_name . '_profile.jpg');
+                    } else {
+                        echo "Sorry, there was an error uploading your file.";
+                    }
+
+                    if (move_uploaded_file($image_name, $target_file_resized_large)) {
+                        echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
+                        rename($target_file, $target_dir . $user_name . '_large.jpg');
                     } else {
                         echo "Sorry, there was an error uploading your file.";
                     }
@@ -143,7 +152,7 @@ if (!empty($_POST)) {
 
 
 
-            echo "<script>window.location.replace('./?type=how-to&desc=Awesome! You are logged in. Here is a quick guide on what to do...');</script>";
+            // echo "<script>window.location.replace('./?type=how-to&desc=Awesome! You are logged in. Here is a quick guide on what to do...');</script>";
 
             // header("Location: ./?type=how-to&desc=Awesome! You are logged in. Here is a quick guide on what to do...");
             exit;
