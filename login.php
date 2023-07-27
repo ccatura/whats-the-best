@@ -81,7 +81,7 @@ if (!empty($_POST)) {
                 // Assign generic profile pics
             }
 
-            // echo "<script>window.location.replace('./?type=how-to&desc=Awesome! You are logged in. Here is a quick guide on what to do...');</script>";
+            echo "<script>window.location.replace('./?type=how-to&desc=Awesome! You are logged in. Here is a quick guide on what to do...');</script>";
             exit;
         }
     } else {
