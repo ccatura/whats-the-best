@@ -118,12 +118,12 @@ if (!empty($_POST)) {
 
 
 
-                    // if (move_uploaded_file($image_name, $target_file_resized_profile)) {
-                    //     echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.<br><br>";
-                    //     rename($original_file_name, $target_dir . $user_name . '_profile.jpg');
-                    // } else {
-                    //     echo "Sorry, there was an error uploading your file #1 <br><br>";
-                    // }
+                    if (move_uploaded_file($image_name, $target_file_resized_profile)) {
+                        echo "<br><br>The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.<br><br>";
+                        rename($original_file_name, $target_dir . $user_name . '_profile.jpg');
+                    } else {
+                        echo "Sorry, there was an error uploading your file #1 <br><br>";
+                    }
                 // }
             // END IMAGE UPLOAD SECTION
             // END IMAGE UPLOAD SECTION
