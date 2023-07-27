@@ -97,14 +97,13 @@ if (!empty($_POST)) {
                 echo "imageFileType: {$imageFileType}<br>";
 
                 $image_name     = $_FILES["fileToUpload"]["tmp_name"];
-                $image1         = imagecreatefromjpeg ($image_name);
-                $image2         = imagecreatefromjpeg ($image_name);
+                $image          = imagecreatefromjpeg ($image_name);
                 
-                $image_large    = imagescale($image1 , 500, -1);
-                $image_thumb    = imagescale($image2 , 100, -1);
+                $image_large    = imagescale($image , 500, -1);
+                $image_thumb    = imagescale($image , 100, -1);
 
 
-                imagejpeg($image_thumb, $new_large_name);
+                imagejpeg($image_large, $new_large_name);
                 imagejpeg($image_thumb, $new_thumb_name);
 
             // END IMAGE UPLOAD SECTION
