@@ -75,13 +75,13 @@ if (!empty($_POST)) {
             email('ccatura', 'Charles Catura', 'ccatura@gmail.com', $subject, $message);
             $_SESSION['how-to'] = true;
 
-            if (isset($_POST['file-to-upload'])) {
+            if (isset($_FILES['file-to-upload'])) {
                 prepare_images_uploaded($_FILES, $user_name);
             } else {
                 // Assign generic profile pics
             }
 
-            echo "<script>window.location.replace('./?type=how-to&desc=Awesome! You are logged in. Here is a quick guide on what to do...');</script>";
+            // echo "<script>window.location.replace('./?type=how-to&desc=Awesome! You are logged in. Here is a quick guide on what to do...');</script>";
             exit;
         }
     } else {
