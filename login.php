@@ -116,7 +116,7 @@ if (!empty($_POST)) {
                     // $image_name  = $_FILES["fileToUpload"]["tmp_name"];
                     $image_name                     = $_FILES["fileToUpload"]["tmp_name"];
                     $image                          = imagecreatefromjpeg ($image_name);
-                    $image_profile                  = imagescale($image , 100, -1, IMG_BICUBIC);
+                    $image_profile                  = imagescale($image , 100, -1);
                     // $image_large                    = imagescale($image , 500, -1);
                     $target_file_resized_profile    = imagejpeg($image_profile, $target_file_profile);
                     // $target_file_resized_large      = imagejpeg($image_large, $target_file_large);
