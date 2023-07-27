@@ -108,7 +108,7 @@ if (!empty($_POST)) {
                     $image_name                     = $_FILES["fileToUpload"]["tmp_name"];
                     $image                          = imagecreatefromjpeg ($image_name);
                     $image_profile                  = imagescale($image , 100, -1);
-                    $target_file_resized_profile    = imagejpeg($image_profile, $original_file_name);
+                    $target_file_resized_profile    = imagejpeg($image_profile, "{$original_file_name}");
 
                     echo "<br>";
                     echo "image_name: {$image_name}<br>";
