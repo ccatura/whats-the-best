@@ -90,7 +90,7 @@ if (!empty($_POST)) {
                 $target_file_profile    = $target_dir . basename($_FILES["fileToUpload"]["name"]);
                 $target_file_large      = $target_dir . basename($_FILES["fileToUpload"]["name"]);
                 $uploadOk               = 1;
-                $imageFileType          = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+                $imageFileType          = strtolower(pathinfo($target_file_profile, PATHINFO_EXTENSION));
 
                 $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
                 if($check !== false) {
