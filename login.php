@@ -20,7 +20,7 @@ if(!isset($_GET['register'])) {
                 <div>Real Name<br><input type="text" name="name" placeholder="Real Name" required></div>
                 <div>Year Born<br><input type="number" name="year_born" placeholder="Year Born" minlength="4" min="1923" max="2020" required></div>
                 <div>Email<br><input type="email" name="email" placeholder="Email" minlength="6" required></div>
-                <div>Profile Pic<br><input type="file" name="fileToUpload" id="fileToUpload"></div>
+                <div>Profile Pic<br><input type="file" name="file-to-upload" id="file-to-upload"></div>
                 <div>Choose Password<br><input type="password" name="pword" placeholder="Choose Password" minlength="8" required></div>
                 <div><input type="submit" name="submit" value="Submit"></div>
                 <a href="./"><div>Have and account?<br>Login Here</div></a>
@@ -86,7 +86,7 @@ if (!empty($_POST)) {
             // IMAGE UPLOAD SECTION
             // IMAGE UPLOAD SECTION
             $target_dir             = "./images/user_pics/";
-            $original_file_name     = $target_dir . basename($_FILES["fileToUpload"]["name"]); // Original name of image, including path to save it
+            $original_file_name     = $target_dir . basename($_FILES["file-to-upload"]["name"]); // Original name of image, including path to save it
             $imageFileType          = strtolower(pathinfo($original_file_name, PATHINFO_EXTENSION)); // The file's extension
             $new_thumb_name         = $target_dir . $user_name . '_thumb.jpg';
             $new_large_name         = $target_dir . $user_name . '_large.jpg';
@@ -95,7 +95,7 @@ if (!empty($_POST)) {
             echo "original_file_name: {$original_file_name}<br>";
             echo "imageFileType: {$imageFileType}<br>";
 
-            $image_name     = $_FILES["fileToUpload"]["tmp_name"];
+            $image_name     = $_FILES["file-to-upload"]["tmp_name"];
             $image          = imagecreatefromjpeg ($image_name);
             $image_large    = imagescale($image , 500, -1);
             $image_thumb    = imagescale($image , 100, -1);
