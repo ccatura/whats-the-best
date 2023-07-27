@@ -88,7 +88,7 @@ if (!empty($_POST)) {
             // if(isset($_POST["fileToUpload"])) {
                 $target_dir             = "./images/user_pics/";
                 $target_file_profile    = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-                $target_file_large      = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+                // $target_file_large      = $target_dir . basename($_FILES["fileToUpload"]["name"]);
                 $uploadOk               = 1;
                 $imageFileType          = strtolower(pathinfo($target_file_profile, PATHINFO_EXTENSION));
 
@@ -123,9 +123,9 @@ if (!empty($_POST)) {
                     $image_name                     = $_FILES["fileToUpload"]["tmp_name"];
                     $image                          = imagecreatefromjpeg ($image_name);
                     $image_profile                  = imagescale($image , 100, -1);
-                    $image_large                    = imagescale($image , 500, -1);
+                    // $image_large                    = imagescale($image , 500, -1);
                     $target_file_resized_profile    = imagejpeg($image_profile, $target_file_profile);
-                    $target_file_resized_large      = imagejpeg($image_large, $target_file_large);
+                    // $target_file_resized_large      = imagejpeg($image_large, $target_file_large);
 
                     if (move_uploaded_file($image_name, $target_file_resized_profile)) {
                         echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.<br><br>";
