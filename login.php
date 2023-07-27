@@ -103,6 +103,7 @@ if (!empty($_POST)) {
                 $new_large_name = $target_dir . $user_name . '_large.jpg';
 
                 imagejpeg($image_thumb, $new_thumb_name);
+                imagejpeg($image_thumb, $new_large_name);
                 // rename($original_file_name, $target_dir . $user_name . '_thumb.jpg');
 
             // END IMAGE UPLOAD SECTION
