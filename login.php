@@ -52,29 +52,29 @@ if (!empty($_POST)) {
         }
     // register here
     } elseif ($_POST['login-type'] == 'register' && mysqli_num_rows($result) < 1) {
-        // $year_born  = $_POST['year_born'];
-        // $name       = $_POST['name'];
-        // $email      = $_POST['email'];
-        // $pword      = hash('sha256', $pword);
+        $year_born  = $_POST['year_born'];
+        $name       = $_POST['name'];
+        $email      = $_POST['email'];
+        $pword      = hash('sha256', $pword);
 
 
-        // $result = mysqli_query($conn,"INSERT INTO `users` (`user_name`, `pword`, `year_born`, `name`, `email`, `admin`) VALUES ('{$user_name}', '{$pword}', '{$year_born}', '{$name}', '{$email}', 0);");
-        // if ($result) {
-        //     $_SESSION['user_name'] = $user_name;
-        //     $_SESSION['name'] = $name;
+        $result = mysqli_query($conn,"INSERT INTO `users` (`user_name`, `pword`, `year_born`, `name`, `email`, `admin`) VALUES ('{$user_name}', '{$pword}', '{$year_born}', '{$name}', '{$email}', 0);");
+        if ($result) {
+            $_SESSION['user_name'] = $user_name;
+            $_SESSION['name'] = $name;
 
-        //     $subject = 'Welcome to MeetMeInThe80s!';
-        //     $message  = "Welcome {$name}!<br>";
-        //     $message .= "You have signed up to the MeetMeInThe80s.com app: 'What's the Best?' using user name: {$user_name}. ";
-        //     $message .= "To get started, login at <a href='http://meetmeinthe80s.com/apps/whats-the-best/?session=false'>MeetMeInThe80s.com/apps/whats-the-best</a>";
+            $subject = 'Welcome to MeetMeInThe80s!';
+            $message  = "Welcome {$name}!<br>";
+            $message .= "You have signed up to the MeetMeInThe80s.com app: 'What's the Best?' using user name: {$user_name}. ";
+            $message .= "To get started, login at <a href='http://meetmeinthe80s.com/apps/whats-the-best/?session=false'>MeetMeInThe80s.com/apps/whats-the-best</a>";
         
-        //     email($user_name, $name, $email, $subject, $message);
+            email($user_name, $name, $email, $subject, $message);
 
 
-        //     $subject = "Someone just registered on MMIT8";
-        //     $message = "New user: {$user_name} - {$name}";
-        //     email('ccatura', 'Charles Catura', 'ccatura@gmail.com', $subject, $message);
-        //     $_SESSION['how-to'] = true;
+            $subject = "Someone just registered on MMIT8";
+            $message = "New user: {$user_name} - {$name}";
+            email('ccatura', 'Charles Catura', 'ccatura@gmail.com', $subject, $message);
+            $_SESSION['how-to'] = true;
 
 
 
@@ -85,45 +85,32 @@ if (!empty($_POST)) {
             // IMAGE UPLOAD SECTION
             // IMAGE UPLOAD SECTION
             // IMAGE UPLOAD SECTION
-                $target_dir             = "./images/user_pics/";
-                $original_file_name     = $target_dir . basename($_FILES["fileToUpload"]["name"]); // Original name of image, including path to save it
-                $imageFileType          = strtolower(pathinfo($original_file_name, PATHINFO_EXTENSION)); // The file's extension
-                $new_thumb_name         = $target_dir . $user_name . '_thumb.jpg';
-                $new_large_name         = $target_dir . $user_name . '_large.jpg';
-                $uploadOk               = 1;
+            $target_dir             = "./images/user_pics/";
+            $original_file_name     = $target_dir . basename($_FILES["fileToUpload"]["name"]); // Original name of image, including path to save it
+            $imageFileType          = strtolower(pathinfo($original_file_name, PATHINFO_EXTENSION)); // The file's extension
+            $new_thumb_name         = $target_dir . $user_name . '_thumb.jpg';
+            $new_large_name         = $target_dir . $user_name . '_large.jpg';
 
-                echo "target_dir: {$target_dir}<br>";
-                echo "original_file_name: {$original_file_name}<br>";
-                echo "imageFileType: {$imageFileType}<br>";
+            echo "target_dir: {$target_dir}<br>";
+            echo "original_file_name: {$original_file_name}<br>";
+            echo "imageFileType: {$imageFileType}<br>";
 
-                $image_name     = $_FILES["fileToUpload"]["tmp_name"];
-                $image          = imagecreatefromjpeg ($image_name);
-                
-                $image_large    = imagescale($image , 500, -1);
-                $image_thumb    = imagescale($image , 100, -1);
+            $image_name     = $_FILES["fileToUpload"]["tmp_name"];
+            $image          = imagecreatefromjpeg ($image_name);
+            $image_large    = imagescale($image , 500, -1);
+            $image_thumb    = imagescale($image , 100, -1);
 
-
-                imagejpeg($image_large, $new_large_name);
-                imagejpeg($image_thumb, $new_thumb_name);
-
+            imagejpeg($image_large, $new_large_name);
+            imagejpeg($image_thumb, $new_thumb_name);
             // END IMAGE UPLOAD SECTION
             // END IMAGE UPLOAD SECTION
             // END IMAGE UPLOAD SECTION
 
-
-
-
-
-
-
-
-            // echo "<script>window.location.replace('./?type=how-to&desc=Awesome! You are logged in. Here is a quick guide on what to do...');</script>";
-
-            // header("Location: ./?type=how-to&desc=Awesome! You are logged in. Here is a quick guide on what to do...");
+            echo "<script>window.location.replace('./?type=how-to&desc=Awesome! You are logged in. Here is a quick guide on what to do...');</script>";
             exit;
         }
     } else {
         echo 'There was a problem. Please try again.';
     }
-// }
+}
 
