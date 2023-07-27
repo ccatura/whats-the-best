@@ -67,21 +67,19 @@ if (!empty($_POST)) {
             $message  = "Welcome {$name}!<br>";
             $message .= "You have signed up to the MeetMeInThe80s.com app: 'What's the Best?' using user name: {$user_name}. ";
             $message .= "To get started, login at <a href='http://meetmeinthe80s.com/apps/whats-the-best/?session=false'>MeetMeInThe80s.com/apps/whats-the-best</a>";
-        
-            email($user_name, $name, $email, $subject, $message);
 
+            email($user_name, $name, $email, $subject, $message);
 
             $subject = "Someone just registered on MMIT8";
             $message = "New user: {$user_name} - {$name}";
             email('ccatura', 'Charles Catura', 'ccatura@gmail.com', $subject, $message);
             $_SESSION['how-to'] = true;
 
-
-
-
-            prepare_images_uploaded($_FILES, $user_name);
-
-
+            if (isset($_POST['files-to-be-uploaded'])) {
+                prepare_images_uploaded($_FILES, $user_name);
+            } else {
+                // Assign generic profile pics
+            }
 
             echo "<script>window.location.replace('./?type=how-to&desc=Awesome! You are logged in. Here is a quick guide on what to do...');</script>";
             exit;
