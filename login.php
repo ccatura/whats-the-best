@@ -98,12 +98,12 @@ if (!empty($_POST)) {
 
                 $image_name     = $_FILES["fileToUpload"]["tmp_name"];
                 $image          = imagecreatefromjpeg ($image_name);
-                $image_thumb    = imagescale($image , 100, -1);
-                imagejpeg($image_thumb, $new_thumb_name);
-
-                $image          = imagecreatefromjpeg ($image_name);
                 $image_large    = imagescale($image , 500, -1);
+                $image_thumb    = imagescale($image , 100, -1);
+
+
                 imagejpeg($image_thumb, $new_large_name);
+                imagejpeg($image_thumb, $new_thumb_name);
 
             // END IMAGE UPLOAD SECTION
             // END IMAGE UPLOAD SECTION
