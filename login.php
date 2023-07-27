@@ -16,12 +16,12 @@ if(!isset($_GET['register'])) {
 } else {
     echo   "<form id='login' action='./?type=login' method='post' enctype='multipart/form-data' autocomplete='off'>
                 <input type='hidden' name='login-type' value='register'>
-                <div>Choose User Name<br><input type='text' name='user_name' placeholder='Choose User Name' minlength='4' required></div>
+                <div>Choose User Name<br><input type='text' name='user_name' placeholder='Choose User Name' minlength='4' required autocomplete='off'></div>
                 <div>Real Name<br><input type='text' name='name' placeholder='Real Name' required></div>
                 <div>Year Born<br><input type='number' name='year_born' placeholder='Year Born' minlength='4' min='1923' max='2020' required></div>
                 <div>Email<br><input type='email' name='email' placeholder='Email' minlength='6' required></div>
                 <div>Profile Pic<br><input type='file' name='file-to-upload' id='file-to-upload'></div>
-                <div>Choose Password<br><input type='password' name='pword' placeholder='Choose Password' minlength='8' required></div>
+                <div>Choose Password<br><input type='password' name='pword' placeholder='Choose Password' minlength='8' required autocomplete='off'></div>
                 <div><input type='submit' name='submit' value='Submit'></div>
                 <a href='./#content'><div>Have and account?<br>Login Here</div></a>
             </form>";

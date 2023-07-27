@@ -245,11 +245,11 @@ function get_user_account($conn, $user_name) {
     $result = mysqli_query($conn, "SELECT * FROM `users` WHERE `user_name` = '$user_name';");
 
     while ($row = mysqli_fetch_assoc($result)) {
-        $output = "<form class='listings-container' action='./account-changes-submit.php' method='post' enctype='multipart/form-data'>
+        $output = "<form class='listings-container' action='./account-changes-submit.php' method='post' enctype='multipart/form-data' autocomplete='off'>
                         <div class='input-listings'><div class='listing-label'>Real Name:</div> <input class='listing-input' type='text' name='name' placeholder='{$row['name']}'></div>
                         <div class='input-listings'><div class='listing-label'>User Name:</div> <input class='listing-input' type='text' name='user_name' placeholder='{$row['user_name']}' disabled title='Cannot change user name'></div>
                         <div class='input-listings'><div class='listing-label'>Year Born:</div> <input class='listing-input' type='text' name='year_born' placeholder='{$row['year_born']}' minlength='4' min='1923' max='2020'></div>
-                        <div class='input-listings'><div class='listing-label'>Password:</div> <input class='listing-input' type='password' name='pword' minlength='8'></div>
+                        <div class='input-listings'><div class='listing-label'>Password:</div> <input class='listing-input' type='password' name='pword' minlength='8' autocomplete='off'></div>
                         <div class='listing-label'>Profile Pic:</div> <img src='./images/user_pics/{$user_name}_thumb.jpg' onerror='this.style.opacity=0'> <input type='file' name='file-to-upload' id='file-to-upload'>
                         <input class='input-submit' type='submit' value='Submit Changes'>
                     </form>";
