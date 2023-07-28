@@ -340,4 +340,9 @@ a {
     .listings-row {
         width: 240px;
     }
+
+    .large-image {
+        width: 280px;
+        height: 280px;
+    }
 }
