@@ -329,7 +329,10 @@ a {
 
 @media (max-width: 480px) {
     .sub {
-        width: 100%;
+        width: 45%;
+        font-size: 14px;
+        height: 36px;
+        line-height: 14px;
     }
 
     .listings-container {
