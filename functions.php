@@ -27,10 +27,8 @@ function get_category_buttons($conn) {
 function get_year_buttons($conn) {
     $result = mysqli_query($conn,"SELECT DISTINCT `year_born`, count(*) as 'count' FROM `users` GROUP BY `year_born` ORDER BY `year_born`");
     $user_count = get_user_count($conn);
-    // $years  =   "<div id='users' class='section'>
-                //  <div class='sec-title'>There are {$user_count} registered users born in the following years:</div>
-                //  <div class='sub year'>{$user_count} total users</div>";
-    $years  =   "<div id='users' class='section'><div class='sub year'>{$user_count} total users</div>";
+    $years  =  "<div id='users' class='section'>
+                <a class='sub year' href='./?type=year&desc=All Users#content'>{$user_count} total users</a>";
 
     while ($row = mysqli_fetch_assoc($result)) {
         $year = $row['year_born'];
@@ -97,7 +95,7 @@ function get_genres_and_inputs($conn, $desc) {
         $cat_id = $row_cat['categories_id'];
         $output .= "
         <form class='listings-container' action='./submit-answers.php' method='post'>
-            <div class='input-listings'><div class='listing-label'>{$genre_name}: </div>";
+            <div class='listings-row'><div class='listing-label'>{$genre_name}: </div>";
         $placeholder = "";
         if (mysqli_num_rows($result_user) != 0) {
             foreach($sql_user_array as $x => $row_user) { // Puts user's choice into the input box
@@ -195,6 +193,22 @@ function get_category_stats($conn, $cat_id) {
     return $output;
 }
 
+function get_top_stats($conn) {
+    $sql = "SELECT data.name, count(*) as totals, data.id FROM answers
+    INNER JOIN `data` ON data.id = answers.data_id
+    GROUP BY answers.data_id ORDER BY totals DESC, data.name";
+
+    $result = mysqli_query($conn, $sql);
+    $output = "";
+    while ($row = mysqli_fetch_assoc($result)) {
+        $name_clean = str_replace(' ', '-', $row['name']);
+        $href = "./";
+        $output .= "<a href='$href'>{$row['totals']} votes - {$row['name']}</a>";
+        $output .= '<img class="large-image" src="./images/data/'.$name_clean.'.jpg" style="margin-bottom:2em;" onerror="this.src=\'./images/data/no-image.jpg\'">';
+    }
+    return $output;
+}
+
 function get_specific_stat($conn, $data_id, $cat_id) {
     $sql     = "SELECT genres.name, count(*) as 'totals'
                 FROM answers
@@ -219,8 +233,11 @@ function get_name_from_data_id($conn, $data_id) {
 }
 
 function get_users_for_year($conn, $year) {
-    $result = mysqli_query($conn,"SELECT * FROM `users` WHERE `year_born` = $year");
-
+    if ($year == 'All Users') {
+        $result = mysqli_query($conn,"SELECT * FROM `users` ORDER BY `year_born`");
+    } else {
+        $result = mysqli_query($conn,"SELECT * FROM `users` WHERE `year_born` = $year");
+    }
     $output  = "<div id='users'>";
 
     while ($row = mysqli_fetch_assoc($result)) {
@@ -236,16 +253,22 @@ function get_users_for_year($conn, $year) {
             $message = "";
         }
 
-        $view_user = "<a href='./?type=view-votes&desc={$the_user}&rsquo;s Votes&the_user={$the_user}'>{$the_name} ({$the_user})</a>";
+        $view_user = "<a href='./?type=view-votes&desc={$the_user}&rsquo;s Votes&the_user={$the_user}'>{$the_user} - {$the_name}</a>";
         
         if (isset($_SESSION['user_name']) && $_SESSION['user_name'] != $the_user) {
-            $wtb_message = "<a href='./?type=wtb-message&desc=Send Message&the_user={$the_user}'> &#9993; </a>";
+            $wtb_message = "<a href='./?type=wtb-message&desc=Send Message&the_user={$the_user}' title='Message {$the_name}'> &#9993; </a>";
             $say_hi = "<a href='./message.php?user_name={$the_user}&name={$the_name}&subject={$subject}&message={$message}' class='pointer' title='Say hi to {$the_name}'>&#128515;</a>";
         } else {
             $wtb_message = "";
             $say_hi = "";
         }
-        $output .= "<div>{$say_hi} {$view_user} {$wtb_message}</div>";
+
+        if ($year == 'All Users') {
+            $user_year = "<a href='?type=year&desc={$row['year_born']}#content'>{$row['year_born']}</a> ";
+        } else {
+            $user_year = "";
+        }
+        $output .= "<div>{$user_year} {$view_user} {$say_hi} {$wtb_message}</div>";
     }
     $output .= "</div>";
     return $output;
@@ -257,10 +280,10 @@ function get_user_account($conn, $user_name) {
 
     while ($row = mysqli_fetch_assoc($result)) {
         $output = "<form class='listings-container' action='./account-changes-submit.php' method='post' enctype='multipart/form-data' autocomplete='off'>
-                        <div class='input-listings'><div class='listing-label'>Real Name:</div> <input class='listing-input' type='text' name='name' placeholder='{$row['name']}'></div>
-                        <div class='input-listings'><div class='listing-label'>User Name:</div> <input class='listing-input' type='text' name='user_name' placeholder='{$row['user_name']}' disabled title='Cannot change user name'></div>
-                        <div class='input-listings'><div class='listing-label'>Year Born:</div> <input class='listing-input' type='text' name='year_born' placeholder='{$row['year_born']}' minlength='4' min='1923' max='2020'></div>
-                        <div class='input-listings'><div class='listing-label'>Password:</div> <input class='listing-input' type='password' name='pword' minlength='8' autocomplete='off'></div>
+                        <div class='listings-row'><div class='listing-label'>Real Name:</div> <input class='listing-input' type='text' name='name' placeholder='{$row['name']}'></div>
+                        <div class='listings-row'><div class='listing-label'>User Name:</div> <input class='listing-input' type='text' name='user_name' placeholder='{$row['user_name']}' disabled title='Cannot change user name'></div>
+                        <div class='listings-row'><div class='listing-label'>Year Born:</div> <input class='listing-input' type='text' name='year_born' placeholder='{$row['year_born']}' minlength='4' min='1923' max='2020'></div>
+                        <div class='listings-row'><div class='listing-label'>Password:</div> <input class='listing-input' type='password' name='pword' minlength='8' autocomplete='off'></div>
                         <div class='listing-label'>Profile Pic:</div> <img src='./images/user_pics/{$user_name}_thumb.jpg' onerror='this.style.opacity=0'> <input type='file' name='file-to-upload' id='file-to-upload'>
                         <input class='input-submit' type='submit' value='Submit Changes'>
                     </form>";
