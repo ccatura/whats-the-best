@@ -327,8 +327,17 @@ a {
 
 
 
-@media (max-width: 450px) {
+@media (max-width: 480px) {
     .sub {
         width: 100%;
+    }
+
+    .listings-container {
+        font-size: 12px;
+        min-width: 260px;
+    }
+
+    .listings-row {
+        width: 240px;
     }
 }
