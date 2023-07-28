@@ -272,10 +272,12 @@ a {
 .listing-label {
     max-width: 120px;
     text-align: right;
+    margin-right: auto;
 }
 
 .listing-input {
     max-width: 180px;
+    margin-left: 5px;
 }
 
 .input-submit {

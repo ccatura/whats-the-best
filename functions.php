@@ -60,7 +60,7 @@ function get_genres_and_inputs($conn, $desc) {
         INNER JOIN categories ON categories.id = cat_genre.cat_id
         INNER JOIN genres     ON genres.id     = cat_genre.genre_id
         WHERE categories.name = '$desc'
-        ORDER BY   categories.name, genres.name"
+        ORDER BY categories.name, genres.name"
     );
 
     $cat_id = get_cat_id_from_name($conn, $desc);
@@ -106,7 +106,18 @@ function get_genres_and_inputs($conn, $desc) {
                 }
             }
         }
-        $output .= "<input class='listing-input' list='data' name='{$genre_id}' genre-id='{$genre_id}' placeholder='{$placeholder}'></div>";
+
+        $data_id = get_data_id_from_name($conn, $placeholder);
+        $cat_name = get_cat_name_from_id($conn, $cat_id);
+
+        if ($placeholder != '') {
+            $output .= "<strong>
+                            <span onclick='popup(`Delete vote`, `Delete {$placeholder} from {$cat_name} / {$genre_name}?`, `./delete-answer.php?data_id={$data_id}&data_name={$placeholder}&genres_name={$genre_name}&categories_id={$cat_id}&genres_id={$genre_id}&the_user={$user_name}`)' class='pointer'>&#10005;</span>
+                        </strong> ";
+        }
+        $output .= "<input class='listing-input' list='data' name='{$genre_id}' genre-id='{$genre_id}' placeholder='{$placeholder}'>";
+        
+        $output .= "</div>";
 
     }
 
