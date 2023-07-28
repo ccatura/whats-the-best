@@ -253,23 +253,30 @@ function get_users_for_year($conn, $year) {
             $message = "";
         }
 
-        $view_user = "<a href='./?type=view-votes&desc={$the_user}&rsquo;s Votes&the_user={$the_user}'>{$the_user} - {$the_name}</a>";
+        // FIX ALL THE INLINE CSS IN THE FOILLOWING CODE!!!!!!
+        // FIX ALL THE INLINE CSS IN THE FOILLOWING CODE!!!!!!
+        // FIX ALL THE INLINE CSS IN THE FOILLOWING CODE!!!!!!
+        // FIX ALL THE INLINE CSS IN THE FOILLOWING CODE!!!!!!
+        // FIX ALL THE INLINE CSS IN THE FOILLOWING CODE!!!!!!
+        // FIX ALL THE INLINE CSS IN THE FOILLOWING CODE!!!!!!
+        $output .= "<div class='alert-single' style='color:black'>";
+        $view_user =   "<a style='color:black' href='./?type=view-votes&desc={$the_user}&rsquo;s Votes&the_user={$the_user}'>{$the_user} - {$the_name}</a>";
         
         if (isset($_SESSION['user_name']) && $_SESSION['user_name'] != $the_user) {
-            $wtb_message = "<a href='./?type=wtb-message&desc=Send Message&the_user={$the_user}' title='Message {$the_name}'> &#9993; </a>";
-            $say_hi = "<a href='./message.php?user_name={$the_user}&name={$the_name}&subject={$subject}&message={$message}' class='pointer' title='Say hi to {$the_name}'>&#128515;</a>";
+            $wtb_message = "<a style='color:black' href='./?type=wtb-message&desc=Send Message&the_user={$the_user}' title='Message {$the_name}'> &#9993; </a>";
+            $say_hi = "<a style='color:black' href='./message.php?user_name={$the_user}&name={$the_name}&subject={$subject}&message={$message}' class='pointer' title='Say hi to {$the_name}'>&#128515;</a>";
         } else {
             $wtb_message = "";
             $say_hi = "";
         }
 
         if ($year == 'All Users') {
-            $user_year = "<a href='?type=year&desc={$row['year_born']}#content'>{$row['year_born']}</a> ";
+            $user_year = "<a style='color:black' href='?type=year&desc={$row['year_born']}#content'>{$row['year_born']}</a> ";
         } else {
             $user_year = "";
         }
-        $output .= "<div style='text-align:center'><img src='./images/user_pics/{$the_user}_thumb.jpg' onerror='this.style.opacity=0'></div>";
-        $output .= "<div style='margin-bottom:2em'>{$user_year} {$view_user} {$say_hi} {$wtb_message}</div>";
+        $output .= "<div style='text-align:center;width:100%;'><img class='profile-small' src='./images/user_pics/{$the_user}_thumb.jpg' onerror='this.style.opacity=0'></div>";
+        $output .= "<div class='alert-row' style='width:100%'>{$user_year} {$view_user} {$say_hi} {$wtb_message}</div></div>";
     }
     $output .= "</div>";
     return $output;
@@ -285,7 +292,7 @@ function get_user_account($conn, $user_name) {
                         <div class='listings-row'><div class='listing-label'>User Name:</div> <input class='listing-input' type='text' name='user_name' placeholder='{$row['user_name']}' disabled title='Cannot change user name'></div>
                         <div class='listings-row'><div class='listing-label'>Year Born:</div> <input class='listing-input' type='text' name='year_born' placeholder='{$row['year_born']}' minlength='4' min='1923' max='2020'></div>
                         <div class='listings-row'><div class='listing-label'>Password:</div> <input class='listing-input' type='password' name='pword' minlength='8' autocomplete='off'></div>
-                        <div class='listing-label'>Profile Pic:</div> <img src='./images/user_pics/{$user_name}_thumb.jpg' onerror='this.style.opacity=0'> <input type='file' name='file-to-upload' id='file-to-upload'>
+                        <div class='listings-row'><div class='listing-label'>Profile Pic:</div> <img src='./images/user_pics/{$user_name}_thumb.jpg' onerror='this.style.opacity=0'> <input type='file' name='file-to-upload' id='file-to-upload'></div>
                         <input class='input-submit' type='submit' value='Submit Changes'>
                     </form>";
 
