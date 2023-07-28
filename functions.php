@@ -268,7 +268,8 @@ function get_users_for_year($conn, $year) {
         } else {
             $user_year = "";
         }
-        $output .= "<div>{$user_year} {$view_user} {$say_hi} {$wtb_message}</div>";
+        $output .= "<div style='text-align:center'><img src='./images/user_pics/{$the_user}_thumb.jpg' onerror='this.style.opacity=0'></div>";
+        $output .= "<div style='margin-bottom:2em'>{$user_year} {$view_user} {$say_hi} {$wtb_message}</div>";
     }
     $output .= "</div>";
     return $output;
