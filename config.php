@@ -3,17 +3,26 @@
 
 
 if (is_admin($conn, $_SESSION['user_name'])) {
-    echo '<a href="#config_categories">Skip to Categories</a>';
-    echo '<h2>Genres</h2>';
-    echo get_config_genres($conn);
-    echo '<h2 id="config_categories">Categories</h2>';
-    echo get_config_categories($conn);
-    echo '<h2>Delete Data</h2>';
-    echo get_config_delete_data($conn);
-    echo '<h2>Combine Data</h2>';
-    echo get_config_combine_data($conn);
-    echo '<h2>Make Admin</h2>';
-    echo config_make_admin($conn);
+    echo "<div class='config-single'><div class='toggle config-heading'>Genres</div>";
+    echo get_config_genres($conn) . "</div>";
+    echo "<div class='config-single' id='categories-config'><div class='toggle config-heading'>Categories</div>";
+    echo get_config_categories($conn) . "</div>";
+    echo "<div class='config-single' id='delete-data-config'><div class='toggle config-heading'>Delete Data</div>";
+    echo get_config_delete_data($conn) . "</div>";
+    echo "<div class='config-single' id='combine-data-config'><div class='toggle config-heading'>Combine Data</div>";
+    echo get_config_combine_data($conn) . "</div>";
+    echo "<div class='config-single' id='make-admin-config'><div class='toggle config-heading'>Make Admin</div>";
+    echo config_make_admin($conn) . "</div>";
 }
 ?>
+
+<div class='side-menu'>
+    <div class='menu-items'>
+        <a href='#top'>Top</a>
+        <a href='#categories-config'>Categories</a>
+        <a href='#delete-data-config'>Delete Data</a>
+        <a href='#combine-data-config'>Combine Data</a>
+        <a href='#make-admin-config'>Make Admin</a>
+    </div>
+</div>
 

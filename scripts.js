@@ -33,7 +33,16 @@ if (pageType == 'account') {
     })
 }
 
+if (pageType == 'config') {
+    var toggle = document.querySelectorAll('.toggle');
+    toggle.forEach(element => {
+        element.addEventListener('click', function() {
+            element.nextElementSibling.classList.toggle('collapsed');
+        })
+    });
+    
 
+}
 
 
 

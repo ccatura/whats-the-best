@@ -422,12 +422,11 @@ function get_config_genres($conn) {
         $sql_checked_array[] = $row_checked;
     }
 
-    $count = 0;
-    $checked = "";
-    $output = "<a href='#collapse-genre'>Show Genres</a><br>";
-    $output .= "<form class='section' id='collapse-genre' action='./config-submit.php' method='post'>
-    <a href='#content'>Hide Genres</a><br>
-    <input type='text' name='new' placeholder='Enter New Genre' style='margin: 0 40%;'>";
+    $count      = 0;
+    $checked    = "";
+    $output     =  "<form class='section collapsed' id='config-genres' action='./config-submit.php' method='post'>
+                    <div style='margin: 0 40%;'><input type='text' name='new' placeholder='Enter New Genre'>
+                    <input type='submit' name='submit' value='Submit Genre Changes'></div>";
     $previous_cat_name = "";
     while ($row = mysqli_fetch_assoc($result)) {
         if ($row['cat_name'] != $previous_cat_name) {
@@ -453,7 +452,7 @@ function get_config_genres($conn) {
         <input type='checkbox' $checked id='{$input_id}' name='{$input_id}'> <label for='{$input_id}'>{$row['genres_name']}</label>";
         $count++;
     }
-    $output .= "<br><br><input type='submit' name='submit' value='Submit Genre Changes' style='position: sticky;bottom: 0px;'>
+    $output .= "<br><br>
     <input type='hidden' name='checkbox_count' value='{$count}'>
     <input type='hidden' name='form_type' value='genres'>
     </form>";
@@ -478,7 +477,7 @@ function get_config_categories($conn) {
     $result = mysqli_query($conn, $sql);
 
 
-    $output = "<form action='./config-submit.php' method='post'>
+    $output = "<form class='collapsed' action='./config-submit.php' method='post'>
     <input type='text' name='new' placeholder='Enter New Category'><br><input type='submit' name='submit' value='Submit New Category'><br><br>";
     while ($row = mysqli_fetch_assoc($result)) {
         $input_id = $row['cat_id'];
@@ -508,7 +507,7 @@ function get_config_combine_data($conn) {
         $data[] = $row;
     }
 
-    $output =  "<form action='./combine-data.php' method='post'>
+    $output =  "<form class='section collapsed' action='./combine-data.php' method='post'>
                 Delete:
                 <select name='data_id_delete'>";
     foreach($data as $x => $d) {
@@ -538,7 +537,7 @@ function get_config_delete_data($conn) {
             ORDER BY data.name";
     $result = mysqli_query($conn, $sql);
 
-    $output = "<div>";
+    $output = "<div class='collapsed'>";
     while ($row = mysqli_fetch_assoc($result)) {
         $data_id = $row['id'];
         $data_name = $row['name'];
@@ -559,7 +558,7 @@ function config_make_admin($conn) {
         $users[] = $row;
     }
 
-    $output =  "<form action='./make-admin.php' method='post'>
+    $output =  "<form class='collapsed' action='./make-admin.php' method='post'>
                 <select name='user_name'>";
     foreach($users as $x => $d) {
         $user_name  = $d['user_name'];
