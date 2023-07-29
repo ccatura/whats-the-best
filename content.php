@@ -16,11 +16,11 @@ echo "<h1>{$desc}</h1>";
 // echo '<span id="content"></span>';
 if ($type == 'home') {
     //check for login
-    if (isset($_SESSION['user_name'])) {
+    // if (isset($_SESSION['user_name'])) {
         include './home.php';
-    } else {
-        include "./login.php";
-    }
+    // } else {
+        // include "./login.php";
+    // }
 } elseif ($type == 'category') {
     include './categories.php';
 } elseif ($type == 'stats') {

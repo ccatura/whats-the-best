@@ -2,7 +2,7 @@
 
 if(!isset($_GET['register'])) {
 
-    echo "<div class='alert-single' style='max-width: 500px; text-align: center;'>Welcome to 'What's the Best?' – an exciting web app in development that aims to determine the top picks from the iconic eras of the 70s, 80s, and 90s. Join our community, cast your votes, and let's collectively identify the ultimate favorites in movies, books, retro computers, stores, restaurants, and more. Sign up today and play a crucial role in shaping this unique platform!</div><br>";
+    // echo "<div class='alert-single' style='max-width: 500px; text-align: center;'>Welcome to 'What's the Best?' – an exciting web app in development that aims to determine the top picks from the iconic eras of the 70s, 80s, and 90s. Join our community, cast your votes, and let's collectively identify the ultimate favorites in movies, books, retro computers, stores, restaurants, and more. Sign up today and play a crucial role in shaping this unique platform!</div><br>";
 
     echo   "<form id='login' action='./?type=login' method='post'>
                 <input type='hidden' name='login-type' value='login'>
@@ -10,7 +10,7 @@ if(!isset($_GET['register'])) {
                 <div>Password<br><input type='password' name='pword' placeholder='Password'></div>
                 <a href='./?type=recover&desc=Recover Account'>I Forgot My Password</a>
                 <div><input type='submit' name='submit' value='Submit'></div>
-                <a href='./?register=true#content'><div>Click Here to Register</div></a>
+                <a href='./?type=login&register=true#content'><div>Click Here to Register</div></a>
                 
             </form>";
 } else {
@@ -23,7 +23,7 @@ if(!isset($_GET['register'])) {
                 <div>Profile Pic<br><input type='file' name='file-to-upload' id='file-to-upload'></div>
                 <div>Choose Password<br><input type='password' name='pword' placeholder='Choose Password' minlength='8' required autocomplete='off'></div>
                 <div><input type='submit' name='submit' value='Submit'></div>
-                <a href='./#content'><div>Have and account?<br>Login Here</div></a>
+                <a href='./?type=login&desc=Login#content'><div>Have and account?<br>Login Here</div></a>
             </form>";
 }
 
