@@ -13,7 +13,7 @@
 
 $user_name = $_SESSION['user_name'];
 
-echo "<img class='home-image' src='./images/user_pics/{$user_name}_large.jpg' onerror='this.style.opacity=0'>";
+echo "<img class='large-image' src='./images/user_pics/{$user_name}_large.jpg' onerror='this.style.opacity=0'>";
 
 
 

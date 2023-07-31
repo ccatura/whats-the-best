@@ -3,7 +3,7 @@
 
 
 if (is_admin($conn, $_SESSION['user_name'])) {
-    echo "<div class='config-single'><div class='toggle config-heading'>Genres</div>";
+    echo "<div class='config-single' id='genres-config'><div class='toggle config-heading'>Genres</div>";
     echo get_config_genres($conn) . "</div>";
     echo "<div class='config-single' id='categories-config'><div class='toggle config-heading'>Categories</div>";
     echo get_config_categories($conn) . "</div>";
@@ -17,8 +17,10 @@ if (is_admin($conn, $_SESSION['user_name'])) {
 ?>
 
 <div class='side-menu'>
+    <div style='font-size:24px;line-height:18px;font-weight:bold;'>&#9776;</div>
     <div class='menu-items'>
         <a href='#top'>Top</a>
+        <a href='#genres-config'>Genres</a>
         <a href='#categories-config'>Categories</a>
         <a href='#delete-data-config'>Delete Data</a>
         <a href='#combine-data-config'>Combine Data</a>

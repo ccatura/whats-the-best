@@ -509,7 +509,7 @@ function get_config_combine_data($conn) {
 
     $output =  "<form class='section collapsed' action='./combine-data.php' method='post'>
                 Delete:
-                <select name='data_id_delete'>";
+                <select name='data_id_delete' class='narrow-dropdown'>";
     foreach($data as $x => $d) {
         $data_id = $d['data_id'];
         $data_name = $d['data_name'];
@@ -517,7 +517,7 @@ function get_config_combine_data($conn) {
     }
     $output .= "</select>
                  and replace with:
-                <select name='data_id'>";
+                <select name='data_id' class='narrow-dropdown'>";
     foreach($data as $x => $d) {
         $data_id = $d['data_id'];
         $data_name = $d['data_name'];

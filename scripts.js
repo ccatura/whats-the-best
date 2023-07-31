@@ -34,6 +34,7 @@ if (pageType == 'account') {
 }
 
 if (pageType == 'config') {
+    // Collapsing config sections
     var toggle = document.querySelectorAll('.toggle');
     toggle.forEach(element => {
         element.addEventListener('click', function() {

@@ -51,6 +51,8 @@ if ($type == 'home') {
     include './how-to-3.php';
 } elseif ($type == 'login') {
     include './login.php';
+} elseif ($type == 'suggestions') {
+    include './suggestions.php';
 }
 
 
