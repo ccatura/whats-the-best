@@ -1,21 +1,22 @@
 <?php
 
+if (!isset($_SESSION['user_name'])) {
+    echo "<a href='./?type=login&desc=Login'>Login to suggest features</a>";
+    exit;
+}
     $to      = 'ccatura@gmail.com';
     $from    = $_SESSION['user_name'];
     $name    = $_SESSION['name'];
-    $subject = 'Suggestion from What`s the Best?';
+    $subject = "Suggestion from {$name} ({$from})";
 
     if (!empty($_POST)) {
-        $message     = "Suggestion from: {$from} ({$name})<br>";
+        $message     = "Message: <br>";
         $message    .= $_POST['message'];
         email($from, $name, $to, $subject, $message);
-        message($conn, $from, 'ccatura', $subject, $message);
+        message($conn, $from, 'admin', $subject, $message);
         $_SESSION['message'] = "Your suggestion was sent.";
         header('Location: ' . $_SERVER['HTTP_REFERER']);
 
-
-    } elseif (!isset($_SESSION['user_name'])) {
-        echo "<a href='./'>Login suggest features</a>";
     } else {
         echo   "<form class='alert-single' action='#' method='post'>
                 Send message to<strong>Suggestions</strong><br>

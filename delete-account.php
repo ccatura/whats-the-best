@@ -6,7 +6,7 @@ session_start();
 
 $user_name = $_SESSION['user_name'];
 
-if ($user_name != 'ccatura') {
+if ($user_name != 'admin') {
     $sql = "DELETE FROM `answers` WHERE `users_user_name` = '{$user_name}';";
     run_sql($conn, $sql);
 

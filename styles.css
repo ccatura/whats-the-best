@@ -27,7 +27,7 @@ a {
     margin: 1em;
     background: rgb(70, 70, 70);
     color: white;
-    box-shadow: 10px 10px 0 rgb(143, 143, 143);
+    /* box-shadow: 10px 10px 0 rgb(143, 143, 143); */
     background-image: url('./images/pacman_tiled_fabric_design_by_charfade_d1odjyv-fullview-30.jpg');
 }
 

@@ -72,7 +72,7 @@ if (!empty($_POST)) {
 
             $subject = "Someone just registered on MMIT8";
             $message = "New user: {$user_name} - {$name}";
-            email('ccatura', 'Charles Catura', 'ccatura@gmail.com', $subject, $message);
+            email('admin', 'Charles Catura', 'ccatura@gmail.com', $subject, $message);
             $_SESSION['how-to'] = true;
 
             if (!empty($_FILES['file-to-upload']['name'])) {

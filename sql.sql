@@ -13,6 +13,7 @@ CREATE TABLE users (
     pword       VARCHAR(255) NOT NULL,
     email       VARCHAR(255) NOT NULL,
     admin       BIT,
+    super_admin BIT,
     PRIMARY KEY (user_name)
     CONSTRAINT uq_users UNIQUE(email)
 );

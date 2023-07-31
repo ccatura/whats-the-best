@@ -25,21 +25,22 @@ function get_category_buttons($conn) {
 }
 
 function get_year_buttons($conn) {
-    $result = mysqli_query($conn,"SELECT DISTINCT `year_born`, count(*) as 'count' FROM `users` GROUP BY `year_born` ORDER BY `year_born`");
-    $user_count = get_user_count($conn);
+    $result = mysqli_query($conn,"SELECT DISTINCT `year_born`, count(*) as 'count' FROM `users` WHERE `user_name` NOT LIKE 'admin' GROUP BY `year_born` ORDER BY `year_born`");
+    $user_count = get_user_count($conn); 
     $years  =  "<div id='users' class='section'>
                 <a class='sub year' href='./?type=year&desc=All Users#content'>{$user_count} total users</a>";
 
     while ($row = mysqli_fetch_assoc($result)) {
         $year = $row['year_born'];
-        $years .= "<a class='sub year' href='./?type=year&desc={$year}#content' title='{$row['count']} user(s)'>{$year}</a>";
+        $row_count = $row['count']; 
+        $years .= "<a class='sub year' href='./?type=year&desc={$year}#content' title='{$row_count} user(s)'>{$year}</a>";
     }
     $years .= "</div>";
     return $years;
 }
 
 function get_user_count($conn) {
-    $result =  mysqli_query($conn,"SELECT count(*) as 'total' FROM `users` ORDER BY `year_born`");
+    $result =  mysqli_query($conn,"SELECT count(*) as 'total' FROM `users` WHERE `user_name` NOT LIKE 'admin' ORDER BY `year_born`");
     while ($row = mysqli_fetch_assoc($result)) {
         return $row['total'];
     }
@@ -113,7 +114,12 @@ function get_genres_and_inputs($conn, $desc) {
                             <span onclick='popup(`Delete vote`, `Delete {$placeholder} from {$cat_name} / {$genre_name}?`, `./delete-answer.php?data_id={$data_id}&data_name={$placeholder}&genres_name={$genre_name}&categories_id={$cat_id}&genres_id={$genre_id}&the_user={$user_name}`)' class='pointer'>&#10005;</span>
                         </strong> ";
         }
-        $output .= "<input class='listing-input' list='data' name='{$genre_id}' genre-id='{$genre_id}' placeholder='{$placeholder}'>";
+        if (is_super_admin($user_name)) {
+            $disabled = 'disabled';
+        } else {
+            $disabled = '';
+        }
+        $output .= "<input class='listing-input' list='data' name='{$genre_id}' genre-id='{$genre_id}' placeholder='{$placeholder}' $disabled>";
         
         $output .= "</div>";
 
@@ -126,7 +132,7 @@ function get_genres_and_inputs($conn, $desc) {
         <option value=\"" . $row_data['data_name'] . "\">";
     }
     $output .= "</datalist>";
-    $output .= "<button class='input-submit' name='submit' value='submit'>Submit All</button></form>";
+    $output .= "<button class='input-submit' name='submit' value='submit' $disabled>Submit All</button></form>";
     return $output;
 }
 
@@ -185,8 +191,15 @@ function get_category_stats($conn, $cat_id) {
     GROUP BY answers.data_id ORDER BY totals DESC, data.name";
 
     $result = mysqli_query($conn, $sql);
+
+    $first_place = 1;
     $output = "";
     while ($row = mysqli_fetch_assoc($result)) {
+        if ($first_place == 1) {
+            $name_clean = str_replace(' ', '-', $row['name']);
+            $output .= '<img class="large-image" src="./images/data/'.$name_clean.'.jpg" style="margin-bottom:2em;" onerror="this.src=\'./images/data/no-image.jpg\'">';
+            $first_place ++;
+        }
         $href = "./?type=stats&data_id={$row['id']}&cat_id={$cat_id}#content";
         $output .= "<a href='$href'>{$row['totals']} votes - {$row['name']}</a>";
     }
@@ -242,6 +255,8 @@ function get_users_for_year($conn, $year) {
 
     while ($row = mysqli_fetch_assoc($result)) {
         $the_user  = $row['user_name'];
+        if ($the_user == 'admin') continue;
+
         $the_name  = $row['name'];
         $the_email = $row['email'];
 
@@ -287,16 +302,21 @@ function get_user_account($conn, $user_name) {
     $result = mysqli_query($conn, "SELECT * FROM `users` WHERE `user_name` = '$user_name';");
 
     while ($row = mysqli_fetch_assoc($result)) {
+        if (is_super_admin($user_name) == 1) {
+            $disabled = 'disabled';
+        } else {
+            $disabled = '';
+        }
         $output = "<form class='listings-container' action='./account-changes-submit.php' method='post' enctype='multipart/form-data' autocomplete='off'>
-                        <div class='listings-row'><div class='listing-label'>Real Name:</div> <input class='listing-input' type='text' name='name' placeholder='{$row['name']}'></div>
+                        <div class='listings-row'><div class='listing-label'>Real Name:</div> <input class='listing-input' type='text' name='name' placeholder='{$row['name']}' $disabled></div>
                         <div class='listings-row'><div class='listing-label'>User Name:</div> <input class='listing-input' type='text' name='user_name' placeholder='{$row['user_name']}' disabled title='Cannot change user name'></div>
-                        <div class='listings-row'><div class='listing-label'>Year Born:</div> <input class='listing-input' type='text' name='year_born' placeholder='{$row['year_born']}' minlength='4' min='1923' max='2020'></div>
+                        <div class='listings-row'><div class='listing-label'>Year Born:</div> <input class='listing-input' type='text' name='year_born' placeholder='{$row['year_born']}' minlength='4' min='1923' max='2020' $disabled></div>
                         <div class='listings-row'><div class='listing-label'>Password:</div> <input class='listing-input' type='password' name='pword' minlength='8' autocomplete='off'></div>
                         <div class='listings-row'><div class='listing-label'>Profile Pic:</div> <img src='./images/user_pics/{$user_name}_thumb.jpg' onerror='this.style.opacity=0'> <input type='file' name='file-to-upload' id='file-to-upload'></div>
                         <input class='input-submit' type='submit' value='Submit Changes'>
                     </form>";
 
-        if ($user_name != 'ccatura') {
+        if (is_super_admin($user_name) == 0) {
             $output .= "<span href='./delete-account.php' class='warning pointer' id='delete-account'>Delete Account</span>";
         }
     }
@@ -550,7 +570,7 @@ function get_config_delete_data($conn) {
 function config_make_admin($conn) {
     $sql = "SELECT *
             FROM users
-            WHERE NOT user_name = 'ccatura'
+            WHERE NOT user_name = 'admin'
             ORDER BY user_name";
     $result = mysqli_query($conn, $sql);
 
@@ -581,13 +601,6 @@ function config_make_admin($conn) {
     return $output;
 }
 
-function is_admin($conn, $user_name) {
-    $result = mysqli_query($conn,"SELECT `admin` FROM `users` WHERE `user_name` = '$user_name' LIMIT 1;");
-    while ($row = mysqli_fetch_assoc($result)) {
-        return $row['admin'];
-    }
-}
-
 function prepare_images_uploaded($files, $user_name) {
             $target_dir             = "./images/user_pics/";
             $original_file_name     = $target_dir . basename($files["file-to-upload"]["name"]); // Original name of image, including path to save it
@@ -606,4 +619,18 @@ function prepare_images_uploaded($files, $user_name) {
 
             imagejpeg($image_large, $new_large_name);
             imagejpeg($image_thumb, $new_thumb_name);
+}
+
+function is_admin($conn, $user_name) {
+    $result = mysqli_query($conn,"SELECT `admin` FROM `users` WHERE `user_name` = '$user_name' LIMIT 1;");
+    while ($row = mysqli_fetch_assoc($result)) {
+        return $row['admin'];
+    }
+}
+
+function is_super_admin($conn, $user_name) {
+    $result = mysqli_query($conn,"SELECT `super_admin` FROM `users` WHERE `user_name` = '$user_name' LIMIT 1;");
+    while ($row = mysqli_fetch_assoc($result)) {
+        return $row['super_admin'];
+    }
 }
