@@ -114,7 +114,7 @@ function get_genres_and_inputs($conn, $desc) {
                             <span onclick='popup(`Delete vote`, `Delete {$placeholder} from {$cat_name} / {$genre_name}?`, `./delete-answer.php?data_id={$data_id}&data_name={$placeholder}&genres_name={$genre_name}&categories_id={$cat_id}&genres_id={$genre_id}&the_user={$user_name}`)' class='pointer'>&#10005;</span>
                         </strong> ";
         }
-        if (is_super_admin($user_name)) {
+        if (is_super_admin($conn, $user_name)) {
             $disabled = 'disabled';
         } else {
             $disabled = '';
@@ -302,7 +302,7 @@ function get_user_account($conn, $user_name) {
     $result = mysqli_query($conn, "SELECT * FROM `users` WHERE `user_name` = '$user_name';");
 
     while ($row = mysqli_fetch_assoc($result)) {
-        if (is_super_admin($user_name) == 1) {
+        if (is_super_admin($conn, $user_name) == 1) {
             $disabled = 'disabled';
         } else {
             $disabled = '';
@@ -316,7 +316,7 @@ function get_user_account($conn, $user_name) {
                         <input class='input-submit' type='submit' value='Submit Changes'>
                     </form>";
 
-        if (is_super_admin($user_name) == 0) {
+        if (is_super_admin($conn, $user_name) == 0) {
             $output .= "<span href='./delete-account.php' class='warning pointer' id='delete-account'>Delete Account</span>";
         }
     }
