@@ -188,7 +188,7 @@ function get_category_stats($conn, $cat_id) {
     $sql = "SELECT data.name, count(*) as totals, data.id FROM answers
     INNER JOIN `data` ON data.id = answers.data_id
     WHERE answers.cat_id = {$cat_id}
-    GROUP BY answers.data_id ORDER BY totals DESC, data.name";
+    GROUP BY answers.data_id ORDER BY totals DESC";
 
     $result = mysqli_query($conn, $sql);
 
