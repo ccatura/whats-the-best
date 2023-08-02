@@ -1,6 +1,6 @@
 <?php
 
-if (isset($_SESSION['USER_NAME'])) {
+if (isset($_SESSION['user_name'])) {
     $user_name = $_SESSION['user_name'];
     echo "<img class='large-image' src='./images/user_pics/{$user_name}_large.jpg' onerror='this.style.opacity=0'>";
 }
