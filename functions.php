@@ -200,14 +200,14 @@ function get_category_stats($conn, $cat_id) {
             $output .= '<img class="large-image" src="./images/data/'.$name_clean.'.jpg" style="margin-bottom:2em;" onerror="this.src=\'./images/data/no-image.jpg\'">';
             $first_place ++;
         }
-        $href = "./?type=stats&data_id={$row['id']}&cat_id={$cat_id}#content";
+        $href = "./?type=stats&desc={$row['name']}&data_id={$row['id']}#content";
         $output .= "<a href='$href'>{$row['totals']} votes - {$row['name']}</a>";
     }
     return $output;
 }
 
 function get_top_stats($conn) {
-    $sql = "SELECT data.name, count(*) as totals, data.id FROM answers
+    $sql = "SELECT data.name, count(*) as totals, data.id as 'data_id' FROM answers
     INNER JOIN `data` ON data.id = answers.data_id
     GROUP BY answers.data_id ORDER BY totals DESC, data.name";
 
@@ -215,9 +215,26 @@ function get_top_stats($conn) {
     $output = "";
     while ($row = mysqli_fetch_assoc($result)) {
         $name_clean = str_replace(' ', '-', $row['name']);
-        $href = "./";
+        
+        $href = "./?type=stats&desc={$row['name']}&data_id={$row['data_id']}#content";
         $output .= "<a href='$href'>{$row['totals']} votes - {$row['name']}</a>";
         $output .= '<img class="large-image" src="./images/data/'.$name_clean.'.jpg" style="margin-bottom:2em;" onerror="this.src=\'./images/data/no-image.jpg\'">';
+    }
+    return $output;
+}
+
+function get_votes_for_data_genre($conn, $data_id) {
+    $sql = "SELECT users_user_name, genres.name AS 'genre', categories.name AS 'category' FROM answers
+            JOIN genres ON genre_id = genres.id
+            JOIN categories ON cat_id = categories.id
+            WHERE data_id = '$data_id'
+            ORDER BY users_user_name, genres.name";
+
+    $result = mysqli_query($conn, $sql);
+    $output = "";
+    while ($row = mysqli_fetch_assoc($result)) {
+        $the_user = $row['users_user_name'];
+        $output .= "<a href='?type=view-votes&desc={$the_user}`s Votes&the_user={$the_user}' title='View {$the_user}`s Votes'>{$the_user}: {$row['genre']} - {$row['category']}</a>";
     }
     return $output;
 }

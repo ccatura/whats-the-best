@@ -75,7 +75,7 @@ a {
     padding: 1em;
     border: 5px solid black;
     border-radius: 20px;
-    box-shadow: 10px 10px 0 black;
+    box-shadow: 10px 10px 0 rgba(0, 0, 0, .7);
     min-width: 280px;
     width: 100%;
 }
@@ -99,7 +99,7 @@ a {
     /* white-space: nowrap; */
     height: 30px;
     font-weight: bold;
-    box-shadow: 5px 5px 0 rgb(0, 0, 0);
+    box-shadow: 5px 5px 0 rgba(0, 0, 0, .7);
     padding: 0 10px;
 }
 
@@ -196,7 +196,7 @@ a {
     border-radius: 20px;
     border: 5px solid black;
     background-color: white;
-    box-shadow: 20px 20px 0 black;
+    box-shadow: 10px 10px 0 rgba(0, 0, 0, .7);
     padding: 15px;
     color: black;
 }
@@ -241,7 +241,7 @@ a {
     padding: 2em;
     border: 5px solid black;
     border-radius: 20px;
-    box-shadow: 20px 20px 0 black;
+    box-shadow: 10px 10px 0 rgba(0, 0, 0, .7);
     min-width: 280px;
 }
 
@@ -304,6 +304,7 @@ a {
     color: black;
     font-weight: bold;
     font-size: 18px;
+    margin-bottom: 20px;
 }
 
 .input-submit:hover {
@@ -328,7 +329,7 @@ a {
     height: 350px;
     border: 4px solid black;
     border-radius: 20px;
-    box-shadow: 10px 10px 0 black;
+    box-shadow: 10px 10px 0 rgba(0, 0, 0, .7);
 }
 
 .config-heading {
@@ -359,7 +360,7 @@ a {
     border: 4px solid black;
     padding: 10px;
     transition: all .2s;
-    box-shadow: 5px 5px 0 black;
+    box-shadow: 5px 5px 0 rgba(0, 0, 0, .7);
 }
 
 .side-menu:hover {
