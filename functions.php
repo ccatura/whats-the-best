@@ -217,8 +217,8 @@ function get_top_stats($conn) {
         $name_clean = str_replace(' ', '-', $row['name']);
         
         $href = "./?type=stats&desc={$row['name']}&data_id={$row['data_id']}#content";
-        $output .= "<a href='$href'>{$row['totals']} votes - {$row['name']}</a>";
-        $output .= '<img class="large-image" src="./images/data/'.$name_clean.'.jpg" style="margin-bottom:2em;" onerror="this.src=\'./images/data/no-image.jpg\'">';
+        $output .= "<a href='$href'>{$row['totals']} votes - {$row['name']}<br>";
+        $output .= '<img class="large-image" src="./images/data/'.$name_clean.'.jpg" style="margin-bottom:2em;" onerror="this.src=\'./images/data/no-image.jpg\'"></a>';
     }
     return $output;
 }
