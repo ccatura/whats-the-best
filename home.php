@@ -7,8 +7,10 @@ if (isset($_SESSION['user_name'])) {
 
 
 echo "<h2>Current Champion in Total Votes</h2>";
-// echo get_top_stats($conn);
-echo get_all_data($conn);
+echo get_top_stats($conn);
+
+// echo "<h2>All Data</h2>";
+// echo get_all_data($conn);
 
 
 

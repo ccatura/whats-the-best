@@ -54,7 +54,7 @@ $_SESSION['message'] = "Your votes have been submitted!";
 if ($_SESSION['how-to'] != true) {
     header("Location: " . $_SERVER["HTTP_REFERER"]);
 } else {
-    header("Location: ./?type=how-to-3&desc=Congratulations!");
+    header("Location: ./?type=how-to-3&desc=Congratulations!#content");
 }
 
 ?>

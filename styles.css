@@ -254,7 +254,7 @@ a {
 }
 
 .tutorial {
-    transform: scale(2);
+    /* transform: scale(2); */
     margin-bottom: 30px;
 }
 
