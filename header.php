@@ -37,7 +37,7 @@ if (isset($_SESSION['user_name'])) {
     echo "<a href='./?type=messages&desc=Messages#content' class='sub link button' title='Messages'>Messages {$m_count}</a>";
     echo '<span class="sub link button" id="logout">Logout</span></div>';
 } else {
-    echo '<div class="section"><a href="./?type=login&desc=Login#content" class="sub link button" title="Go to Home Page">Login</a>';
+    echo '<div class="section"><a href="./?type=login&desc=Login#content" class="sub link button" title="Go to Home Page">Login/Register</a>';
 }
 
 
