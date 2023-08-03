@@ -223,6 +223,24 @@ function get_top_stats($conn) {
     return $output;
 }
 
+function get_all_data($conn) {
+    $sql = "SELECT data.name, data.id as 'data_id' FROM data
+    ORDER BY data.name;";
+
+    $result = mysqli_query($conn, $sql);
+
+
+    $output = "";
+    while ($row = mysqli_fetch_assoc($result)) {
+        $name_clean = str_replace(' ', '-', $row['name']);
+        
+        $href = "./?type=stats&desc={$row['name']}&data_id={$row['data_id']}#content";
+        $output .= "<a href='$href'>{$row['name']}<br>";
+        $output .= '<img class="large-image" src="./images/data/'.$name_clean.'.jpg" style="margin-bottom:2em;" onerror="this.src=\'./images/data/no-image.jpg\'"></a>';
+    }
+    return $output;
+}
+
 function get_votes_for_data_genre($conn, $data_id) {
     $sql = "SELECT users_user_name, genres.name AS 'genre', categories.name AS 'category' FROM answers
             JOIN genres ON genre_id = genres.id
@@ -578,7 +596,8 @@ function get_config_delete_data($conn) {
     while ($row = mysqli_fetch_assoc($result)) {
         $data_id = $row['id'];
         $data_name = $row['name'];
-        $output .= "<span onclick='popup(`Delete Data?`, `This will permanently delete the data and all  votes for: {$data_name}. This cannot be undone. Are you sure you want to delete it?`, `./delete-data.php?data_id={$data_id}&data_name={$data_name}`)' class='pointer'>&#10005;</span> {$data_name}<br>";
+        $name_clean = str_replace('\'', '&#39;', $row['name']);
+        $output .= "<span onclick='popup(`Delete Data?`, `This will permanently delete the data and all  votes for: {$name_clean}. This cannot be undone. Are you sure you want to delete it?`, `./delete-data.php?data_id={$data_id}&data_name={$name_clean}`)' class='pointer'>&#10005;</span> {$data_name}<br>";
     }
     $output .= "<br><br></div>";
     return $output;
