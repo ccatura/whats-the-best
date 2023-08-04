@@ -345,7 +345,7 @@ function get_user_account($conn, $user_name) {
         $output = "<form class='listings-container' action='./account-changes-submit.php' method='post' enctype='multipart/form-data' autocomplete='off'>
                         <div class='listings-row'><div class='listing-label'>Real Name:</div> <input class='listing-input' type='text' name='name' placeholder='{$row['name']}' $disabled></div>
                         <div class='listings-row'><div class='listing-label'>User Name:</div> <input class='listing-input' type='text' name='user_name' placeholder='{$row['user_name']}' disabled title='Cannot change user name'></div>
-                        <div class='listings-row'><div class='listing-label'>Year Born:</div> <input class='listing-input' type='text' name='year_born' placeholder='{$row['year_born']}' minlength='4' min='1923' max='2020' $disabled></div>
+                        <div class='listings-row'><div class='listing-label'>Year Born:</div> <input class='listing-input' type='number' name='year_born' placeholder='{$row['year_born']}' minlength='4' min='1923' max='2020' $disabled></div>
                         <div class='listings-row'><div class='listing-label'>Password:</div> <input class='listing-input' type='password' name='pword' minlength='8' autocomplete='off'></div>
                         <div class='listings-row'><div class='listing-label'>Profile Pic:</div> <img src='./images/user_pics/{$user_name}_thumb.jpg' onerror='this.style.opacity=0'> <input type='file' name='file-to-upload' id='file-to-upload'></div>
                         <input class='input-submit' type='submit' value='Submit Changes'>
