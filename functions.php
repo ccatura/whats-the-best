@@ -444,7 +444,7 @@ function get_user_messages($conn, $user_name) {
         $user_name_from = $row['user_name_from'];
 
         $output .= "<div class='alert-single'>
-                        <img class='profile-small' src='./images/user_pics/{$user_name_from}_thumb.jpg' onerror='this.style.opacity=0'>
+                        <img class='profile-small' src='./images/user_pics/{$user_name_from}_thumb.jpg' onerror='this.src=&#39;./images/user_pics/no-image_thumb.jpg&#39;'>
                         <div class='alert-row-date'><span onclick='popup(`Delete message`, `Delete current message? This cannot be undone.`, `./delete-message.php?message_id={$row['id']}`)' class='pointer'>&#10005;</span>
                         $formatted_date</div>
                         <div class='alert-row'><a href='./?type=wtb-message&desc=Send Message&the_user={$row['user_name_from']}' style='color:black'>{$row['name']} ({$row['user_name_from']})</a></div>
