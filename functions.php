@@ -189,7 +189,7 @@ function get_category_stats($conn, $cat_id) {
     INNER JOIN `data` ON data.id = answers.data_id
     WHERE answers.cat_id = {$cat_id}
     GROUP BY answers.data_id ORDER BY totals DESC";
-
+    clearstatcache();
     $result = mysqli_query($conn, $sql);
 
     $first_place = 1;
@@ -206,11 +206,11 @@ function get_category_stats($conn, $cat_id) {
     return $output;
 }
 
-function get_top_stats($conn) {
+function get_top_stats($conn, $quantity) {
     $sql = "SELECT data.name, count(*) as totals, data.id as 'data_id' FROM answers
     INNER JOIN `data` ON data.id = answers.data_id
-    GROUP BY answers.data_id ORDER BY totals DESC, data.name";
-
+    GROUP BY answers.data_id ORDER BY totals DESC, data.name LIMIT {$quantity}";
+    clearstatcache();
     $result = mysqli_query($conn, $sql);
     $output = "";
     while ($row = mysqli_fetch_assoc($result)) {
@@ -228,7 +228,7 @@ function get_all_data($conn) {
     ORDER BY data.name;";
 
     $result = mysqli_query($conn, $sql);
-
+    clearstatcache();
 
     $output = "";
     while ($row = mysqli_fetch_assoc($result)) {
@@ -287,7 +287,7 @@ function get_users_for_year($conn, $year) {
         $result = mysqli_query($conn,"SELECT * FROM `users` WHERE `year_born` = $year");
     }
     $output  = "<div id='users'>";
-
+    clearstatcache();
     while ($row = mysqli_fetch_assoc($result)) {
         $the_user  = $row['user_name'];
         if ($the_user == 'admin') continue;
@@ -335,7 +335,7 @@ function get_users_for_year($conn, $year) {
 function get_user_account($conn, $user_name) {
     // When user clicks on their account, this is where it is generated
     $result = mysqli_query($conn, "SELECT * FROM `users` WHERE `user_name` = '$user_name';");
-
+    clearstatcache();
     while ($row = mysqli_fetch_assoc($result)) {
         if (is_super_admin($conn, $user_name) == 1) {
             $disabled = 'disabled';
@@ -436,7 +436,7 @@ function get_user_messages($conn, $user_name) {
             JOIN `users` ON users.user_name = user_name_from
             WHERE `user_name_to` = '$user_name'
             ORDER BY `id` DESC";
-
+    clearstatcache();
     $result = mysqli_query($conn, $sql);
     while ($row = mysqli_fetch_assoc($result)) {
         $date = strtotime($row['timestamp']);
@@ -655,6 +655,7 @@ function prepare_images_uploaded($files, $user_name) {
 
             imagejpeg($image_large, $new_large_name);
             imagejpeg($image_thumb, $new_thumb_name);
+            clearstatcache();
 }
 
 function is_admin($conn, $user_name) {
@@ -669,4 +670,22 @@ function is_super_admin($conn, $user_name) {
     while ($row = mysqli_fetch_assoc($result)) {
         return $row['super_admin'];
     }
+}
+
+function get_last_sign_ups($conn, $quantity) {
+    $sql = "SELECT * FROM `users` WHERE user_name NOT LIKE 'admin' ORDER BY date DESC LIMIT {$quantity}";
+    clearstatcache();
+    $result = mysqli_query($conn, $sql);
+    $output = "<div class='small-list'>";
+    while ($row = mysqli_fetch_assoc($result)) {
+        // $name_clean = str_replace(' ', '-', $row['name']);
+        $name = $row['name'];
+        $user_name = $row['user_name'];
+        
+        $href = "./?type=view-votes&desc={$user_name}’s%20Votes&the_user={$user_name}#content";
+        $output .= "<a style='text-align:center;' href='$href'>{$name} ({$user_name})<br>";
+        $output .= '<img class="profile-small" src="./images/user_pics/'.$user_name.'_thumb.jpg" style="margin-bottom:2em;" onerror="this.src=\'./images/user_pics/no-image_thumb.jpg\'"></a>';
+    }
+    $output .= "</div>";
+    return $output;
 }

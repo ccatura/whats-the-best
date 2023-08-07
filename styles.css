@@ -45,6 +45,11 @@ a {
     /* margin-bottom: 20px; */
 }
 
+h2 {
+    width: 100%;
+    text-align: center;
+}
+
 #footer {
     margin-top: 20px;
 }
@@ -57,6 +62,17 @@ a {
     justify-content: center;
     align-items: flex-start;
     margin-bottom: 20px;
+}
+
+.section-small {
+    /* border: 2px solid orange; */
+    width: 450px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: flex-start;
+    /* margin-bottom: 20px; */
+    margin: 2em;
 }
 
 .config-sec {
@@ -154,9 +170,18 @@ a {
     /* border: 3px dotted red; */
     width: 100%;
     display: flex;
-    flex-flow: column nowrap;
+    flex-flow: column wrap;
     justify-content: center;
     align-items: center;
+}
+
+.content-sub {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: flex-start;
+    /* border: 3px solid red; */
 }
 
 .list-section {
@@ -381,13 +406,24 @@ a {
     align-items: flex-start;
 }
 
+.small-list {
+    display: flex;
+    flex-flow: column nowrap;
+
+}
 
 
 
 
 
-
-
+@media (max-width: 630px) {
+    .section-small {
+        width: 450px;
+        display: flex;
+        margin: 0;
+        padding: 0;
+    }
+}
 
 @media (max-width: 480px) {
     .sub {
@@ -414,4 +450,5 @@ a {
     .narrow-dropdown {
         width: 280px;
     }
+
 }

@@ -7,14 +7,15 @@ DROP TABLE users;
 
 --Create all tables
 CREATE TABLE users (
-    user_name   VARCHAR(32) UNIQUE NOT NULL,
-    name        VARCHAR(255) NOT NULL,
-    year_born   INT(4) NOT NULL,
-    pword       VARCHAR(255) NOT NULL,
-    email       VARCHAR(255) NOT NULL,
-    admin       BIT,
-    super_admin BIT,
-    PRIMARY KEY (user_name)
+    user_name       VARCHAR(32) UNIQUE NOT NULL,
+    name            VARCHAR(255) NOT NULL,
+    year_born       INT(4) NOT NULL,
+    pword           VARCHAR(255) NOT NULL,
+    email           VARCHAR(255) NOT NULL,
+    admin           BIT,
+    super_admin     BIT,
+    date            TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (user_name),
     CONSTRAINT uq_users UNIQUE(email)
 );
 
