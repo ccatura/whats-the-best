@@ -278,6 +278,22 @@ h2 {
     margin: 0 0 10px 0;
 }
 
+.alert-tiny {
+    background-color: lightyellow;
+    color: black;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    /* border: 5px solid red; */
+    margin-bottom: 1em;
+    padding: .5em;
+    border: 5px solid black;
+    border-radius: 20px;
+    box-shadow: 10px 10px 0 rgba(0, 0, 0, .7);
+    min-width: 240px;
+}
+
 .tutorial {
     /* transform: scale(2); */
     margin-bottom: 30px;

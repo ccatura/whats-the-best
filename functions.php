@@ -683,8 +683,8 @@ function get_last_sign_ups($conn, $quantity) {
         $user_name = $row['user_name'];
         
         $href = "./?type=view-votes&desc={$user_name}’s%20Votes&the_user={$user_name}#content";
-        $output .= "<a style='text-align:center;' href='$href'>{$name} ({$user_name})<br>";
-        $output .= '<img class="profile-small" src="./images/user_pics/'.$user_name.'_thumb.jpg" style="margin-bottom:2em;" onerror="this.src=\'./images/user_pics/no-image_thumb.jpg\'"></a>';
+        $output .= "<a class='alert-tiny' href='$href'>{$name} ({$user_name})<br>";
+        $output .= '<img class="profile-small" src="./images/user_pics/'.$user_name.'_thumb.jpg" onerror="this.src=\'./images/user_pics/no-image_thumb.jpg\'"></a>';
     }
     $output .= "</div>";
     return $output;
