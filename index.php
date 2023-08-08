@@ -12,6 +12,27 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta property="og:title" content="What's the Best? of the 70's, 80's, and 90's" />
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://meetmeinthe80s.com/apps/whats-the-best/images/other/whats-the-best-logo-vertical.jpg" />
+    <meta property="og:url" content="https://meetmeinthe80s.com/apps/whats-the-best/" />
+    <meta property="og:description" content="A social nostaglic website where users get to choose what is the best of the best from the 70's, 80's, and 90's!" />
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="twitter:domain" content="meetmeinthe80s.com">
+    <meta property="twitter:url" content="https://meetmeinthe80s.com/apps/whats-the-best/">
+    <meta name="twitter:title" content="What's The Best? of the 70's, 80's, and 90's">
+    <meta name="twitter:description" content="A social nostaglic website where users get to choose what is the best of the best from the 70's, 80's, and 90's!">
+    <meta name="twitter:image" content="https://meetmeinthe80s.com/apps/whats-the-best/images/other/whats-the-best-logo-vertical.jpg">
+
+    <meta name="title" content="What's the Best?">
+    <meta name="description" content="A social nostaglic website where users get to choose what is the best of the best from the 70's, 80's, and 90's!">
+    <meta name="keywords" content="70s, 80s, 90s, 70's, 80's, 90's, nostalgia, retro, genx, gen-x">
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="language" content="English">
+
     <link rel="stylesheet" href="./styles.css">
     <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
     <script src ='./scripts.js' defer></script>
