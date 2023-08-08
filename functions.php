@@ -705,7 +705,8 @@ function get_image($conn, $type, $name, $size) { // size: thumb, large. type: us
         $file_name = "./images/{$type}/{$name}_{$size}.jpg";
 
     if (file_exists("{$file_name}")) {
-        if (str_contains($file_name, '\'')) { // Workaround for checking file exists but HTML doesn't display correctly because of single quote
+        // Workaround for checking file exists but HTML doesn't display correctly because of single quote
+        if (strpos($file_name, '\'')) { 
             $file_name = str_replace('\'', '&#39;', $file_name);
         }
         return "{$file_name}";
