@@ -6,6 +6,8 @@ if (isset($_GET['data_id'])) {
 }
 
 $name_clean = str_replace(' ', '-', $data_name);
-echo '<img class="large-image" src="./images/data/'.$name_clean.'.jpg" style="margin-bottom:2em;" onerror="this.src=\'./images/data/no-image.jpg\'">';
+$data_image = get_image($conn, 'data_pics', $data_name, 'large');
+
+echo "<img class='large-image' src='{$data_image}' style='margin-bottom:2em;'>";
 echo "<div>All Votes</div>";
 echo get_votes_for_data_genre($conn, $data_id);

@@ -196,8 +196,9 @@ function get_category_stats($conn, $cat_id) {
     $output = "";
     while ($row = mysqli_fetch_assoc($result)) {
         if ($first_place == 1) {
-            $name_clean = str_replace(' ', '-', $row['name']);
-            $output .= '<img class="large-image" src="./images/data/'.$name_clean.'.jpg" style="margin-bottom:2em;" onerror="this.src=\'./images/data/no-image.jpg\'">';
+            $data_image = get_image($conn, 'data_pics', $row['name'], 'large');
+
+            $output .= "<img class='large-image' src='{$data_image}' style='margin-bottom:2em;'>";
             $first_place ++;
         }
         $href = "./?type=stats&desc={$row['name']}&data_id={$row['id']}#content";
@@ -214,11 +215,11 @@ function get_top_stats($conn, $quantity) {
     $result = mysqli_query($conn, $sql);
     $output = "";
     while ($row = mysqli_fetch_assoc($result)) {
-        $name_clean = str_replace(' ', '-', $row['name']);
-        
+        $data_image = get_image($conn, 'data_pics', $row['name'], 'large');
+
         $href = "./?type=stats&desc={$row['name']}&data_id={$row['data_id']}#content";
         $output .= "<a href='$href'>{$row['totals']} votes - {$row['name']}<br>";
-        $output .= '<img class="large-image" src="./images/data/'.$name_clean.'.jpg" style="margin-bottom:2em;" onerror="this.src=\'./images/data/no-image.jpg\'"></a>';
+        $output .= "<img class='large-image' src='{$data_image}' style='margin-bottom:2em;'></a>";
     }
     return $output;
 }
@@ -232,11 +233,12 @@ function get_all_data($conn) {
 
     $output = "";
     while ($row = mysqli_fetch_assoc($result)) {
-        $name_clean = str_replace(' ', '-', $row['name']);
-        
+        $data_image = get_image($conn, 'data_pics', $row['name'], 'large');
+        // $name_clean = str_replace('\'', '&#39;', $row['name']);
+
         $href = "./?type=stats&desc={$row['name']}&data_id={$row['data_id']}#content";
         $output .= "<a href='$href'>{$row['name']}<br>";
-        $output .= '<img class="large-image" src="./images/data/'.$name_clean.'.jpg" style="margin-bottom:2em;" onerror="this.src=\'./images/data/no-image.jpg\'"></a>';
+        $output .= "<img class='large-image' src='{$data_image}' style='margin-bottom:2em;'></a>";
     }
     return $output;
 }
@@ -290,6 +292,7 @@ function get_users_for_year($conn, $year) {
     clearstatcache();
     while ($row = mysqli_fetch_assoc($result)) {
         $the_user  = $row['user_name'];
+        $user_image = get_image($conn, 'user_pics', $the_user, 'thumb');
         if ($the_user == 'admin') continue;
 
         $the_name  = $row['name'];
@@ -325,7 +328,7 @@ function get_users_for_year($conn, $year) {
         } else {
             $user_year = "";
         }
-        $output .= "<div style='text-align:center;width:100%;'><img class='profile-small' src='./images/user_pics/{$the_user}_thumb.jpg' onerror='this.style.opacity=0'></div>";
+        $output .= "<div style='text-align:center;width:100%;'><img class='profile-small' src='{$user_image}'></div>";
         $output .= "<div class='alert-row' style='width:100%'>{$user_year} {$view_user} {$say_hi} {$wtb_message}</div></div>";
     }
     $output .= "</div>";
@@ -336,6 +339,9 @@ function get_user_account($conn, $user_name) {
     // When user clicks on their account, this is where it is generated
     $result = mysqli_query($conn, "SELECT * FROM `users` WHERE `user_name` = '$user_name';");
     clearstatcache();
+
+    $user_image = get_image($conn, 'user_pics', $user_name, 'thumb');
+
     while ($row = mysqli_fetch_assoc($result)) {
         if (is_super_admin($conn, $user_name) == 1) {
             $disabled = 'disabled';
@@ -347,7 +353,7 @@ function get_user_account($conn, $user_name) {
                         <div class='listings-row'><div class='listing-label'>User Name:</div> <input class='listing-input' type='text' name='user_name' placeholder='{$row['user_name']}' disabled title='Cannot change user name'></div>
                         <div class='listings-row'><div class='listing-label'>Year Born:</div> <input class='listing-input' type='number' name='year_born' placeholder='{$row['year_born']}' minlength='4' min='1923' max='2020' $disabled></div>
                         <div class='listings-row'><div class='listing-label'>Password:</div> <input class='listing-input' type='password' name='pword' minlength='8' autocomplete='off'></div>
-                        <div class='listings-row'><div class='listing-label'>Profile Pic:</div> <img src='./images/user_pics/{$user_name}_thumb.jpg' onerror='this.style.opacity=0'> <input type='file' name='file-to-upload' id='file-to-upload'></div>
+                        <div class='listings-row'><div class='listing-label'>Profile Pic:</div> <img src='{$user_image}'> <input type='file' name='file-to-upload' id='file-to-upload'></div>
                         <input class='input-submit' type='submit' value='Submit Changes'>
                     </form>";
 
@@ -442,9 +448,10 @@ function get_user_messages($conn, $user_name) {
         $date = strtotime($row['timestamp']);
         $formatted_date = date('M d, Y h:i:s', $date);
         $user_name_from = $row['user_name_from'];
+        $user_image = get_image($conn, 'user_pics', $user_name_from, 'thumb');
 
         $output .= "<div class='alert-single'>
-                        <img class='profile-small' src='./images/user_pics/{$user_name_from}_thumb.jpg' onerror='this.src=&#39;./images/user_pics/no-image_thumb.jpg&#39;'>
+                        <img class='profile-small' src='{$user_image}'>
                         <div class='alert-row-date'><span onclick='popup(`Delete message`, `Delete current message? This cannot be undone.`, `./delete-message.php?message_id={$row['id']}`)' class='pointer'>&#10005;</span>
                         $formatted_date</div>
                         <div class='alert-row'><a href='./?type=wtb-message&desc=Send Message&the_user={$row['user_name_from']}' style='color:black'>{$row['name']} ({$row['user_name_from']})</a></div>
@@ -681,11 +688,24 @@ function get_last_sign_ups($conn, $quantity) {
         // $name_clean = str_replace(' ', '-', $row['name']);
         $name = $row['name'];
         $user_name = $row['user_name'];
+        $user_image = get_image($conn, 'user_pics', $user_name, 'thumb');
         
         $href = "./?type=view-votes&desc={$user_name}’s%20Votes&the_user={$user_name}#content";
-        $output .= "<a class='alert-tiny' href='$href'>{$name} ({$user_name})<br>";
-        $output .= '<img class="profile-small" src="./images/user_pics/'.$user_name.'_thumb.jpg" onerror="this.src=\'./images/user_pics/no-image_thumb.jpg\'"></a>';
+        $output .= "<a class='alert-tiny' href='{$href}'>{$name} ({$user_name})<br>";
+        $output .= "<img class='profile-small' src='{$user_image}'></a>";
     }
     $output .= "</div>";
     return $output;
+}
+
+function get_image($conn, $type, $name, $size) { // size: thumb, large. type: user_pics, data
+    if ($type == 'data_pics') {
+        $name = str_replace(' ', '-', $name);
+        $name = str_replace('\'', '&#39;', $name);
+    }
+    if (file_exists("./images/{$type}/{$name}_{$size}.jpg")) {
+        return "./images/{$type}/{$name}_{$size}.jpg";
+    } else {
+        return "./images/{$type}/no-image_{$size}.jpg";
+    }
 }
