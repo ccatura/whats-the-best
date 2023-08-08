@@ -25,7 +25,7 @@ if (isset($_SESSION['user_name'])) {
     }
 }
 
-echo "<a href='./'><img class='logo' src='./images/whats-the-best-logo-large.png'></a>";
+echo "<a style='width:100%;text-align:center;' href='./'><img class='logo' src='./images/whats-the-best-logo-large.png'></a>";
 
 echo '<div class="section"><a href="./" class="sub link button" title="Go to Home Page">Home</a>';
 
