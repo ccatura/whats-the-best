@@ -701,12 +701,14 @@ function get_last_sign_ups($conn, $quantity) {
 }
 
 function get_image($conn, $type, $name, $size) { // size: thumb, large. type: user_pics, data
-    if ($type == 'data_pics') {
         $name = str_replace(' ', '-', $name);
-        $name = str_replace('\'', '&#39;', $name);
-    }
-    if (file_exists("./images/{$type}/{$name}_{$size}.jpg")) {
-        return "./images/{$type}/{$name}_{$size}.jpg";
+        $file_name = "./images/{$type}/{$name}_{$size}.jpg";
+
+    if (file_exists("{$file_name}")) {
+        if (str_contains($file_name, '\'')) { // Workaround for checking file exists but HTML doesn't display correctly because of single quote
+            $file_name = str_replace('\'', '&#39;', $file_name);
+        }
+        return "{$file_name}";
     } else {
         return "./images/{$type}/no-image_{$size}.jpg";
     }
