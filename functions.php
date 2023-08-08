@@ -162,7 +162,8 @@ function get_data_id_from_name($conn, $name) {
 }
 
 function get_cat_id_from_name($conn, $name) {
-    $result = mysqli_query($conn, "SELECT `id` FROM categories WHERE `name` = '$name' LIMIT 1;");
+    $name_clean = str_replace('\'', '&#39;', $name);
+    $result = mysqli_query($conn, "SELECT `id` FROM categories WHERE `name` = '$name_clean' LIMIT 1;");
     while ($row = mysqli_fetch_assoc($result)) {
         return $row['id'];
     }
@@ -201,8 +202,9 @@ function get_category_stats($conn, $cat_id) {
             $output .= "<img class='large-image' src='{$data_image}' style='margin-bottom:2em;'>";
             $first_place ++;
         }
-        $href = "./?type=stats&desc={$row['name']}&data_id={$row['id']}#content";
-        $output .= "<a href='$href'>{$row['totals']} votes - {$row['name']}</a>";
+        $name_clean = str_replace('\'', '&#39;', $row['name']);
+        $href = "./?type=stats&desc={$name_clean}&data_id={$row['id']}#content";
+        $output .= "<a href='$href'>{$row['totals']} votes - {$name_clean}</a>";
     }
     return $output;
 }
