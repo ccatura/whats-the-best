@@ -20,7 +20,7 @@ echo    "</div>";
 
 echo "</div>";
 
-
+echo get_search_image("adele");
 
 
 // echo "<h2>All Data</h2>";

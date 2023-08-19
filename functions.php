@@ -199,7 +199,9 @@ function get_category_stats($conn, $cat_id) {
         if ($first_place == 1) {
             $data_image = get_image($conn, 'data_pics', $row['name'], 'large');
 
-            $output .= "<img class='large-image' src='{$data_image}' style='margin-bottom:2em;'>";
+            $data_image = get_search_image($row['name']); // temp till i straighten the stuff out
+
+            $output .= "<div class='large-image' style='background-image:url({$data_image});background-position:center;background-size:cover;height:350px;margin-bottom:2em;backgounrd-color:black;'></div>";
             $first_place ++;
         }
         $name_clean = str_replace('\'', '&#39;', $row['name']);
@@ -219,9 +221,11 @@ function get_top_stats($conn, $quantity) {
     while ($row = mysqli_fetch_assoc($result)) {
         $data_image = get_image($conn, 'data_pics', $row['name'], 'large');
 
+        $data_image = get_search_image($row['name']); // temp till i straighten the stuff out
+
         $href = "./?type=stats&desc={$row['name']}&data_id={$row['data_id']}#content";
         $output .= "<a href='$href'>{$row['totals']} votes - {$row['name']}<br>";
-        $output .= "<img class='large-image' src='{$data_image}' style='margin-bottom:2em;'></a>";
+        $output .= "<div class='large-image' style='background-image:url({$data_image});margin-bottom:2em;background-position:center;background-size:cover;height:350px;margin-bottom:2em;backgounrd-color:black;'></div></a>";
     }
     return $output;
 }
@@ -712,5 +716,38 @@ function get_image($conn, $type, $name, $size) { // size: thumb, large. type: us
         return "{$file_name}";
     } else {
         return "./images/{$type}/no-image_{$size}.jpg";
+    }
+}
+
+function get_search_image($term) {
+    $term = preg_replace('/\s+/', '-', $term);
+    $term = preg_replace('/\(|\)/','-',$term);
+    $curl = curl_init();
+    curl_setopt_array($curl, [
+        CURLOPT_URL => "https://bing-image-search1.p.rapidapi.com/images/search?q={$term}-80s&offset=0",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "GET",
+        CURLOPT_HTTPHEADER => [
+            "X-RapidAPI-Host: bing-image-search1.p.rapidapi.com",
+            "X-RapidAPI-Key: 922edc538cmsh9c5c42c467d987ap1c8272jsndad1adbdbcdd"
+        ],
+    ]);
+
+    $response           = curl_exec($curl);
+    $err                = curl_error($curl);
+    curl_close($curl);
+    $result_decoded     = json_decode($response, true);
+
+    if ($err) {
+        echo "cURL Error #:" . $err;
+    } else {
+        $img 	= $result_decoded['value'][0]['contentUrl'];
+        // $format = $result_decoded['value'][0]['encodingFormat'];
+
+        return $img;
     }
 }
