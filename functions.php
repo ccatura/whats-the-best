@@ -723,6 +723,7 @@ function get_search_image($term) {
     $term = preg_replace('/\s+/', '-', $term);
     $term = preg_replace('/\(|\)/','-',$term);
     $curl = curl_init();
+    include('./rapid-api-key.php');
     curl_setopt_array($curl, [
         CURLOPT_URL => "https://bing-image-search1.p.rapidapi.com/images/search?q={$term}-80s&offset=0",
         CURLOPT_RETURNTRANSFER => true,
@@ -733,7 +734,7 @@ function get_search_image($term) {
         CURLOPT_CUSTOMREQUEST => "GET",
         CURLOPT_HTTPHEADER => [
             "X-RapidAPI-Host: bing-image-search1.p.rapidapi.com",
-            "X-RapidAPI-Key: 922edc538cmsh9c5c42c467d987ap1c8272jsndad1adbdbcdd"
+            "X-RapidAPI-Key: {$key}"
         ],
     ]);
 
